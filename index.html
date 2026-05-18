@@ -1040,6 +1040,9 @@
     cursor: pointer;
     transition: all 0.15s ease;
     font-weight: 600;
+    pointer-events: auto;
+    z-index: 1001;
+    position: relative;
   }
 
   .music-toggle-btn:hover {
@@ -9578,19 +9581,26 @@
     }
     
     musicMuted = !musicMuted;
+    console.log('Toggle clicked, musicMuted:', musicMuted);
     
     if (musicMuted) {
-      player.style.display = 'none';
+      // Hide the player
+      player.style.visibility = 'hidden';
+      player.style.height = '0';
+      player.style.margin = '0';
       btn.textContent = '🔇';
       btn.classList.add('muted');
       btn.title = 'Unmute music';
-      console.log('Music muted');
+      console.log('Music hidden');
     } else {
-      player.style.display = 'block';
+      // Show the player
+      player.style.visibility = 'visible';
+      player.style.height = '315px';
+      player.style.margin = '';
       btn.textContent = '🔊';
       btn.classList.remove('muted');
       btn.title = 'Mute music';
-      console.log('Music unmuted');
+      console.log('Music shown');
     }
   }
 
