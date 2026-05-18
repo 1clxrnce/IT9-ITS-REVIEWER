@@ -36,6 +36,7 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    gap: 2rem;
   }
 
   body::before {
@@ -1003,6 +1004,57 @@
     background: var(--accent-light);
     border-color: var(--accent-light);
     color: #111;
+  }
+
+  .music-sidebar {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 320px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  .music-sidebar h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+  }
+
+  .music-sidebar iframe {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  @media (max-width: 1200px) {
+    .music-sidebar {
+      position: static;
+      transform: none;
+      width: 100%;
+      margin-top: 2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .music-sidebar {
+      width: 100%;
+      margin-top: 1rem;
+    }
   }
 </style>
 </head>
@@ -4416,6 +4468,11 @@
     <button class="btn btn-primary" onclick="restartQuiz()" style="font-size: 16px; padding: 15px 40px;">Start Over</button>
   </div>
 
+</div>
+
+<div class="music-sidebar">
+  <h3>🎵 Now Playing</h3>
+  <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0" title="Malcolm Todd - I Saw Your Face (Official Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 <script>
