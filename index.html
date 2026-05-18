@@ -1306,45 +1306,39 @@
   </div>
 
   <div id="question5" class="question">
-    <h1>You are creating an HTML page that displays blog entries. You want to ensure that your page can be indexed appropriately by search engines.</h1>
+    <h1>You want to complete the pseudo class for link elements so that the links appear red when the page loads, green when the link is clicked, orange when the cursor moves over the link, and blue if the link was clicked previously.</h1>
     
-    <div class="scenario">
-      <div class="scenario-title">Task:</div>
-      You need to use the appropriate semantic tags for areas on the page.
-    </div>
-    
-    <p class="sub">Move each semantic tag from the list on the left to its purpose on the right. You will receive partial credit for each correct answer.</p>
+    <p class="sub">How should you complete the markup? To answer, move the appropriate CSS selectors to the correct positions on the right. You may use each CSS selector once, more than once, or not at all.</p>
 
-    <div class="semantic-matching">
-      <div class="semantic-column">
-        <h3>Semantic Tags</h3>
-        <div class="semantic-tags">
-          <div class="semantic-tag" data-tag="nav" onclick="selectSemanticTag(this)">nav</div>
-          <div class="semantic-tag" data-tag="article" onclick="selectSemanticTag(this)">article</div>
-          <div class="semantic-tag" data-tag="aside" onclick="selectSemanticTag(this)">aside</div>
+    <div class="matching-container">
+      <div class="matching-column">
+        <h3>CSS Selectors</h3>
+        <div class="css-terms">
+          <div class="term-item" data-term="a:active" onclick="selectTerm5(this)">a:active</div>
+          <div class="term-item" data-term="a:visited" onclick="selectTerm5(this)">a:visited</div>
+          <div class="term-item" data-term="a:link" onclick="selectTerm5(this)">a:link</div>
+          <div class="term-item" data-term="a:hover" onclick="selectTerm5(this)">a:hover</div>
         </div>
       </div>
       
-      <div class="semantic-column">
-        <h3>Purposes</h3>
-        <div class="purposes">
-          <div class="purpose-item" data-purpose="Displays a blog entry." onclick="matchSemanticPurpose(this)">
-            <div class="purpose-content">
-              Displays a blog entry.
-              <div class="purpose-tag" style="display: none;"></div>
-            </div>
+      <div class="matching-column">
+        <h3>CSS Rules</h3>
+        <div class="examples">
+          <div class="example-item" data-example="1" onclick="matchExample5(this)">
+            <span style="font-family: monospace; color: var(--green);">{color: red;}</span>
+            <div class="drop-zone" id="drop-1"></div>
           </div>
-          <div class="purpose-item" data-purpose="Displays comments about the blog entry." onclick="matchSemanticPurpose(this)">
-            <div class="purpose-content">
-              Displays comments about the blog entry.
-              <div class="purpose-tag" style="display: none;"></div>
-            </div>
+          <div class="example-item" data-example="2" onclick="matchExample5(this)">
+            <span style="font-family: monospace; color: var(--green);">{color: blue;}</span>
+            <div class="drop-zone" id="drop-2"></div>
           </div>
-          <div class="purpose-item" data-purpose="Displays hyperlinks to related information on an external site." onclick="matchSemanticPurpose(this)">
-            <div class="purpose-content">
-              Displays hyperlinks to related information on an external site.
-              <div class="purpose-tag" style="display: none;"></div>
-            </div>
+          <div class="example-item" data-example="3" onclick="matchExample5(this)">
+            <span style="font-family: monospace; color: var(--red);">{color: orange;}</span>
+            <div class="drop-zone" id="drop-3"></div>
+          </div>
+          <div class="example-item" data-example="4" onclick="matchExample5(this)">
+            <span style="font-family: monospace; color: var(--red);">{color: green;}</span>
+            <div class="drop-zone" id="drop-4"></div>
           </div>
         </div>
       </div>
@@ -5105,36 +5099,38 @@
     document.getElementById('result4').className = 'result';
   }
 
-  // Question 5 functions
-  let selectedSemanticTag = null;
+  // Question 5 functions - CSS Pseudo-classes
+  let selectedTerm5 = null;
+  let question5Answers = {};
 
-  function selectSemanticTag(el) {
+  function selectTerm5(el) {
     if (el.classList.contains('used')) return;
-    document.querySelectorAll('.semantic-tag').forEach(t => t.classList.remove('selected'));
-    if (selectedSemanticTag === el) { 
-      selectedSemanticTag = null; 
+    document.querySelectorAll('#question5 .term-item').forEach(t => t.classList.remove('selected'));
+    if (selectedTerm5 === el) { 
+      selectedTerm5 = null; 
+      document.querySelectorAll('#question5 .drop-zone').forEach(d => d.classList.remove('ready'));
       return; 
     }
-    selectedSemanticTag = el;
+    selectedTerm5 = el;
     el.classList.add('selected');
+    document.querySelectorAll('#question5 .drop-zone:not(.filled)').forEach(d => d.classList.add('ready'));
   }
 
-  function matchSemanticPurpose(el) {
-    const purpose = el.dataset.purpose;
-    const purposeTag = el.querySelector('.purpose-tag');
+  function matchExample5(el) {
+    const example = el.dataset.example;
+    const dropZone = el.querySelector('.drop-zone');
     
-    if (!selectedSemanticTag) {
+    if (!selectedTerm5) {
       // Clear existing match if clicked
-      if (question5Answers[purpose]) {
-        const tagValue = question5Answers[purpose];
-        question5Answers[purpose] = null;
-        purposeTag.textContent = '';
-        purposeTag.style.display = 'none';
-        el.classList.remove('filled', 'correct-semantic', 'wrong-semantic');
+      if (question5Answers[example]) {
+        const termValue = question5Answers[example];
+        question5Answers[example] = null;
+        dropZone.textContent = '';
+        dropZone.classList.remove('filled');
         
-        // Re-enable the tag
-        document.querySelectorAll('.semantic-tag').forEach(t => {
-          if (t.dataset.tag === tagValue) {
+        // Re-enable the term
+        document.querySelectorAll('#question5 .term-item').forEach(t => {
+          if (t.dataset.term === termValue) {
             t.classList.remove('used');
           }
         });
@@ -5144,25 +5140,25 @@
       return;
     }
 
-    // Clear previous match for this purpose
-    if (question5Answers[purpose]) {
-      const oldTag = question5Answers[purpose];
-      document.querySelectorAll('.semantic-tag').forEach(t => {
-        if (t.dataset.tag === oldTag) {
+    // Remove previous term if exists
+    if (question5Answers[example]) {
+      document.querySelectorAll('#question5 .term-item').forEach(t => {
+        if (t.dataset.term === question5Answers[example]) {
           t.classList.remove('used');
         }
       });
     }
-
-    // Set new match
-    question5Answers[purpose] = selectedSemanticTag.dataset.tag;
-    purposeTag.textContent = selectedSemanticTag.dataset.tag;
-    purposeTag.style.display = 'inline-block';
-    el.classList.add('filled');
-    el.classList.remove('correct-semantic', 'wrong-semantic');
-    selectedSemanticTag.classList.add('used');
-    selectedSemanticTag.classList.remove('selected');
-    selectedSemanticTag = null;
+    
+    question5Answers[example] = selectedTerm5.dataset.term;
+    dropZone.textContent = selectedTerm5.dataset.term;
+    dropZone.classList.add('filled');
+    selectedTerm5.classList.add('used');
+    selectedTerm5.classList.remove('selected');
+    
+    // Clear selection
+    document.querySelectorAll('#question5 .term-item').forEach(t => t.classList.remove('selected'));
+    document.querySelectorAll('#question5 .drop-zone').forEach(d => d.classList.remove('ready'));
+    selectedTerm5 = null;
     
     document.getElementById('result5').className = 'result';
   }
@@ -5170,40 +5166,81 @@
   function checkQuestion5() {
     const res = document.getElementById('result5');
     
-    // Correct answers
     const correctAnswers = {
-      'Displays a blog entry.': 'article',
-      'Displays comments about the blog entry.': 'aside',
-      'Displays hyperlinks to related information on an external site.': 'nav'
+      '1': 'a:link',      // {color: red;} → a:link
+      '2': 'a:visited',   // {color: blue;} → a:visited
+      '3': 'a:hover',     // {color: orange;} → a:hover
+      '4': 'a:active'     // {color: green;} → a:active
     };
 
-    let correctCount = 0;
-    let totalAnswered = 0;
-    let feedback = 'Results:\n';
+    // Clear previous styling
+    document.querySelectorAll('#question5 .example-item').forEach(item => {
+      item.classList.remove('correct-match', 'wrong-match');
+    });
 
-    // Check each answer and provide visual feedback
-    Object.keys(correctAnswers).forEach(purpose => {
-      const userAnswer = question5Answers[purpose];
-      const correctAnswer = correctAnswers[purpose];
-      const purposeEl = document.querySelector(`[data-purpose="${purpose}"]`);
-      
-      purposeEl.classList.remove('correct-semantic', 'wrong-semantic');
-      
-      if (userAnswer) {
-        totalAnswered++;
-        if (userAnswer === correctAnswer) {
-          correctCount++;
-          purposeEl.classList.add('correct-semantic');
-          feedback += `"${purpose}" ✓ Correct (${userAnswer})\n`;
-        } else {
-          purposeEl.classList.add('wrong-semantic');
-          feedback += `"${purpose}" ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
-        }
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each match
+    Object.keys(correctAnswers).forEach(key => {
+      const item = document.querySelector(`#question5 [data-example="${key}"]`);
+      if (question5Answers[key] === correctAnswers[key]) {
+        item.classList.add('correct-match');
+        correctCount++;
       } else {
-        feedback += `"${purpose}" Not answered - should be "${correctAnswer}"\n`;
+        item.classList.add('wrong-match');
+        allCorrect = false;
       }
     });
 
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All CSS pseudo-classes are matched correctly.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• a:link {color: red;} - Unvisited links appear red when page loads\n';
+      res.textContent += '• a:visited {color: blue;} - Visited links appear blue (clicked previously)\n';
+      res.textContent += '• a:hover {color: orange;} - Links appear orange when cursor moves over them\n';
+      res.textContent += '• a:active {color: green;} - Links appear green when being clicked\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• :link - Unvisited links\n';
+      res.textContent += '• :visited - Links that have been clicked\n';
+      res.textContent += '• :hover - When mouse hovers over the link\n';
+      res.textContent += '• :active - When link is being clicked\n';
+      res.textContent += '• Order matters: :link, :visited, :hover, :active (LVHA)';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 4 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
+      res.textContent += '• {color: red;} → a:link\n';
+      res.textContent += '• {color: blue;} → a:visited\n';
+      res.textContent += '• {color: orange;} → a:hover\n';
+      res.textContent += '• {color: green;} → a:active\n\n';
+      res.textContent += 'Remember: Use LVHA order (Link, Visited, Hover, Active) for proper CSS specificity.';
+      res.className = 'result wrong';
+    }
+
+    recordScore(5, allCorrect);
+  }
+
+  function resetQuestion5() {
+    selectedTerm5 = null;
+    question5Answers = {};
+    
+    // Clear all drop zones
+    document.querySelectorAll('#question5 .drop-zone').forEach(zone => {
+      zone.textContent = '';
+      zone.classList.remove('filled', 'ready');
+    });
+    
+    document.querySelectorAll('#question5 .term-item').forEach(term => {
+      term.classList.remove('selected', 'used');
+    });
+    
+    document.querySelectorAll('#question5 .example-item').forEach(item => {
+      item.classList.remove('matched', 'correct-match', 'wrong-match');
+    });
+    
+    document.getElementById('result5').className = 'result';
+  }
     if (totalAnswered === 0) {
       res.textContent = 'Please match at least one tag before checking.';
       res.className = 'result wrong';
