@@ -5587,25 +5587,27 @@
     const trueBtn = document.getElementById(`q25-${itemNum}-true`);
     const falseBtn = document.getElementById(`q25-${itemNum}-false`);
     
+    // Remove all styling first
     trueBtn.classList.remove('selected');
     falseBtn.classList.remove('selected');
+    trueBtn.style.background = '';
+    trueBtn.style.borderColor = '';
+    trueBtn.style.color = '';
+    falseBtn.style.background = '';
+    falseBtn.style.borderColor = '';
+    falseBtn.style.color = '';
     
+    // Apply styling to selected button
     if (answer === 'true') {
       trueBtn.classList.add('selected');
-      trueBtn.style.background = 'rgba(124, 106, 247, 0.2)';
-      trueBtn.style.borderColor = 'rgba(124, 106, 247, 0.3)';
+      trueBtn.style.background = 'rgba(124, 106, 247, 0.3)';
+      trueBtn.style.borderColor = 'rgba(124, 106, 247, 0.5)';
       trueBtn.style.color = 'var(--accent-light)';
-      falseBtn.style.background = '';
-      falseBtn.style.borderColor = '';
-      falseBtn.style.color = '';
     } else {
       falseBtn.classList.add('selected');
-      falseBtn.style.background = 'rgba(124, 106, 247, 0.2)';
-      falseBtn.style.borderColor = 'rgba(124, 106, 247, 0.3)';
+      falseBtn.style.background = 'rgba(124, 106, 247, 0.3)';
+      falseBtn.style.borderColor = 'rgba(124, 106, 247, 0.5)';
       falseBtn.style.color = 'var(--accent-light)';
-      trueBtn.style.background = '';
-      trueBtn.style.borderColor = '';
-      trueBtn.style.color = '';
     }
     
     document.getElementById('result25').className = 'result';
@@ -5637,21 +5639,36 @@
       const trueBtn = document.getElementById(`q25-${i}-true`);
       const falseBtn = document.getElementById(`q25-${i}-false`);
       
+      // Remove previous styling
       trueBtn.classList.remove('correct', 'wrong');
       falseBtn.classList.remove('correct', 'wrong');
       
       if (question25Answers[i] === correctAnswers[i]) {
+        // Correct answer
         if (question25Answers[i] === 'true') {
           trueBtn.classList.add('correct');
+          trueBtn.style.background = 'rgba(74, 222, 128, 0.2)';
+          trueBtn.style.borderColor = 'rgba(74, 222, 128, 0.5)';
+          trueBtn.style.color = 'var(--green)';
         } else {
           falseBtn.classList.add('correct');
+          falseBtn.style.background = 'rgba(74, 222, 128, 0.2)';
+          falseBtn.style.borderColor = 'rgba(74, 222, 128, 0.5)';
+          falseBtn.style.color = 'var(--green)';
         }
         correctCount++;
       } else {
+        // Wrong answer
         if (question25Answers[i] === 'true') {
           trueBtn.classList.add('wrong');
+          trueBtn.style.background = 'rgba(248, 113, 113, 0.2)';
+          trueBtn.style.borderColor = 'rgba(248, 113, 113, 0.5)';
+          trueBtn.style.color = 'var(--red)';
         } else {
           falseBtn.classList.add('wrong');
+          falseBtn.style.background = 'rgba(248, 113, 113, 0.2)';
+          falseBtn.style.borderColor = 'rgba(248, 113, 113, 0.5)';
+          falseBtn.style.color = 'var(--red)';
         }
         allCorrect = false;
       }
