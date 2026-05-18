@@ -9572,6 +9572,11 @@
     const player = document.getElementById('music-player');
     const btn = document.getElementById('music-toggle');
     
+    if (!player || !btn) {
+      console.error('Music player or button not found');
+      return;
+    }
+    
     musicMuted = !musicMuted;
     
     if (musicMuted) {
@@ -9579,11 +9584,13 @@
       btn.textContent = '🔇';
       btn.classList.add('muted');
       btn.title = 'Unmute music';
+      console.log('Music muted');
     } else {
       player.style.display = 'block';
       btn.textContent = '🔊';
       btn.classList.remove('muted');
       btn.title = 'Mute music';
+      console.log('Music unmuted');
     }
   }
 
