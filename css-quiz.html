@@ -1011,6 +1011,7 @@
     <button class="question-btn" onclick="showQuestion(19)">Question 19</button>
     <button class="question-btn" onclick="showQuestion(20)">Question 20</button>
     <button class="question-btn" onclick="showQuestion(21)">Question 21</button>
+    <button class="question-btn" onclick="showQuestion(22)">Question 22</button>
   </div>
 
   <div id="question1" class="question active">
@@ -2835,6 +2836,72 @@
     </div>
 
     <div class="result" id="result21"></div>
+  </div>
+
+  <div id="question22" class="question">
+    <h1>The Jazz Club wants you to add an image to the company home page. The image should be 100 pixels wide by 50 pixels high. The home page should display the company name if the image cannot be loaded.</h1>
+    
+    <p class="sub">Complete the markup by selecting the correct option from each drop-down list.</p>
+
+    <p class="section-label">Answer Area</p>
+    <div class="dropdown-exercise">
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="q22-dropdown1" style="min-width: 120px;">
+          <option value="">Select...</option>
+          <option value="img">img</option>
+          <option value="image">image</option>
+          <option value="picture">picture</option>
+          <option value="src">src</option>
+        </select>
+        <select class="dropdown-select" id="q22-dropdown2" style="min-width: 120px;">
+          <option value="">Select...</option>
+          <option value="src">src</option>
+          <option value="href">href</option>
+          <option value="link">link</option>
+          <option value="source">source</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"companyLogo.jpg"</span>
+        <select class="dropdown-select" id="q22-dropdown3" style="min-width: 120px;">
+          <option value="">Select...</option>
+          <option value="alt">alt</option>
+          <option value="title">title</option>
+          <option value="text">text</option>
+          <option value="name">name</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"The Jazz Club"</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <select class="dropdown-select" id="q22-dropdown4" style="min-width: 120px;">
+          <option value="">Select...</option>
+          <option value="height">height</option>
+          <option value="h">h</option>
+          <option value="size">size</option>
+          <option value="vertical">vertical</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"50"</span>
+        <select class="dropdown-select" id="q22-dropdown5" style="min-width: 120px;">
+          <option value="">Select...</option>
+          <option value="width">width</option>
+          <option value="w">w</option>
+          <option value="size">size</option>
+          <option value="horizontal">horizontal</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"100"</span>
+        <span class="html-tag">/&gt;</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion22()">Check answer</button>
+      <button class="btn" onclick="resetQuestion22()">Reset</button>
+    </div>
+
+    <div class="result" id="result22"></div>
   </div>
 
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
@@ -5030,6 +5097,102 @@
     });
     
     document.getElementById('result21').className = 'result';
+  }
+
+  // Question 22 functions
+  function checkQuestion22() {
+    const res = document.getElementById('result22');
+    
+    const dropdown1 = document.getElementById('q22-dropdown1').value;
+    const dropdown2 = document.getElementById('q22-dropdown2').value;
+    const dropdown3 = document.getElementById('q22-dropdown3').value;
+    const dropdown4 = document.getElementById('q22-dropdown4').value;
+    const dropdown5 = document.getElementById('q22-dropdown5').value;
+
+    if (!dropdown1 || !dropdown2 || !dropdown3 || !dropdown4 || !dropdown5) {
+      res.textContent = 'Please complete all dropdowns before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question22 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswers = {
+      'q22-dropdown1': 'img',
+      'q22-dropdown2': 'src',
+      'q22-dropdown3': 'alt',
+      'q22-dropdown4': 'height',
+      'q22-dropdown5': 'width'
+    };
+
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each dropdown
+    Object.keys(correctAnswers).forEach(id => {
+      const select = document.getElementById(id);
+      if (select.value === correctAnswers[id]) {
+        select.classList.add('correct');
+        correctCount++;
+      } else {
+        select.classList.add('wrong');
+        allCorrect = false;
+      }
+    });
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All selections are correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• <img> - The image tag for displaying images\n';
+      res.textContent += '• src - Specifies the image file path (companyLogo.jpg)\n';
+      res.textContent += '• alt - Alternative text displayed if image cannot load ("The Jazz Club")\n';
+      res.textContent += '• height - Sets the image height to 50 pixels\n';
+      res.textContent += '• width - Sets the image width to 100 pixels\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• The alt attribute is essential for accessibility and fallback display\n';
+      res.textContent += '• Width and height attributes define image dimensions\n';
+      res.textContent += '• The src attribute specifies the image source file\n';
+      res.textContent += '• Self-closing tag syntax: />';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 5 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
+      
+      if (dropdown1 !== 'img') {
+        res.textContent += '• First dropdown: img - The HTML tag for images\n';
+      }
+      if (dropdown2 !== 'src') {
+        res.textContent += '• Second dropdown: src - Attribute for image source path\n';
+      }
+      if (dropdown3 !== 'alt') {
+        res.textContent += '• Third dropdown: alt - Alternative text for accessibility and fallback\n';
+      }
+      if (dropdown4 !== 'height') {
+        res.textContent += '• Fourth dropdown: height - Attribute for image height (50 pixels)\n';
+      }
+      if (dropdown5 !== 'width') {
+        res.textContent += '• Fifth dropdown: width - Attribute for image width (100 pixels)\n';
+      }
+      
+      res.textContent += '\nComplete markup: <img src="companyLogo.jpg" alt="The Jazz Club" height="50" width="100" />';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion22() {
+    document.getElementById('q22-dropdown1').value = '';
+    document.getElementById('q22-dropdown2').value = '';
+    document.getElementById('q22-dropdown3').value = '';
+    document.getElementById('q22-dropdown4').value = '';
+    document.getElementById('q22-dropdown5').value = '';
+    
+    document.querySelectorAll('#question22 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
+    });
+    document.getElementById('result22').className = 'result';
   }
 </script>
 </body>
