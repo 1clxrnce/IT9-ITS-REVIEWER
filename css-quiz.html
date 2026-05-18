@@ -1010,6 +1010,7 @@
     <button class="question-btn" onclick="showQuestion(18)">Question 18</button>
     <button class="question-btn" onclick="showQuestion(19)">Question 19</button>
     <button class="question-btn" onclick="showQuestion(20)">Question 20</button>
+    <button class="question-btn" onclick="showQuestion(21)">Question 21</button>
   </div>
 
   <div id="question1" class="question active">
@@ -2781,6 +2782,59 @@
     </div>
 
     <div class="result" id="result20"></div>
+  </div>
+
+  <div id="question21" class="question">
+    <h1>You are creating a web page that displays a How-To video. When accessing the video, the user must be able to play, pause, and seek. The file name of the video is HowTo.mp4, and it exists in the same folder as the web page.</h1>
+    
+    <p class="sub">If the user's browser does not support HTML5, the page must display this message: <code>Your browser does not support playing this video.</code></p>
+    
+    <p class="sub">How should you complete the markup? To answer, move the appropriate markup segments from the list on the left to the correct positions on the right. You may use each markup segment once, more than once, or not at all.</p>
+
+    <div class="ordering-container">
+      <div class="ordering-column">
+        <h3>Markup Segments</h3>
+        <div class="markup-segments">
+          <div class="segment-item" data-segment="source" onclick="selectSegment21(this)">source</div>
+          <div class="segment-item" data-segment="source controls" onclick="selectSegment21(this)">source controls</div>
+          <div class="segment-item" data-segment='&lt;source src="HowTo.mp4" type="video/mp4"&gt;' onclick="selectSegment21(this)">&lt;source src="HowTo.mp4" type="video/mp4"&gt;</div>
+          <div class="segment-item" data-segment="video" onclick="selectSegment21(this)">video</div>
+          <div class="segment-item" data-segment="video controls" onclick="selectSegment21(this)">video controls</div>
+          <div class="segment-item" data-segment='&lt;video src="HowTo.mp4" type="video/mp4"&gt;' onclick="selectSegment21(this)">&lt;video src="HowTo.mp4" type="video/mp4"&gt;</div>
+          <div class="segment-item" data-segment="Your browser does not support playing this video." onclick="selectSegment21(this)">Your browser does not support playing this video.</div>
+        </div>
+      </div>
+      
+      <div class="ordering-column">
+        <h3>Answer Area</h3>
+        <div class="answer-order">
+          <div class="order-slot" id="q21-slot1" onclick="fillSlot21(1)">
+            <span class="slot-number">1</span>
+            <span class="slot-content" id="q21-slot1-content">&lt; <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">video controls</span> &gt;</span>
+          </div>
+          <div class="order-slot" id="q21-slot2" onclick="fillSlot21(2)">
+            <span class="slot-number">2</span>
+            <span class="slot-content" id="q21-slot2-content" style="margin-left: 20px;">&lt;source src="HowTo.mp4" type="video/mp4"&gt;</span>
+          </div>
+          <div class="order-slot" id="q21-slot3" onclick="fillSlot21(3)">
+            <span class="slot-number">3</span>
+            <span class="slot-content" id="q21-slot3-content" style="margin-left: 20px;">Your browser does not support playing this video.</span>
+          </div>
+          <div class="order-slot" id="q21-slot4" onclick="fillSlot21(4)">
+            <span class="slot-number">4</span>
+            <span class="slot-content" id="q21-slot4-content">&lt;/ <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">video</span> &gt;</span>
+          </div>
+        </div>
+        <p style="font-size: 11px; color: var(--text-dim); margin-top: 12px; font-style: italic;">Target area for the fourth markup segment.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion21()">Check answer</button>
+      <button class="btn" onclick="resetQuestion21()">Reset</button>
+    </div>
+
+    <div class="result" id="result21"></div>
   </div>
 
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
@@ -4818,6 +4872,152 @@
       select.classList.remove('correct', 'wrong');
     });
     document.getElementById('result20').className = 'result';
+  }
+
+  // Question 21 functions
+  let question21Selected = null;
+  let question21Answers = {
+    1: 'video controls',
+    2: '<source src="HowTo.mp4" type="video/mp4">',
+    3: 'Your browser does not support playing this video.',
+    4: 'video'
+  };
+
+  function selectSegment21(element) {
+    // Remove previous selection
+    document.querySelectorAll('#question21 .segment-item').forEach(seg => {
+      seg.classList.remove('selected');
+    });
+    
+    // Select new segment
+    element.classList.add('selected');
+    question21Selected = element.getAttribute('data-segment');
+    
+    // Clear result
+    document.getElementById('result21').className = 'result';
+  }
+
+  function fillSlot21(slotNum) {
+    if (!question21Selected) {
+      return;
+    }
+
+    const slotContent = document.getElementById(`q21-slot${slotNum}-content`);
+    const slot = document.getElementById(`q21-slot${slotNum}`);
+    
+    // Store the answer
+    question21Answers[slotNum] = question21Selected;
+    
+    // Update the slot content based on slot number
+    if (slotNum === 1) {
+      slotContent.innerHTML = '&lt; <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">' + question21Selected + '</span> &gt;';
+    } else if (slotNum === 4) {
+      slotContent.innerHTML = '&lt;/ <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">' + question21Selected + '</span> &gt;';
+    } else if (slotNum === 2) {
+      slotContent.innerHTML = '<span style="margin-left: 20px;">' + question21Selected + '</span>';
+    } else {
+      slotContent.innerHTML = '<span style="margin-left: 20px;">' + question21Selected + '</span>';
+    }
+    
+    slot.classList.add('filled');
+    
+    // Mark segment as used
+    document.querySelectorAll('#question21 .segment-item').forEach(seg => {
+      if (seg.getAttribute('data-segment') === question21Selected) {
+        seg.classList.add('used');
+      }
+    });
+    
+    // Clear selection
+    document.querySelectorAll('#question21 .segment-item').forEach(seg => {
+      seg.classList.remove('selected');
+    });
+    question21Selected = null;
+    
+    // Clear result
+    document.getElementById('result21').className = 'result';
+  }
+
+  function checkQuestion21() {
+    const res = document.getElementById('result21');
+    
+    const correctAnswers = {
+      1: 'video controls',
+      2: '<source src="HowTo.mp4" type="video/mp4">',
+      3: 'Your browser does not support playing this video.',
+      4: 'video'
+    };
+
+    // Clear previous styling
+    document.querySelectorAll('#question21 .order-slot').forEach(slot => {
+      slot.classList.remove('correct-order', 'wrong-order');
+    });
+
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each slot
+    for (let i = 1; i <= 4; i++) {
+      const slot = document.getElementById(`q21-slot${i}`);
+      if (question21Answers[i] === correctAnswers[i]) {
+        slot.classList.add('correct-order');
+        correctCount++;
+      } else {
+        slot.classList.add('wrong-order');
+        allCorrect = false;
+      }
+    }
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All markup segments are in the correct positions.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• <video controls> - Opens the video element with controls attribute for play/pause/seek\n';
+      res.textContent += '• <source src="HowTo.mp4" type="video/mp4"> - Specifies the video file and format\n';
+      res.textContent += '• Fallback text - Displays if browser doesn\'t support HTML5 video\n';
+      res.textContent += '• </video> - Closes the video element\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• The "controls" attribute adds play, pause, and seek controls\n';
+      res.textContent += '• The <source> tag specifies the video file location and MIME type\n';
+      res.textContent += '• Fallback content appears between <video> tags for unsupported browsers\n';
+      res.textContent += '• This structure ensures accessibility and browser compatibility';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 4 correct.\n\n`;
+      res.textContent += 'Correct structure:\n';
+      res.textContent += '1. <video controls> - Opens video element with playback controls\n';
+      res.textContent += '2. <source src="HowTo.mp4" type="video/mp4"> - Specifies video source\n';
+      res.textContent += '3. Your browser does not support playing this video. - Fallback message\n';
+      res.textContent += '4. </video> - Closes the video element\n\n';
+      res.textContent += 'The "controls" attribute is essential for play, pause, and seek functionality.';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion21() {
+    question21Selected = null;
+    question21Answers = {
+      1: 'video controls',
+      2: '<source src="HowTo.mp4" type="video/mp4">',
+      3: 'Your browser does not support playing this video.',
+      4: 'video'
+    };
+    
+    // Reset slot contents to original
+    document.getElementById('q21-slot1-content').innerHTML = '&lt; <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">video controls</span> &gt;';
+    document.getElementById('q21-slot2-content').innerHTML = '<span style="margin-left: 20px;">&lt;source src="HowTo.mp4" type="video/mp4"&gt;</span>';
+    document.getElementById('q21-slot3-content').innerHTML = '<span style="margin-left: 20px;">Your browser does not support playing this video.</span>';
+    document.getElementById('q21-slot4-content').innerHTML = '&lt;/ <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">video</span> &gt;';
+    
+    document.querySelectorAll('#question21 .segment-item').forEach(seg => {
+      seg.classList.remove('selected', 'used');
+    });
+    
+    document.querySelectorAll('#question21 .order-slot').forEach(slot => {
+      slot.classList.remove('correct-order', 'wrong-order');
+      slot.classList.add('filled');
+    });
+    
+    document.getElementById('result21').className = 'result';
   }
 </script>
 </body>
