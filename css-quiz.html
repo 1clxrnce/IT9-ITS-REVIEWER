@@ -4913,10 +4913,12 @@
       slotContent.innerHTML = '&lt; <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">' + question21Selected + '</span> &gt;';
     } else if (slotNum === 4) {
       slotContent.innerHTML = '&lt;/ <span style="background: #7c6af7; color: white; padding: 2px 8px; border-radius: 4px;">' + question21Selected + '</span> &gt;';
-    } else if (slotNum === 2) {
-      slotContent.innerHTML = '<span style="margin-left: 20px;">' + question21Selected + '</span>';
     } else {
-      slotContent.innerHTML = '<span style="margin-left: 20px;">' + question21Selected + '</span>';
+      // For slots 2 and 3, display the content with proper styling
+      slotContent.style.marginLeft = '20px';
+      slotContent.style.display = 'block';
+      slotContent.style.minHeight = '40px';
+      slotContent.textContent = question21Selected;
     }
     
     slot.classList.add('filled');
@@ -5004,8 +5006,19 @@
     
     // Reset slot contents to empty
     document.getElementById('q21-slot1-content').innerHTML = '&lt; <span style="display: inline-block; min-width: 150px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed var(--accent); border-radius: 4px;"></span> &gt;';
-    document.getElementById('q21-slot2-content').innerHTML = '';
-    document.getElementById('q21-slot3-content').innerHTML = '';
+    
+    const slot2Content = document.getElementById('q21-slot2-content');
+    slot2Content.textContent = '';
+    slot2Content.style.marginLeft = '20px';
+    slot2Content.style.display = 'block';
+    slot2Content.style.minHeight = '40px';
+    
+    const slot3Content = document.getElementById('q21-slot3-content');
+    slot3Content.textContent = '';
+    slot3Content.style.marginLeft = '20px';
+    slot3Content.style.display = 'block';
+    slot3Content.style.minHeight = '40px';
+    
     document.getElementById('q21-slot4-content').innerHTML = '&lt;/ <span style="display: inline-block; min-width: 100px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed var(--accent); border-radius: 4px;"></span> &gt;';
     
     document.querySelectorAll('#question21 .segment-item').forEach(seg => {
