@@ -3089,12 +3089,47 @@
 
     <p class="sub">You write the following HTML. Line numbers are included for reference only.</p>
     
+    <div class="code-exercise">
+      <div class="code-line">
+        <span class="line-number">01</span>
+        <div class="code-content"><span class="html-tag">&lt;body</span> <span class="html-attr">style=</span><span class="html-value">"color:purple; font-size: 10px;"</span><span class="html-tag">&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">02</span>
+        <div class="code-content"><span style="margin-left: 20px;"></span><span class="html-tag">&lt;p</span> <span class="html-attr">id=</span><span class="html-value">"style1"</span><span class="html-tag">&gt;</span><span class="html-text">Fasten your seat belt</span><span class="html-tag">&lt;/p&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">03</span>
+        <div class="code-content"><span style="margin-left: 20px;"></span><span class="html-tag">&lt;p&gt;</span><span class="html-text">Look both ways before pulling out.</span><span class="html-tag">&lt;/p&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">04</span>
+        <div class="code-content"><span style="margin-left: 20px;"></span><span class="html-tag">&lt;p</span> <span class="html-attr">id=</span><span class="html-value">"style3"</span> <span class="html-attr">style=</span><span class="html-value">"color:red;"</span><span class="html-tag">&gt;</span><span class="html-text">Watch your speed.</span><span class="html-tag">&lt;/p&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">05</span>
+        <div class="code-content"><span style="margin-left: 20px;"></span><span class="html-tag">&lt;p</span> <span class="html-attr">style=</span><span class="html-value">"color:green; font-size: 20px;"</span><span class="html-tag">&gt;</span><span class="html-text">Be ready to stop.</span><span class="html-tag">&lt;/p&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">06</span>
+        <div class="code-content"><span style="margin-left: 20px;"></span><span class="html-tag">&lt;p</span> <span class="html-attr">style=</span><span class="html-value">"color:red;"</span><span class="html-tag">&gt;</span><span class="html-text">Study the rules of the road.</span><span class="html-tag">&lt;/p&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">07</span>
+        <div class="code-content"><span style="margin-left: 20px;"></span><span class="html-tag">&lt;p</span> <span class="html-attr">style=</span><span class="html-value">"font-size: 30px;"</span><span class="html-tag">&gt;</span><span class="html-text">You'll be driving in no time.</span><span class="html-tag">&lt;/p&gt;</span></div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">08</span>
+        <div class="code-content"><span class="html-tag">&lt;/body&gt;</span></div>
+      </div>
+    </div>
+
     <p class="sub"><strong>Note:</strong> You will receive partial credit for each correct selection.</p>
 
     <p class="section-label">Answer Area</p>
     <div class="dropdown-exercise">
       <div class="dropdown-line">
-        <span class="html-text">Line 03 displays text in which color?</span>
+        <span class="html-text">Line 02 displays text in which color?</span>
         <select class="dropdown-select" id="q26-dropdown1" style="min-width: 150px;">
           <option value="">Select...</option>
           <option value="red">red</option>
@@ -3105,13 +3140,13 @@
       </div>
       
       <div class="dropdown-line">
-        <span class="html-text">Line 04 displays text in which font size?</span>
+        <span class="html-text">Line 04 displays text in which color?</span>
         <select class="dropdown-select" id="q26-dropdown2" style="min-width: 150px;">
           <option value="">Select...</option>
-          <option value="20px">20 pixels</option>
-          <option value="30px">30 pixels</option>
-          <option value="40px">40 pixels</option>
-          <option value="50px">50 pixels</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="green">green</option>
+          <option value="purple">purple</option>
         </select>
       </div>
       
@@ -5817,9 +5852,9 @@
     });
 
     const correctAnswers = {
-      'q26-dropdown1': 'red',      // Line 03: style1 is red
-      'q26-dropdown2': '20px',     // Line 04: style3 is 20px
-      'q26-dropdown3': 'red'       // Line 06: inline style red
+      'q26-dropdown1': 'red',      // Line 02: id="style1" which has color: red
+      'q26-dropdown2': 'red',      // Line 04: inline style="color:red;" overrides id="style3"
+      'q26-dropdown3': 'red'       // Line 06: inline style="color:red;"
     };
 
     let allCorrect = true;
@@ -5840,21 +5875,21 @@
     if (allCorrect) {
       res.textContent = '✓ Correct! All selections are correct.\n\n';
       res.textContent += 'Explanation:\n';
-      res.textContent += '• Line 03: Uses #style1 which has color: red\n';
-      res.textContent += '• Line 04: Uses #style3 which has font-size: 20px\n';
-      res.textContent += '• Line 06: Inline style with color: red\n\n';
+      res.textContent += '• Line 02: <p id="style1"> - Uses #style1 which has color: red\n';
+      res.textContent += '• Line 04: <p id="style3" style="color:red;"> - Inline style overrides #style3, so color is red\n';
+      res.textContent += '• Line 06: <p style="color:red;"> - Inline style with color: red\n\n';
       res.textContent += 'Key concepts:\n';
       res.textContent += '• ID selectors (#id) apply styles to elements with matching id attributes\n';
-      res.textContent += '• Inline styles override CSS rules\n';
-      res.textContent += '• Match the id attribute to the CSS rule to find the correct style';
+      res.textContent += '• Inline styles override CSS rules (higher specificity)\n';
+      res.textContent += '• Match the id attribute and inline styles to determine the final color';
       res.className = 'result correct';
     } else {
       res.textContent = `✗ You got ${correctCount} out of 3 correct.\n\n`;
       res.textContent += 'Correct answers:\n';
-      res.textContent += '• Line 03 color: red (from #style1)\n';
-      res.textContent += '• Line 04 font size: 20 pixels (from #style3)\n';
+      res.textContent += '• Line 02 color: red (from #style1)\n';
+      res.textContent += '• Line 04 color: red (inline style overrides #style3)\n';
       res.textContent += '• Line 06 color: red (inline style)\n\n';
-      res.textContent += 'Remember: Match the id attribute to the CSS rule to find the correct style.';
+      res.textContent += 'Remember: Inline styles have higher specificity and override CSS rules.';
       res.className = 'result wrong';
     }
   }
