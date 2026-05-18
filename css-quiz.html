@@ -1015,6 +1015,7 @@
     <button class="question-btn" onclick="showQuestion(23)">Question 23</button>
     <button class="question-btn" onclick="showQuestion(24)">Question 24</button>
     <button class="question-btn" onclick="showQuestion(25)">Question 25</button>
+    <button class="question-btn" onclick="showQuestion(26)">Question 26</button>
   </div>
 
   <div id="question1" class="question active">
@@ -3064,6 +3065,74 @@
     </div>
 
     <div class="result" id="result25"></div>
+  </div>
+
+  <div id="question26" class="question">
+    <h1>You define the following styles in a style block:</h1>
+    
+    <div class="code-block">
+      <div class="line"><span class="kw">&lt;style&gt;</span></div>
+      <div class="line indent"><span class="kw">#style1</span> <span class="punct">{</span></div>
+      <div class="line indent indent"><span class="kw">color</span><span class="punct">:</span> <span class="val">red</span><span class="punct">;</span></div>
+      <div class="line indent indent"><span class="kw">font-size</span><span class="punct">:</span> <span class="val">30px</span><span class="punct">;</span></div>
+      <div class="line indent"><span class="punct">}</span></div>
+      <div class="line indent"><span class="kw">#style2</span> <span class="punct">{</span></div>
+      <div class="line indent indent"><span class="kw">color</span><span class="punct">:</span> <span class="val">blue</span><span class="punct">;</span></div>
+      <div class="line indent indent"><span class="kw">font-size</span><span class="punct">:</span> <span class="val">40px</span><span class="punct">;</span></div>
+      <div class="line indent"><span class="punct">}</span></div>
+      <div class="line indent"><span class="kw">#style3</span> <span class="punct">{</span></div>
+      <div class="line indent indent"><span class="kw">color</span><span class="punct">:</span> <span class="val">green</span><span class="punct">;</span></div>
+      <div class="line indent indent"><span class="kw">font-size</span><span class="punct">:</span> <span class="val">20px</span><span class="punct">;</span></div>
+      <div class="line indent"><span class="punct">}</span></div>
+      <div class="line"><span class="kw">&lt;/style&gt;</span></div>
+    </div>
+
+    <p class="sub">You write the following HTML. Line numbers are included for reference only.</p>
+    
+    <p class="sub"><strong>Note:</strong> You will receive partial credit for each correct selection.</p>
+
+    <p class="section-label">Answer Area</p>
+    <div class="dropdown-exercise">
+      <div class="dropdown-line">
+        <span class="html-text">Line 03 displays text in which color?</span>
+        <select class="dropdown-select" id="q26-dropdown1" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="green">green</option>
+          <option value="purple">purple</option>
+        </select>
+      </div>
+      
+      <div class="dropdown-line">
+        <span class="html-text">Line 04 displays text in which font size?</span>
+        <select class="dropdown-select" id="q26-dropdown2" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="20px">20 pixels</option>
+          <option value="30px">30 pixels</option>
+          <option value="40px">40 pixels</option>
+          <option value="50px">50 pixels</option>
+        </select>
+      </div>
+      
+      <div class="dropdown-line">
+        <span class="html-text">Line 06 displays text in which color?</span>
+        <select class="dropdown-select" id="q26-dropdown3" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="green">green</option>
+          <option value="purple">purple</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion26()">Check answer</button>
+      <button class="btn" onclick="resetQuestion26()">Reset</button>
+    </div>
+
+    <div class="result" id="result26"></div>
   </div>
 
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
@@ -5726,6 +5795,79 @@
     }
     
     document.getElementById('result25').className = 'result';
+  }
+
+  // Question 26 functions
+  function checkQuestion26() {
+    const res = document.getElementById('result26');
+    
+    const dropdown1 = document.getElementById('q26-dropdown1').value;
+    const dropdown2 = document.getElementById('q26-dropdown2').value;
+    const dropdown3 = document.getElementById('q26-dropdown3').value;
+
+    if (!dropdown1 || !dropdown2 || !dropdown3) {
+      res.textContent = 'Please complete all dropdowns before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question26 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswers = {
+      'q26-dropdown1': 'red',      // Line 03: style1 is red
+      'q26-dropdown2': '20px',     // Line 04: style3 is 20px
+      'q26-dropdown3': 'red'       // Line 06: inline style red
+    };
+
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each dropdown
+    Object.keys(correctAnswers).forEach(id => {
+      const select = document.getElementById(id);
+      if (select.value === correctAnswers[id]) {
+        select.classList.add('correct');
+        correctCount++;
+      } else {
+        select.classList.add('wrong');
+        allCorrect = false;
+      }
+    });
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All selections are correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• Line 03: Uses #style1 which has color: red\n';
+      res.textContent += '• Line 04: Uses #style3 which has font-size: 20px\n';
+      res.textContent += '• Line 06: Inline style with color: red\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• ID selectors (#id) apply styles to elements with matching id attributes\n';
+      res.textContent += '• Inline styles override CSS rules\n';
+      res.textContent += '• Match the id attribute to the CSS rule to find the correct style';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 3 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
+      res.textContent += '• Line 03 color: red (from #style1)\n';
+      res.textContent += '• Line 04 font size: 20 pixels (from #style3)\n';
+      res.textContent += '• Line 06 color: red (inline style)\n\n';
+      res.textContent += 'Remember: Match the id attribute to the CSS rule to find the correct style.';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion26() {
+    document.getElementById('q26-dropdown1').value = '';
+    document.getElementById('q26-dropdown2').value = '';
+    document.getElementById('q26-dropdown3').value = '';
+    
+    document.querySelectorAll('#question26 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
+    });
+    document.getElementById('result26').className = 'result';
   }
 </script>
 </body>
