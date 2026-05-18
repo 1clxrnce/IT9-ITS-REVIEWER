@@ -2970,9 +2970,47 @@
   </div>
 
   <div id="question24" class="question">
-    <h1>Question 24</h1>
-    <p class="sub">Placeholder for question 24</p>
+    <h1>Move the appropriate CSS position property values from the list on the left to the descriptions on the right.</h1>
     
+    <p class="sub">You may use each value once, more than once, or not at all.</p>
+    
+    <p class="sub"><strong>Note:</strong> You will receive partial credit for each correct answer.</p>
+
+    <div class="matching-container">
+      <div class="matching-column">
+        <h3>Position Property Values</h3>
+        <div class="css-terms">
+          <div class="term-item" data-term="fixed" onclick="selectTerm24(this)">fixed</div>
+          <div class="term-item" data-term="static" onclick="selectTerm24(this)">static</div>
+          <div class="term-item" data-term="inherit" onclick="selectTerm24(this)">inherit</div>
+          <div class="term-item" data-term="relative" onclick="selectTerm24(this)">relative</div>
+          <div class="term-item" data-term="absolute" onclick="selectTerm24(this)">absolute</div>
+        </div>
+      </div>
+      
+      <div class="matching-column">
+        <h3>Descriptions</h3>
+        <div class="examples">
+          <div class="example-item" data-example="static" onclick="matchExample24(this)">
+            Element appears in the order in which it is placed in the document flow.
+            <div class="drop-zone" id="drop-static"></div>
+          </div>
+          <div class="example-item" data-example="absolute" onclick="matchExample24(this)">
+            Element is positioned relative to the first positioned ancestor.
+            <div class="drop-zone" id="drop-absolute"></div>
+          </div>
+          <div class="example-item" data-example="fixed" onclick="matchExample24(this)">
+            Element is positioned relative to the browser window.
+            <div class="drop-zone" id="drop-fixed"></div>
+          </div>
+          <div class="example-item" data-example="inherit" onclick="matchExample24(this)">
+            Element is positioned based on its parent element's position.
+            <div class="drop-zone" id="drop-inherit"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="actions">
       <button class="btn btn-primary" onclick="checkQuestion24()">Check answer</button>
       <button class="btn" onclick="resetQuestion24()">Reset</button>
@@ -5349,14 +5387,140 @@
     document.getElementById('result23').className = 'result';
   }
 
-  // Question 24 functions (placeholder)
+  // Question 24 functions
+  let selected24 = null;
+  let question24Answers = {
+    'static': null,
+    'absolute': null,
+    'fixed': null,
+    'inherit': null
+  };
+
+  function selectTerm24(element) {
+    // Remove previous selection
+    document.querySelectorAll('#question24 .term-item').forEach(term => {
+      term.classList.remove('selected');
+    });
+    
+    // Select new term
+    element.classList.add('selected');
+    selected24 = element.getAttribute('data-term');
+    
+    // Clear result
+    document.getElementById('result24').className = 'result';
+  }
+
+  function matchExample24(element) {
+    if (!selected24) {
+      return;
+    }
+
+    const exampleType = element.getAttribute('data-example');
+    const dropZone = document.getElementById(`drop-${exampleType}`);
+    
+    // Store the answer
+    question24Answers[exampleType] = selected24;
+    
+    // Update the drop zone
+    dropZone.textContent = selected24;
+    dropZone.classList.add('filled');
+    element.classList.add('matched');
+    
+    // Mark term as used
+    document.querySelectorAll('#question24 .term-item').forEach(term => {
+      if (term.getAttribute('data-term') === selected24) {
+        term.classList.add('used');
+      }
+    });
+    
+    // Clear selection
+    document.querySelectorAll('#question24 .term-item').forEach(term => {
+      term.classList.remove('selected');
+    });
+    selected24 = null;
+    
+    // Clear result
+    document.getElementById('result24').className = 'result';
+  }
+
   function checkQuestion24() {
     const res = document.getElementById('result24');
-    res.textContent = 'Question 24 coming soon...';
-    res.className = 'result';
+    
+    const correctAnswers = {
+      'static': 'static',
+      'absolute': 'absolute',
+      'fixed': 'fixed',
+      'inherit': 'inherit'
+    };
+
+    // Clear previous styling
+    document.querySelectorAll('#question24 .example-item').forEach(item => {
+      item.classList.remove('correct-match', 'wrong-match');
+    });
+
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each match
+    Object.keys(correctAnswers).forEach(key => {
+      const item = document.querySelector(`#question24 [data-example="${key}"]`);
+      if (question24Answers[key] === correctAnswers[key]) {
+        item.classList.add('correct-match');
+        correctCount++;
+      } else {
+        item.classList.add('wrong-match');
+        allCorrect = false;
+      }
+    });
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All matches are correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• static - Default value; element appears in normal document flow\n';
+      res.textContent += '• absolute - Positioned relative to the first positioned ancestor\n';
+      res.textContent += '• fixed - Positioned relative to the browser window (stays in place when scrolling)\n';
+      res.textContent += '• inherit - Inherits the position value from its parent element\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• static is the default position value\n';
+      res.textContent += '• absolute and fixed remove elements from normal document flow\n';
+      res.textContent += '• relative positions elements relative to its normal position\n';
+      res.textContent += '• inherit allows child elements to use parent\'s position value';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 4 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
+      res.textContent += '• static - Element appears in the order in which it is placed in the document flow\n';
+      res.textContent += '• absolute - Element is positioned relative to the first positioned ancestor\n';
+      res.textContent += '• fixed - Element is positioned relative to the browser window\n';
+      res.textContent += '• inherit - Element is positioned based on its parent element\'s position\n\n';
+      res.textContent += 'Remember: Each position value has a specific behavior for element positioning.';
+      res.className = 'result wrong';
+    }
   }
 
   function resetQuestion24() {
+    selected24 = null;
+    question24Answers = {
+      'static': null,
+      'absolute': null,
+      'fixed': null,
+      'inherit': null
+    };
+    
+    // Clear all drop zones
+    document.querySelectorAll('#question24 .drop-zone').forEach(zone => {
+      zone.textContent = '';
+      zone.classList.remove('filled');
+    });
+    
+    document.querySelectorAll('#question24 .term-item').forEach(term => {
+      term.classList.remove('selected', 'used');
+    });
+    
+    document.querySelectorAll('#question24 .example-item').forEach(item => {
+      item.classList.remove('matched', 'correct-match', 'wrong-match');
+    });
+    
     document.getElementById('result24').className = 'result';
   }
 </script>
