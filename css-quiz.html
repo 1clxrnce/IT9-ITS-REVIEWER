@@ -1,0 +1,4139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f13;
+    --surface: #18181f;
+    --surface2: #212130;
+    --border: #2e2e40;
+    --accent: #7c6af7;
+    --accent-light: #a99af9;
+    --accent-glow: rgba(124, 106, 247, 0.18);
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.1);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.1);
+    --text: #e8e8f0;
+    --text-muted: #888899;
+    --text-dim: #55556a;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Sora', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(124,106,247,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 90%, rgba(124,106,247,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 640px;
+    width: 100%;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 40px; right: 40px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+    opacity: 0.5;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent-light);
+    background: var(--accent-glow);
+    border: 1px solid rgba(124,106,247,0.3);
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .badge::before { content: '◆'; font-size: 8px; }
+
+  h1 {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .chip:hover:not(.used) {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    background: var(--accent-glow);
+  }
+
+  .chip.selected {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+  }
+
+  .chip.used {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 2.2;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .code-block::before {
+    content: 'CSS';
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .indent { padding-left: 1.5rem; }
+
+  .kw { color: #c792ea; }
+  .punct { color: var(--text-muted); }
+  .val { color: #f78c6c; }
+
+  .blank {
+    display: inline-flex;
+    align-items: center;
+    min-width: 110px;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1.5px dashed var(--border);
+    background: var(--surface2);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent-light);
+    font-weight: 600;
+    transition: all 0.15s ease;
+    vertical-align: middle;
+    gap: 6px;
+  }
+
+  .blank .num {
+    font-size: 10px;
+    color: var(--text-dim);
+    background: var(--surface);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .blank .val-text { flex: 1; }
+
+  .blank:hover:not(.filled) {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .blank.filled {
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .blank.ready {
+    border-color: var(--accent);
+    animation: pulse 1.2s infinite;
+  }
+
+  .blank.correct-answer {
+    border-color: var(--green);
+    background: var(--green-bg);
+    box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+  }
+
+  .blank.wrong-answer {
+    border-color: var(--red);
+    background: var(--red-bg);
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2);
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124,106,247,0.4); }
+    50% { box-shadow: 0 0 0 4px rgba(124,106,247,0); }
+  }
+
+  .actions { display: flex; gap: 10px; }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn:hover { border-color: var(--accent); color: var(--text); }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+    color: #111;
+  }
+
+  .result {
+    margin-top: 1rem;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    display: none;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+  .result.correct {
+    background: var(--green-bg);
+    border: 1px solid rgba(74,222,128,0.25);
+    color: var(--green);
+    display: block;
+  }
+
+  .result.wrong {
+    background: var(--red-bg);
+    border: 1px solid rgba(248,113,113,0.25);
+    color: var(--red);
+    display: block;
+  }
+
+  .hint { font-size: 12px; color: var(--text-dim); margin-top: 1.5rem; font-family: var(--mono); }
+  .hint span { color: var(--accent-light); }
+
+  .question-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+    justify-content: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .question-btn {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    min-width: 90px;
+    flex: 0 0 auto;
+  }
+
+  .question-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .question-btn:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .question {
+    display: none;
+  }
+
+  .question.active {
+    display: block;
+  }
+
+  .matching-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .matching-column h3 {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .css-terms, .examples {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .term-item, .example-item {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    position: relative;
+  }
+
+  .term-item:hover:not(.used), .example-item:hover:not(.matched) {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    background: var(--accent-glow);
+  }
+
+  .term-item.selected {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+  }
+
+  .term-item.used {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  .example-item.matched {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .example-item.wrong-match {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+
+  .example-item.correct-match {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .drop-zone {
+    min-height: 40px;
+    border: 2px dashed var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    transition: all 0.15s ease;
+  }
+
+  .drop-zone.ready {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .drop-zone.filled {
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .multiple-choice {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .choice-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface2);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .choice-option:hover:not(.selected) {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .choice-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+  }
+
+  .choice-option.correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .choice-option.wrong {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+
+  .choice-radio {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+  }
+
+  .choice-option.selected .choice-radio {
+    border-color: var(--accent);
+  }
+
+  .choice-option.selected .choice-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .choice-option.correct .choice-radio {
+    border-color: var(--green);
+  }
+
+  .choice-option.correct .choice-radio::after {
+    background: var(--green);
+  }
+
+  .choice-option.wrong .choice-radio {
+    border-color: var(--red);
+  }
+
+  .choice-option.wrong .choice-radio::after {
+    background: var(--red);
+  }
+
+  .scenario {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .scenario-title {
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .dropdown-exercise {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 2.2;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .dropdown-exercise::before {
+    content: 'HTML';
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .dropdown-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .dropdown-select {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    min-width: 120px;
+    transition: all 0.15s ease;
+  }
+
+  .dropdown-select:hover {
+    border-color: var(--accent);
+  }
+
+  .dropdown-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(124,106,247,0.15);
+  }
+
+  .dropdown-select.correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .dropdown-select.wrong {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+
+  .html-tag { color: #89ddff; }
+  .html-attr { color: #c792ea; }
+  .html-value { color: #c3e88d; }
+  .html-text { color: var(--text); }
+
+  .semantic-matching {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .semantic-column h3 {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .semantic-tags, .purposes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .semantic-tag, .purpose-item {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    position: relative;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  .semantic-tag:hover:not(.used), .purpose-item:hover:not(.filled) {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    background: var(--accent-glow);
+  }
+
+  .semantic-tag.selected {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+  }
+
+  .semantic-tag.used {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  .purpose-item.filled {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+  }
+
+  .purpose-item.correct-semantic {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .purpose-item.wrong-semantic {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+
+  .purpose-content {
+    flex: 1;
+  }
+
+  .purpose-tag {
+    margin-top: 8px;
+    padding: 4px 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--accent-light);
+    display: inline-block;
+  }
+
+  .purpose-item.filled .purpose-tag {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+  }
+
+  .purpose-item.correct-semantic .purpose-tag {
+    background: var(--green-bg);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .purpose-item.wrong-semantic .purpose-tag {
+    background: var(--red-bg);
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .table-preview {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .table-preview h4 {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--mono);
+  }
+
+  .preview-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 13px;
+  }
+
+  .preview-table th,
+  .preview-table td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  .preview-table th {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .preview-table td {
+    background: var(--bg);
+    color: var(--text-muted);
+  }
+
+  .code-exercise {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .code-exercise::before {
+    content: 'HTML';
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .code-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .line-number {
+    color: var(--text-dim);
+    width: 30px;
+    font-size: 11px;
+    text-align: right;
+    margin-right: 16px;
+    user-select: none;
+  }
+
+  .code-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .tag-dropdown {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    min-width: 80px;
+    transition: all 0.15s ease;
+  }
+
+  .tag-dropdown:hover {
+    border-color: var(--accent);
+  }
+
+  .tag-dropdown:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(124,106,247,0.15);
+  }
+
+  .tag-dropdown.correct {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .tag-dropdown.wrong {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+
+  .answer-area {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .answer-area h4 {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .tag-question {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .tag-question:last-child {
+    margin-bottom: 0;
+  }
+
+  .ordering-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .ordering-column h3 {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .markup-segments, .answer-order {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .segment-item {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: move;
+    transition: all 0.15s ease;
+    user-select: none;
+    word-break: break-word;
+  }
+
+  .segment-item:hover {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    background: var(--accent-glow);
+  }
+
+  .segment-item.selected {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+  }
+
+  .segment-item.used {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .order-slot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 2px dashed var(--border);
+    background: var(--surface2);
+    min-height: 50px;
+    transition: all 0.15s ease;
+  }
+
+  .order-slot.ready {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .order-slot.filled {
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .order-slot.correct-order {
+    border-color: var(--green);
+    background: var(--green-bg);
+  }
+
+  .order-slot.wrong-order {
+    border-color: var(--red);
+    background: var(--red-bg);
+  }
+
+  .slot-number {
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--surface);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .slot-content {
+    flex: 1;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    word-break: break-word;
+  }
+
+  .slot-remove {
+    font-size: 16px;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+  }
+
+  .slot-remove:hover {
+    color: var(--red);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="badge">CSS — Fill in the blanks</div>
+  
+  <div class="question-nav">
+    <button class="question-btn active" onclick="showQuestion(1)">Question 1</button>
+    <button class="question-btn" onclick="showQuestion(2)">Question 2</button>
+    <button class="question-btn" onclick="showQuestion(3)">Question 3</button>
+    <button class="question-btn" onclick="showQuestion(4)">Question 4</button>
+    <button class="question-btn" onclick="showQuestion(5)">Question 5</button>
+    <button class="question-btn" onclick="showQuestion(6)">Question 6</button>
+    <button class="question-btn" onclick="showQuestion(7)">Question 7</button>
+    <button class="question-btn" onclick="showQuestion(8)">Question 8</button>
+    <button class="question-btn" onclick="showQuestion(9)">Question 9</button>
+    <button class="question-btn" onclick="showQuestion(10)">Question 10</button>
+    <button class="question-btn" onclick="showQuestion(11)">Question 11</button>
+    <button class="question-btn" onclick="showQuestion(12)">Question 12</button>
+    <button class="question-btn" onclick="showQuestion(13)">Question 13</button>
+    <button class="question-btn" onclick="showQuestion(14)">Question 14</button>
+    <button class="question-btn" onclick="showQuestion(15)">Question 15</button>
+    <button class="question-btn" onclick="showQuestion(16)">Question 16</button>
+  </div>
+
+  <div id="question1" class="question active">
+    <h1>You need to create a stylesheet that will cause a set of elements to be surrounded by a solid red line that is 4 pixels wide. The line dimensions should be part of the element's dimensions.</h1>
+    <p class="sub">Click a segment to select it, then click a blank to place it. Click a filled blank to clear it.</p>
+
+    <p class="section-label">Markup segments</p>
+    <div class="chips" id="chips">
+      <div class="chip" data-val="border-style" onclick="selectChip(this)">border-style</div>
+      <div class="chip" data-val="border" onclick="selectChip(this)">border</div>
+      <div class="chip" data-val="outline-style" onclick="selectChip(this)">outline-style</div>
+      <div class="chip" data-val="margin" onclick="selectChip(this)">margin</div>
+      <div class="chip" data-val="div" onclick="selectChip(this)">div</div>
+      <div class="chip" data-val="span" onclick="selectChip(this)">span</div>
+    </div>
+
+    <div class="code-block">
+      <div class="line">
+        <span id="blank1" class="blank" onclick="fillBlank(this, 1)">
+          <span class="num">1</span><span class="val-text"></span>
+        </span>
+      </div>
+      <div class="line"><span class="punct">{</span></div>
+      <div class="line indent">
+        <span id="blank2" class="blank" onclick="fillBlank(this, 2)">
+          <span class="num">2</span><span class="val-text"></span>
+        </span>
+        <span class="punct">:</span>
+        <span class="val">4px solid red</span><span class="punct">;</span>
+      </div>
+      <div class="line"><span class="punct">}</span></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkAnswers()">Check answer</button>
+      <button class="btn" onclick="resetAll()">Reset</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <div id="question2" class="question">
+    <h1>Match each CSS term from the list on the left to its corresponding example on the right.</h1>
+    <p class="sub">Click a CSS term to select it, then click an example to match them. You will receive partial credit for each correct answer.</p>
+
+    <div class="matching-container">
+      <div class="matching-column">
+        <h3>CSS Terms</h3>
+        <div class="css-terms">
+          <div class="term-item" data-term="value" onclick="selectTerm(this)">value</div>
+          <div class="term-item" data-term="property" onclick="selectTerm(this)">property</div>
+          <div class="term-item" data-term="id selector" onclick="selectTerm(this)">id selector</div>
+          <div class="term-item" data-term="declaration" onclick="selectTerm(this)">declaration</div>
+          <div class="term-item" data-term="class selector" onclick="selectTerm(this)">class selector</div>
+        </div>
+      </div>
+      
+      <div class="matching-column">
+        <h3>Examples</h3>
+        <div class="examples">
+          <div class="example-item" data-example="1.8em" onclick="matchExample(this)">
+            1.8em
+            <div class="drop-zone" id="drop-1.8em"></div>
+          </div>
+          <div class="example-item" data-example=".container" onclick="matchExample(this)">
+            .container
+            <div class="drop-zone" id="drop-.container"></div>
+          </div>
+          <div class="example-item" data-example="#container" onclick="matchExample(this)">
+            #container
+            <div class="drop-zone" id="drop-#container"></div>
+          </div>
+          <div class="example-item" data-example="margin-top" onclick="matchExample(this)">
+            margin-top
+            <div class="drop-zone" id="drop-margin-top"></div>
+          </div>
+          <div class="example-item" data-example="font-family: Arial;" onclick="matchExample(this)">
+            font-family: Arial;
+            <div class="drop-zone" id="drop-font-family: Arial;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion2()">Check answers</button>
+      <button class="btn" onclick="resetQuestion2()">Reset</button>
+    </div>
+
+    <div class="result" id="result2"></div>
+  </div>
+
+  <div id="question3" class="question">
+    <h1>You are building a website and want to have three main links called Home, Product Info, and Contact Us. You will create a hierarchy of page elements and revise the stylesheets.</h1>
+    
+    <div class="scenario">
+      <div class="scenario-title">Scenario:</div>
+      You want to apply a style to all elements in a document.
+    </div>
+    
+    <p class="sub">Which type of selector should you use?</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> <code>></code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> <code>+</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> <code>*</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> <code>:</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion3()">Check answer</button>
+      <button class="btn" onclick="resetQuestion3()">Reset</button>
+    </div>
+
+    <div class="result" id="result3"></div>
+  </div>
+
+  <div id="question4" class="question">
+    <h1>You are designing a web page for your company. You need to display an image named sunset.png on the page.</h1>
+    
+    <div class="scenario">
+      <div class="scenario-title">Scenario:</div>
+      If the user's Internet connection is slow, or if the user is visually impaired, you need the text "Sunset Logo" to be displayed or read aloud.
+    </div>
+    
+    <p class="sub">Complete the markup by selecting the correct option from each drop-down list.</p>
+
+    <p class="section-label">Answer Area</p>
+    <div class="dropdown-exercise">
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="dropdown1" onchange="updateDropdown('dropdown1', this.value)">
+          <option value="">Select...</option>
+          <option value="img">img</option>
+          <option value="image">image</option>
+          <option value="picture">picture</option>
+          <option value="src">src</option>
+        </select>
+        <select class="dropdown-select" id="dropdown2" onchange="updateDropdown('dropdown2', this.value)">
+          <option value="">Select...</option>
+          <option value="src">src</option>
+          <option value="href">href</option>
+          <option value="link">link</option>
+          <option value="url">url</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"sunset.png"</span>
+        <select class="dropdown-select" id="dropdown3" onchange="updateDropdown('dropdown3', this.value)">
+          <option value="">Select...</option>
+          <option value="alt">alt</option>
+          <option value="title">title</option>
+          <option value="text">text</option>
+          <option value="label">label</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"</span>
+        <select class="dropdown-select" id="dropdown4" onchange="updateDropdown('dropdown4', this.value)">
+          <option value="">Select...</option>
+          <option value="Sunset Logo">Sunset Logo</option>
+          <option value="sunset.png">sunset.png</option>
+          <option value="Image">Image</option>
+          <option value="Logo">Logo</option>
+        </select>
+        <span class="html-value">"</span>
+        <span class="html-tag">/&gt;</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion4()">Check answers</button>
+      <button class="btn" onclick="resetQuestion4()">Reset</button>
+    </div>
+
+    <div class="result" id="result4"></div>
+  </div>
+
+  <div id="question5" class="question">
+    <h1>You are creating an HTML page that displays blog entries. You want to ensure that your page can be indexed appropriately by search engines.</h1>
+    
+    <div class="scenario">
+      <div class="scenario-title">Task:</div>
+      You need to use the appropriate semantic tags for areas on the page.
+    </div>
+    
+    <p class="sub">Move each semantic tag from the list on the left to its purpose on the right. You will receive partial credit for each correct answer.</p>
+
+    <div class="semantic-matching">
+      <div class="semantic-column">
+        <h3>Semantic Tags</h3>
+        <div class="semantic-tags">
+          <div class="semantic-tag" data-tag="nav" onclick="selectSemanticTag(this)">nav</div>
+          <div class="semantic-tag" data-tag="article" onclick="selectSemanticTag(this)">article</div>
+          <div class="semantic-tag" data-tag="aside" onclick="selectSemanticTag(this)">aside</div>
+        </div>
+      </div>
+      
+      <div class="semantic-column">
+        <h3>Purposes</h3>
+        <div class="purposes">
+          <div class="purpose-item" data-purpose="Displays a blog entry." onclick="matchSemanticPurpose(this)">
+            <div class="purpose-content">
+              Displays a blog entry.
+              <div class="purpose-tag" style="display: none;"></div>
+            </div>
+          </div>
+          <div class="purpose-item" data-purpose="Displays comments about the blog entry." onclick="matchSemanticPurpose(this)">
+            <div class="purpose-content">
+              Displays comments about the blog entry.
+              <div class="purpose-tag" style="display: none;"></div>
+            </div>
+          </div>
+          <div class="purpose-item" data-purpose="Displays hyperlinks to related information on an external site." onclick="matchSemanticPurpose(this)">
+            <div class="purpose-content">
+              Displays hyperlinks to related information on an external site.
+              <div class="purpose-tag" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion5()">Check answers</button>
+      <button class="btn" onclick="resetQuestion5()">Reset</button>
+    </div>
+
+    <div class="result" id="result5"></div>
+  </div>
+
+  <div id="question6" class="question">
+    <h1>You are creating a web page that will display the following table:</h1>
+    
+    <div class="table-preview">
+      <h4>Table Preview</h4>
+      <table class="preview-table">
+        <thead>
+          <tr>
+            <th>Food</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cake</td>
+            <td>$9.99</td>
+          </tr>
+          <tr>
+            <td>Pie</td>
+            <td>$8.99</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="sub">You write the following HTML. Line numbers are for reference only.</p>
+
+    <div class="code-exercise">
+      <div class="code-line">
+        <span class="line-number">01</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;table&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">02</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;TAG1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">03</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;TAG2&gt;</span>
+          <span class="html-text">Food</span>
+          <span class="html-tag">&lt;/TAG2&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">04</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;TAG2&gt;</span>
+          <span class="html-text">Price</span>
+          <span class="html-tag">&lt;/TAG2&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">05</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/TAG1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">06</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;TAG1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">07</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;TAG3&gt;</span>
+          <span class="html-text">Cake</span>
+          <span class="html-tag">&lt;/TAG3&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">08</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;TAG3&gt;</span>
+          <span class="html-text">$9.99</span>
+          <span class="html-tag">&lt;/TAG3&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">09</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/TAG1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">10</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;TAG1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">11</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;TAG3&gt;</span>
+          <span class="html-text">Pie</span>
+          <span class="html-tag">&lt;/TAG3&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">12</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;TAG3&gt;</span>
+          <span class="html-text">$8.99</span>
+          <span class="html-tag">&lt;/TAG3&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">13</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/TAG1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">14</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;/table&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-title">Task:</div>
+      You need to complete the markup. Complete the statements by selecting the correct option from each drop-down list. Note: You will receive partial credit for each correct selection.
+    </div>
+
+    <div class="answer-area">
+      <h4>Answer Area</h4>
+      <div class="tag-question">
+        <span>The opening and closing tags for TAG1 should be:</span>
+        <select class="tag-dropdown" id="tag1" onchange="updateTag('tag1', this.value)">
+          <option value="">Select...</option>
+          <option value="<tr></tr>">tr (table row)</option>
+          <option value="<th></th>">th (table header)</option>
+          <option value="<td></td>">td (table data)</option>
+          <option value="<thead></thead>">thead (table head)</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>The opening and closing tags for TAG2 should be:</span>
+        <select class="tag-dropdown" id="tag2" onchange="updateTag('tag2', this.value)">
+          <option value="">Select...</option>
+          <option value="<tr></tr>">tr (table row)</option>
+          <option value="<th></th>">th (table header)</option>
+          <option value="<td></td>">td (table data)</option>
+          <option value="<thead></thead>">thead (table head)</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>The opening and closing tags for TAG3 should be:</span>
+        <select class="tag-dropdown" id="tag3" onchange="updateTag('tag3', this.value)">
+          <option value="">Select...</option>
+          <option value="<tr></tr>">tr (table row)</option>
+          <option value="<th></th>">th (table header)</option>
+          <option value="<td></td>">td (table data)</option>
+          <option value="<thead></thead>">thead (table head)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion6()">Check answers</button>
+      <button class="btn" onclick="resetQuestion6()">Reset</button>
+    </div>
+
+    <div class="result" id="result6"></div>
+  </div>
+
+  <div id="question7" class="question">
+    <h1>The Jazz Club wants you to add an image to the company home page. The image should be 100 pixels wide by 50 pixels high. The home page should display the company name if the image cannot be loaded.</h1>
+    
+    <p class="sub">Complete the markup by selecting the correct option from each drop-down list.</p>
+
+    <p class="section-label">Answer Area</p>
+    <div class="dropdown-exercise">
+      <div class="dropdown-line">
+        <select class="dropdown-select" id="attr1" onchange="updateAttr('attr1', this.value)">
+          <option value="">Select...</option>
+          <option value="img">img</option>
+          <option value="image">image</option>
+          <option value="picture">picture</option>
+        </select>
+        <select class="dropdown-select" id="attr2" onchange="updateAttr('attr2', this.value)">
+          <option value="">Select...</option>
+          <option value="src">src</option>
+          <option value="href">href</option>
+          <option value="link">link</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"company-logo.jpg"</span>
+        <select class="dropdown-select" id="attr3" onchange="updateAttr('attr3', this.value)">
+          <option value="">Select...</option>
+          <option value="alt">alt</option>
+          <option value="title">title</option>
+          <option value="text">text</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"The Jazz Club"</span>
+        <select class="dropdown-select" id="attr4" onchange="updateAttr('attr4', this.value)">
+          <option value="">Select...</option>
+          <option value="height">height</option>
+          <option value="size">size</option>
+          <option value="h">h</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"50 pixels"</span>
+        <select class="dropdown-select" id="attr5" onchange="updateAttr('attr5', this.value)">
+          <option value="">Select...</option>
+          <option value="width">width</option>
+          <option value="w">w</option>
+          <option value="size">size</option>
+        </select>
+        <span class="html-attr">=</span>
+        <span class="html-value">"100 pixels"</span>
+        <span class="html-tag">/&gt;</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion7()">Check answers</button>
+      <button class="btn" onclick="resetQuestion7()">Reset</button>
+    </div>
+
+    <div class="result" id="result7"></div>
+  </div>
+
+  <div id="question8" class="question">
+    <h1>You are designing a web page for Winter Sports Corporation by using HTML.</h1>
+    
+    <div class="scenario">
+      <div class="scenario-title">Task:</div>
+      You need to create the head section within an existing document.
+    </div>
+    
+    <p class="sub">Which four markup segments should you use in sequence? Move the four markup segments to the answer area and place them in the correct order. Note: There is more than one correct order. You will receive credit for any correct order.</p>
+
+    <div class="ordering-container">
+      <div class="ordering-column">
+        <h3>Markup Segments</h3>
+        <div class="markup-segments" id="segments">
+          <div class="segment-item" data-segment="&lt;head&gt;" onclick="selectSegment(this)">
+            &lt;head&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;header&gt;New Release&lt;/header&gt;" onclick="selectSegment(this)">
+            &lt;header&gt;New Release&lt;/header&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;meta charset=&quot;utf-8&quot;&gt;" onclick="selectSegment(this)">
+            &lt;meta charset="utf-8"&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;h3&gt;Contact Us&lt;/h3&gt;" onclick="selectSegment(this)">
+            &lt;h3&gt;Contact Us&lt;/h3&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;/head&gt;" onclick="selectSegment(this)">
+            &lt;/head&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;title&gt;About Winter Sports Corporation&lt;/title&gt;" onclick="selectSegment(this)">
+            &lt;title&gt;About Winter Sports Corporation&lt;/title&gt;
+          </div>
+        </div>
+      </div>
+      
+      <div class="ordering-column">
+        <h3>Answer Area</h3>
+        <div class="answer-order" id="answerArea">
+          <div class="order-slot" data-position="1" onclick="removeFromOrder(this)">
+            <span class="slot-number">1</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="2" onclick="removeFromOrder(this)">
+            <span class="slot-number">2</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="3" onclick="removeFromOrder(this)">
+            <span class="slot-number">3</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="4" onclick="removeFromOrder(this)">
+            <span class="slot-number">4</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion8()">Check answers</button>
+      <button class="btn" onclick="resetQuestion8()">Reset</button>
+    </div>
+
+    <div class="result" id="result8"></div>
+  </div>
+
+  <div id="question9" class="question">
+    <h1>The CompanyPro home page uses a simple CSS media query to determine how to display the layout elements on different devices. The page must display differently for phone, tablet, and desktop.</h1>
+    
+    <div class="scenario">
+      <div class="scenario-title">Task:</div>
+      You need to complete the media queries for each device. Complete the markup by selecting the correct option from each drop-down list. Note: You will receive partial credit for each correct selection.
+    </div>
+
+    <p class="section-label">Answer Area</p>
+    <div class="code-exercise">
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-text">/* For mobile phones: */</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">nav</span> <span class="punct">{</span><span class="kw">display</span><span class="punct">:</span> <span class="val">none</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">main</span> <span class="punct">{</span><span class="kw">width</span><span class="punct">:</span> <span class="val">100%</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">aside</span> <span class="punct">{</span><span class="kw">display</span><span class="punct">:</span> <span class="val">none</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">@media only screen</span>
+          <select class="dropdown-select" id="media1" onchange="updateMedia('media1', this.value)" style="margin: 0 4px;">
+            <option value="">Select...</option>
+            <option value="and (min-width: 481px)">and (min-width: 481px)</option>
+            <option value="and (min-width: 769px)">and (min-width: 769px)</option>
+            <option value="and (max-width: 480px)">and (max-width: 480px)</option>
+            <option value="and (max-width: 768px)">and (max-width: 768px)</option>
+          </select>
+          <select class="dropdown-select" id="media2" onchange="updateMedia('media2', this.value)" style="margin: 0 4px;">
+            <option value="">Select...</option>
+            <option value="and (min-width: 481px)">and (min-width: 481px)</option>
+            <option value="and (min-width: 769px)">and (min-width: 769px)</option>
+            <option value="and (max-width: 480px)">and (max-width: 480px)</option>
+            <option value="and (max-width: 768px)">and (max-width: 768px)</option>
+          </select>
+          <span class="punct">{</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-text">/* For tablets: */</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">nav</span> <span class="punct">{</span><span class="kw">display</span><span class="punct">:</span> <span class="val">none</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">main</span> <span class="punct">{</span><span class="kw">width</span><span class="punct">:</span> <span class="val">75%</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">aside</span> <span class="punct">{</span><span class="kw">width</span><span class="punct">:</span> <span class="val">25%</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">@media only screen</span>
+          <select class="dropdown-select" id="media3" onchange="updateMedia('media3', this.value)" style="margin: 0 4px;">
+            <option value="">Select...</option>
+            <option value="and (min-width: 481px)">and (min-width: 481px)</option>
+            <option value="and (min-width: 769px)">and (min-width: 769px)</option>
+            <option value="and (max-width: 480px)">and (max-width: 480px)</option>
+            <option value="and (max-width: 768px)">and (max-width: 768px)</option>
+          </select>
+          <span class="punct">{</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-text">/* For desktop: */</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">nav</span> <span class="punct">{</span><span class="kw">display</span><span class="punct">:</span> <span class="val">block</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">main</span> <span class="punct">{</span><span class="kw">width</span><span class="punct">:</span> <span class="val">75%</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">aside</span> <span class="punct">{</span><span class="kw">width</span><span class="punct">:</span> <span class="val">25%</span><span class="punct">;}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="punct">}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion9()">Check answers</button>
+      <button class="btn" onclick="resetQuestion9()">Reset</button>
+    </div>
+
+    <div class="result" id="result9"></div>
+  </div>
+
+  <div id="question10" class="question">
+    <h1>Which value of the CSS position property should you use to position an element relative to the viewport?</h1>
+    
+    <p class="sub">Select the correct answer.</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice10('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> <code>position: fixed;</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice10('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> <code>position: static;</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice10('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> <code>position: absolute;</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice10('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> <code>position: relative;</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion10()">Check answer</button>
+      <button class="btn" onclick="resetQuestion10()">Reset</button>
+    </div>
+
+    <div class="result" id="result10"></div>
+  </div>
+
+  <div id="question11" class="question">
+    <h1>You are creating a home page for CompanyPro. You need to determine which HTML elements will create a simple web page.</h1>
+    
+    <p class="sub">Which six HTML segments should you use in sequence? Move the six HTML segments to the answer area and place them in the correct order.</p>
+
+    <div class="ordering-container">
+      <div class="ordering-column">
+        <h3>HTML Segments</h3>
+        <div class="markup-segments" id="segments11">
+          <div class="segment-item" data-segment="&lt;h2&gt;Welcome to CompanyPro&lt;/h2&gt;" onclick="selectSegment11(this)">
+            &lt;h2&gt;Welcome to CompanyPro&lt;/h2&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;title&gt;CompanyPro&lt;/title&gt;" onclick="selectSegment11(this)">
+            &lt;title&gt;CompanyPro&lt;/title&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;!DOCTYPE html&gt;" onclick="selectSegment11(this)">
+            &lt;!DOCTYPE html&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;html&gt;" onclick="selectSegment11(this)">
+            &lt;html&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;head&gt;&lt;title&gt;CompanyPro&lt;/title&gt;" onclick="selectSegment11(this)">
+            &lt;head&gt;<br/>&nbsp;&nbsp;&lt;title&gt;CompanyPro&lt;/title&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;/head&gt;" onclick="selectSegment11(this)">
+            &lt;/head&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;body&gt;&lt;h1&gt;Welcome to CompanyPro&lt;/h1&gt;&lt;p&gt;Our new store on 1 Main Street is now open.&lt;/p&gt;&lt;/body&gt;" onclick="selectSegment11(this)">
+            &lt;body&gt;<br/>&nbsp;&nbsp;&lt;h1&gt;Welcome to CompanyPro&lt;/h1&gt;<br/>&nbsp;&nbsp;&lt;p&gt;Our new store on 1 Main Street is now open.&lt;/p&gt;<br/>&lt;/body&gt;
+          </div>
+          <div class="segment-item" data-segment="&lt;/html&gt;" onclick="selectSegment11(this)">
+            &lt;/html&gt;
+          </div>
+        </div>
+      </div>
+      
+      <div class="ordering-column">
+        <h3>Answer Area</h3>
+        <div class="answer-order" id="answerArea11">
+          <div class="order-slot" data-position="1" onclick="removeFromOrder11(this)">
+            <span class="slot-number">1</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="2" onclick="removeFromOrder11(this)">
+            <span class="slot-number">2</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="3" onclick="removeFromOrder11(this)">
+            <span class="slot-number">3</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="4" onclick="removeFromOrder11(this)">
+            <span class="slot-number">4</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="5" onclick="removeFromOrder11(this)">
+            <span class="slot-number">5</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+          <div class="order-slot" data-position="6" onclick="removeFromOrder11(this)">
+            <span class="slot-number">6</span>
+            <span class="slot-content">Click a segment to add</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion11()">Check answers</button>
+      <button class="btn" onclick="resetQuestion11()">Reset</button>
+    </div>
+
+    <div class="result" id="result11"></div>
+  </div>
+
+  <div id="question12" class="question">
+    <h1>The HTML validator has flagged the code segment shown below as invalid.</h1>
+    
+    <div class="code-block">
+      <div class="line"><span class="html-tag">&lt;header&gt;</span></div>
+      <div class="line indent"><span class="html-tag">&lt;h1&gt;</span><span class="html-text">Top Songs</span><span class="html-tag">&lt;/h1&gt;</span></div>
+      <div class="line indent"><span class="html-tag">&lt;p&gt;</span><span class="html-text">Please make a selection...</span><span class="html-tag">&lt;/p&gt;</span></div>
+      <div class="line indent"><span class="html-tag">&lt;nav&gt;</span></div>
+      <div class="line indent" style="padding-left: 3rem;">
+        <span class="html-tag">&lt;a</span> <span class="html-attr">href</span><span class="punct">=</span><span class="html-value">"#Pop"</span><span class="html-tag">&gt;</span><span class="html-text">Pop</span><span class="html-tag">&lt;/a&gt;</span>
+      </div>
+      <div class="line indent" style="padding-left: 3rem;">
+        <span class="html-tag">&lt;a</span> <span class="html-attr">href</span><span class="punct">=</span><span class="html-value">"#Jazz"</span><span class="html-tag">&gt;</span><span class="html-text">Jazz</span><span class="html-tag">&lt;/a&gt;</span>
+      </div>
+      <div class="line indent" style="padding-left: 3rem;">
+        <span class="html-tag">&lt;a</span> <span class="html-attr">href</span><span class="punct">=</span><span class="html-value">"#Class"</span><span class="html-tag">&gt;</span><span class="html-text">Classical</span><span class="html-tag">&lt;/a&gt;</span>
+      </div>
+      <div class="line indent"><span class="html-tag">&lt;/header&gt;</span></div>
+      <div class="line"><span class="html-tag">&lt;/nav&gt;</span></div>
+    </div>
+
+    <p class="sub">What is the problem with the code?</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice12('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> The <code>&lt;header&gt;</code> tag is limited to one child.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice12('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> The <code>&lt;nav&gt;</code> tag cannot be inside the <code>&lt;header&gt;</code> tag.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice12('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> The <code>&lt;p&gt;</code> tag cannot be inside the <code>&lt;header&gt;</code> tag.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice12('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> The <code>&lt;/nav&gt;</code> tag should be above the <code>&lt;/header&gt;</code> tag.
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion12()">Check answer</button>
+      <button class="btn" onclick="resetQuestion12()">Reset</button>
+    </div>
+
+    <div class="result" id="result12"></div>
+  </div>
+
+  <div id="question13" class="question">
+    <h1>You define the following styles in a style block:</h1>
+    
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;style&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">#style1</span> <span class="punct">{</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="kw">color</span><span class="punct">:</span> <span class="val">red</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="kw">font-size</span><span class="punct">:</span> <span class="val">30px</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">#style2</span> <span class="punct">{</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="kw">color</span><span class="punct">:</span> <span class="val">blue</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="kw">font-size</span><span class="punct">:</span> <span class="val">40px</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">#style3</span> <span class="punct">{</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="kw">color</span><span class="punct">:</span> <span class="val">green</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="kw">font-size</span><span class="punct">:</span> <span class="val">26px</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;/style&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub">You write the following HTML. Line numbers are included for reference only.</p>
+
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number">01</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;body</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:purple; font-size: 18px;"</span><span class="html-tag">&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">02</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;p</span> <span class="html-attr">id</span><span class="punct">=</span><span class="html-value">"style1"</span><span class="html-tag">&gt;</span><span class="html-text">Fasten your seat belt.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">03</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;p&gt;</span><span class="html-text">Look both ways before pulling out.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">04</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;p</span> <span class="html-attr">id</span><span class="punct">=</span><span class="html-value">"style3"</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:red;"</span><span class="html-tag">&gt;</span><span class="html-text">Watch your speed.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">05</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;p</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:green; font-size: 20px;"</span><span class="html-tag">&gt;</span><span class="html-text">Be ready to stop.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">06</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;p</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:red;"</span><span class="html-tag">&gt;</span><span class="html-text">Study the rules of the road.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">07</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;p</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"font-size: 30px;"</span><span class="html-tag">&gt;</span><span class="html-text">You'll be driving in no time.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">08</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;/body&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-title">Task:</div>
+      Answer the questions by selecting the correct option from each drop-down list. Note: You will receive partial credit for each correct selection.
+    </div>
+
+    <div class="answer-area">
+      <h4>Answer Area</h4>
+      <div class="tag-question">
+        <span>Line 02 displays text in which color?</span>
+        <select class="tag-dropdown" id="q13_1" onchange="updateQ13('q1', this.value)">
+          <option value="">Select...</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="green">green</option>
+          <option value="purple">purple</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>Line 02 displays text in which font size?</span>
+        <select class="tag-dropdown" id="q13_2" onchange="updateQ13('q2', this.value)">
+          <option value="">Select...</option>
+          <option value="18 pixels">18 pixels</option>
+          <option value="20 pixels">20 pixels</option>
+          <option value="26 pixels">26 pixels</option>
+          <option value="30 pixels">30 pixels</option>
+          <option value="40 pixels">40 pixels</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>Line 03 displays text in which color?</span>
+        <select class="tag-dropdown" id="q13_3" onchange="updateQ13('q3', this.value)">
+          <option value="">Select...</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="green">green</option>
+          <option value="purple">purple</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion13()">Check answers</button>
+      <button class="btn" onclick="resetQuestion13()">Reset</button>
+    </div>
+
+    <div class="result" id="result13"></div>
+  </div>
+
+  <div id="question14" class="question">
+    <h1>The external stylesheet named mystyles.css contains the following three rules:</h1>
+    
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">h1</span> <span class="punct">{</span> <span class="kw">color</span><span class="punct">:</span> <span class="val">blue</span><span class="punct">;</span> <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">h2</span> <span class="punct">{</span> <span class="kw">color</span><span class="punct">:</span> <span class="val">purple</span><span class="punct">;</span> <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="kw">p</span> <span class="punct">{</span> <span class="kw">color</span><span class="punct">:</span> <span class="val">grey</span><span class="punct">;</span> <span class="punct">}</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub">The head section of a web page contains the following markup:</p>
+
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;link</span> <span class="html-attr">rel</span><span class="punct">=</span><span class="html-value">"stylesheet"</span> <span class="html-attr">type</span><span class="punct">=</span><span class="html-value">"text/css"</span> <span class="html-attr">href</span><span class="punct">=</span><span class="html-value">"mystyles.css"</span><span class="html-tag">&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;style&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">h1</span> <span class="punct">{</span> <span class="kw">color</span><span class="punct">:</span> <span class="val">maroon</span><span class="punct">;</span> <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">h2</span> <span class="punct">{</span> <span class="kw">color</span><span class="punct">:</span> <span class="val">blue</span><span class="punct">;</span> <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="kw">p</span> <span class="punct">{</span> <span class="kw">color</span><span class="punct">:</span> <span class="val">black</span><span class="punct">;</span> <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;/style&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub">The following elements appear within the body of the web page:</p>
+
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;h1</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:black;"</span><span class="html-tag">&gt;</span><span class="html-text">CompanyPro Presents</span><span class="html-tag">&lt;/h1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;h2&gt;</span><span class="html-text">Rock Climbing 101</span><span class="html-tag">&lt;/h2&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;p</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:blue;"</span><span class="html-tag">&gt;</span><span class="html-text">Coming soon!</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;h1&gt;</span><span class="html-text">Awards</span><span class="html-tag">&lt;/h1&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;p&gt;</span><span class="html-text">Certificates will be awarded in June.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-title">Task:</div>
+      For each statement, select True or False. Note: You will receive partial credit for each correct selection.
+    </div>
+
+    <div class="answer-area">
+      <h4>Answer Area</h4>
+      <div class="tag-question">
+        <span>"Certificates will be awarded in June." is displayed in grey.</span>
+        <select class="tag-dropdown" id="q14_1" onchange="updateQ14('q1', this.value)">
+          <option value="">Select...</option>
+          <option value="True">True</option>
+          <option value="False">False</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>"Coming soon!" is displayed in blue.</span>
+        <select class="tag-dropdown" id="q14_2" onchange="updateQ14('q2', this.value)">
+          <option value="">Select...</option>
+          <option value="True">True</option>
+          <option value="False">False</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>"Awards" is displayed in maroon.</span>
+        <select class="tag-dropdown" id="q14_3" onchange="updateQ14('q3', this.value)">
+          <option value="">Select...</option>
+          <option value="True">True</option>
+          <option value="False">False</option>
+        </select>
+      </div>
+      <div class="tag-question">
+        <span>"Rock Climbing 101" is displayed in purple.</span>
+        <select class="tag-dropdown" id="q14_4" onchange="updateQ14('q4', this.value)">
+          <option value="">Select...</option>
+          <option value="True">True</option>
+          <option value="False">False</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion14()">Check answers</button>
+      <button class="btn" onclick="resetQuestion14()">Reset</button>
+    </div>
+
+    <div class="result" id="result14"></div>
+  </div>
+
+  <div id="question15" class="question">
+    <h1>You are building a website and want to have three links called Home, Product Info, and Contact Us. You have assigned all of these elements to a class called main.</h1>
+    
+    <p class="sub">You need to create a selector that applies to all three links. Which selector should you use?</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice15('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> <code>.main</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice15('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> <code>#main</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice15('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> <code>a[name="main"]</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice15('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> <code>a#main</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion15()">Check answer</button>
+      <button class="btn" onclick="resetQuestion15()">Reset</button>
+    </div>
+
+    <div class="result" id="result15"></div>
+  </div>
+
+  <div id="question16" class="question">
+    <h1>Analyze the following markup:</h1>
+    
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;!DOCTYPE html&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;html</span> <span class="html-attr">lang</span><span class="punct">=</span><span class="html-value">"en"</span><span class="html-tag">&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;head&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;style&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 60px;"></span>
+          <span class="kw">p</span> <span class="punct">{</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 80px;"></span>
+          <span class="kw">color</span><span class="punct">:</span><span class="val">purple</span><span class="punct">;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 60px;"></span>
+          <span class="punct">}</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;/style&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/head&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;body&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;p</span> <span class="html-attr">style</span><span class="punct">=</span><span class="html-value">"color:red; text-decoration:underline;"</span><span class="html-tag">&gt;</span><span class="html-text">First paragraph</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/body&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number"></span>
+        <div class="code-content">
+          <span class="html-tag">&lt;/html&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub">Given the internal style sheet and inline style, which statement is True?</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice16('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> The text "First paragraph" will display purple and not underlined.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice16('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> The text "First paragraph" will display purple and underlined.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice16('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> The text "First paragraph" will display red and not underlined.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice16('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> The text "First paragraph" will display red and underlined.
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion16()">Check answer</button>
+      <button class="btn" onclick="resetQuestion16()">Reset</button>
+    </div>
+
+    <div class="result" id="result16"></div>
+  </div>
+
+  <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
+</div>
+
+<script>
+  let selected = null;
+  let answers = { 1: null, 2: null };
+  let currentQuestion = 1;
+  let question2Answers = {
+    '1.8em': null,
+    '.container': null,
+    '#container': null,
+    'margin-top': null,
+    'font-family: Arial;': null
+  };
+  let question3Answer = null;
+  let question10Answer = null;
+  let question12Answer = null;
+  let question15Answer = null;
+  let question16Answer = null;
+  let question4Answers = {
+    dropdown1: null,
+    dropdown2: null,
+    dropdown3: null,
+    dropdown4: null
+  };
+  let question5Answers = {
+    'Displays a blog entry.': null,
+    'Displays comments about the blog entry.': null,
+    'Displays hyperlinks to related information on an external site.': null
+  };
+  let question6Answers = {
+    tag1: null,
+    tag2: null,
+    tag3: null
+  };
+  let question7Answers = {
+    attr1: null,
+    attr2: null,
+    attr3: null,
+    attr4: null,
+    attr5: null
+  };
+  let question8Order = [];
+  let selectedSegment = null;
+  let question9Answers = {
+    media1: null,
+    media2: null,
+    media3: null
+  };
+  let question11Order = [];
+  let selectedSegment11 = null;
+  let question13Answers = {
+    q1: null,
+    q2: null,
+    q3: null
+  };
+  let question14Answers = {
+    q1: null,
+    q2: null,
+    q3: null,
+    q4: null
+  };
+
+  function selectChip(el) {
+    if (el.classList.contains('used')) return;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    if (selected === el) { selected = null; return; }
+    selected = el;
+    el.classList.add('selected');
+    document.querySelectorAll('.blank:not(.filled)').forEach(b => b.classList.add('ready'));
+  }
+
+  function fillBlank(el, num) {
+    if (!selected) {
+      if (answers[num]) {
+        const val = answers[num];
+        answers[num] = null;
+        el.querySelector('.val-text').textContent = '';
+        el.classList.remove('filled');
+        document.querySelectorAll('.chip').forEach(c => {
+          if (c.dataset.val === val) c.classList.remove('used');
+        });
+        document.getElementById('result').className = 'result';
+      }
+      return;
+    }
+    if (answers[num]) {
+      document.querySelectorAll('.chip').forEach(c => {
+        if (c.dataset.val === answers[num]) c.classList.remove('used');
+      });
+    }
+    answers[num] = selected.dataset.val;
+    el.querySelector('.val-text').textContent = selected.dataset.val;
+    el.classList.add('filled');
+    el.classList.remove('ready');
+    selected.classList.add('used');
+    selected.classList.remove('selected');
+    selected = null;
+    document.querySelectorAll('.blank').forEach(b => b.classList.remove('ready'));
+    document.getElementById('result').className = 'result';
+  }
+
+  function checkAnswers() {
+    const res = document.getElementById('result');
+    if (!answers[1] || !answers[2]) {
+      res.textContent = 'Fill in both blanks before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+    
+    const correct1 = answers[1] === 'div';
+    const correct2 = answers[2] === 'border';
+    
+    // Clear previous styling
+    document.querySelectorAll('.blank').forEach(b => {
+      b.classList.remove('correct-answer', 'wrong-answer');
+    });
+    
+    // Add visual feedback to blanks
+    const blank1 = document.getElementById('blank1');
+    const blank2 = document.getElementById('blank2');
+    
+    if (correct1) {
+      blank1.classList.add('correct-answer');
+    } else {
+      blank1.classList.add('wrong-answer');
+    }
+    
+    if (correct2) {
+      blank2.classList.add('correct-answer');
+    } else {
+      blank2.classList.add('wrong-answer');
+    }
+    
+    // Generate detailed feedback
+    let feedback = '';
+    if (correct1 && correct2) {
+      feedback = '✓ Perfect! Both answers are correct. "div" selects the block elements, and "border" creates a line that\'s part of the element\'s dimensions.';
+      res.className = 'result correct';
+    } else {
+      feedback = 'Results:\n';
+      feedback += `Blank 1 (${answers[1]}): ${correct1 ? '✓ Correct' : '✗ Wrong - should be "div"'}\n`;
+      feedback += `Blank 2 (${answers[2]}): ${correct2 ? '✓ Correct' : '✗ Wrong - should be "border"'}\n\n`;
+      
+      if (!correct1) {
+        feedback += 'Hint for blank 1: You need a selector that targets block-level elements.\n';
+      }
+      if (!correct2) {
+        feedback += 'Hint for blank 2: You need a property that creates a line as part of the element\'s dimensions (not outside like outline).';
+      }
+      res.className = 'result wrong';
+    }
+    
+    res.textContent = feedback;
+  }
+
+  function resetAll() {
+    answers = { 1: null, 2: null };
+    selected = null;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('used', 'selected'));
+    document.querySelectorAll('.blank').forEach(b => {
+      b.querySelector('.val-text').textContent = '';
+      b.classList.remove('filled', 'ready', 'correct-answer', 'wrong-answer');
+    });
+    document.getElementById('result').className = 'result';
+  }
+
+  // Question navigation
+  function showQuestion(num) {
+    currentQuestion = num;
+    document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+    document.querySelectorAll('.question-btn').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(`question${num}`).classList.add('active');
+    document.querySelectorAll('.question-btn')[num - 1].classList.add('active');
+  }
+
+  // Question 2 functions
+  let selectedTerm = null;
+
+  function selectTerm(el) {
+    if (el.classList.contains('used')) return;
+    document.querySelectorAll('.term-item').forEach(t => t.classList.remove('selected'));
+    if (selectedTerm === el) { 
+      selectedTerm = null; 
+      document.querySelectorAll('.drop-zone').forEach(d => d.classList.remove('ready'));
+      return; 
+    }
+    selectedTerm = el;
+    el.classList.add('selected');
+    document.querySelectorAll('.drop-zone:not(.filled)').forEach(d => d.classList.add('ready'));
+  }
+
+  function matchExample(el) {
+    const example = el.dataset.example;
+    const dropZone = document.getElementById(`drop-${example}`);
+    
+    if (!selectedTerm) {
+      // Clear existing match if clicked
+      if (question2Answers[example]) {
+        const termValue = question2Answers[example];
+        question2Answers[example] = null;
+        dropZone.textContent = '';
+        dropZone.classList.remove('filled');
+        el.classList.remove('matched', 'correct-match', 'wrong-match');
+        
+        // Re-enable the term
+        document.querySelectorAll('.term-item').forEach(t => {
+          if (t.dataset.term === termValue) {
+            t.classList.remove('used');
+          }
+        });
+        
+        document.getElementById('result2').className = 'result';
+      }
+      return;
+    }
+
+    // Clear previous match for this example
+    if (question2Answers[example]) {
+      const oldTerm = question2Answers[example];
+      document.querySelectorAll('.term-item').forEach(t => {
+        if (t.dataset.term === oldTerm) {
+          t.classList.remove('used');
+        }
+      });
+    }
+
+    // Set new match
+    question2Answers[example] = selectedTerm.dataset.term;
+    dropZone.textContent = selectedTerm.dataset.term;
+    dropZone.classList.add('filled');
+    dropZone.classList.remove('ready');
+    el.classList.add('matched');
+    el.classList.remove('correct-match', 'wrong-match');
+    selectedTerm.classList.add('used');
+    selectedTerm.classList.remove('selected');
+    selectedTerm = null;
+    
+    document.querySelectorAll('.drop-zone').forEach(d => d.classList.remove('ready'));
+    document.getElementById('result2').className = 'result';
+  }
+
+  function checkQuestion2() {
+    const res = document.getElementById('result2');
+    
+    // Correct answers
+    const correctAnswers = {
+      '1.8em': 'value',
+      '.container': 'class selector',
+      '#container': 'id selector',
+      'margin-top': 'property',
+      'font-family: Arial;': 'declaration'
+    };
+
+    let correctCount = 0;
+    let totalAnswered = 0;
+    let feedback = 'Results:\n';
+
+    // Check each answer and provide visual feedback
+    Object.keys(correctAnswers).forEach(example => {
+      const userAnswer = question2Answers[example];
+      const correctAnswer = correctAnswers[example];
+      const exampleEl = document.querySelector(`[data-example="${example}"]`);
+      
+      exampleEl.classList.remove('correct-match', 'wrong-match');
+      
+      if (userAnswer) {
+        totalAnswered++;
+        if (userAnswer === correctAnswer) {
+          correctCount++;
+          exampleEl.classList.add('correct-match');
+          feedback += `${example}: ✓ Correct (${userAnswer})\n`;
+        } else {
+          exampleEl.classList.add('wrong-match');
+          feedback += `${example}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+        }
+      } else {
+        feedback += `${example}: Not answered - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    if (totalAnswered === 0) {
+      res.textContent = 'Please match at least one term before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    feedback += `\nScore: ${correctCount}/${Object.keys(correctAnswers).length} correct`;
+    
+    if (correctCount === Object.keys(correctAnswers).length) {
+      res.textContent = `✓ Perfect! All ${correctCount} matches are correct!`;
+      res.className = 'result correct';
+    } else {
+      res.textContent = feedback;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion2() {
+    question2Answers = {
+      '1.8em': null,
+      '.container': null,
+      '#container': null,
+      'margin-top': null,
+      'font-family: Arial;': null
+    };
+    selectedTerm = null;
+    
+    document.querySelectorAll('.term-item').forEach(t => {
+      t.classList.remove('used', 'selected');
+    });
+    
+    document.querySelectorAll('.example-item').forEach(e => {
+      e.classList.remove('matched', 'correct-match', 'wrong-match');
+    });
+    
+    document.querySelectorAll('.drop-zone').forEach(d => {
+      d.textContent = '';
+      d.classList.remove('filled', 'ready');
+    });
+    
+    document.getElementById('result2').className = 'result';
+  }
+
+  // Question 3 functions
+  function selectChoice(choice) {
+    question3Answer = choice;
+    document.querySelectorAll('.choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`[data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result3').className = 'result';
+  }
+
+  function checkQuestion3() {
+    const res = document.getElementById('result3');
+    
+    if (!question3Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('.choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'C';
+    const selectedOption = document.querySelector(`[data-choice="${question3Answer}"]`);
+    const correctOption = document.querySelector(`[data-choice="${correctAnswer}"]`);
+
+    if (question3Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! The universal selector (*) applies styles to all elements in a document. It\'s the most comprehensive selector that targets every single element on the page.';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question3Answer) {
+        case 'A':
+          explanation += 'The ">" is a child combinator that selects direct children of an element, not all elements.';
+          break;
+        case 'B':
+          explanation += 'The "+" is an adjacent sibling combinator that selects the next sibling element, not all elements.';
+          break;
+        case 'D':
+          explanation += 'The ":" is used for pseudo-classes and pseudo-elements, not for selecting all elements.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is C. The universal selector (*) targets all elements in the document.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion3() {
+    question3Answer = null;
+    document.querySelectorAll('.choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result3').className = 'result';
+  }
+
+  // Question 4 functions
+  function updateDropdown(dropdownId, value) {
+    question4Answers[dropdownId] = value;
+    document.getElementById('result4').className = 'result';
+    
+    // Clear previous styling
+    document.getElementById(dropdownId).classList.remove('correct', 'wrong');
+  }
+
+  function checkQuestion4() {
+    const res = document.getElementById('result4');
+    
+    // Check if all dropdowns are filled
+    const allFilled = Object.values(question4Answers).every(val => val !== null && val !== '');
+    if (!allFilled) {
+      res.textContent = 'Please complete all dropdown selections before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct answers
+    const correctAnswers = {
+      dropdown1: 'img',
+      dropdown2: 'src', 
+      dropdown3: 'alt',
+      dropdown4: 'Sunset Logo'
+    };
+
+    let correctCount = 0;
+    let feedback = 'Results:\n';
+
+    // Check each dropdown and provide visual feedback
+    Object.keys(correctAnswers).forEach(dropdownId => {
+      const userAnswer = question4Answers[dropdownId];
+      const correctAnswer = correctAnswers[dropdownId];
+      const dropdown = document.getElementById(dropdownId);
+      
+      dropdown.classList.remove('correct', 'wrong');
+      
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+        dropdown.classList.add('correct');
+        feedback += `${getDropdownLabel(dropdownId)}: ✓ Correct (${userAnswer})\n`;
+      } else {
+        dropdown.classList.add('wrong');
+        feedback += `${getDropdownLabel(dropdownId)}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    feedback += `\nScore: ${correctCount}/4 correct\n\n`;
+
+    if (correctCount === 4) {
+      feedback = '✓ Perfect! You\'ve correctly completed the HTML img tag:\n';
+      feedback += '• "img" is the HTML element for displaying images\n';
+      feedback += '• "src" specifies the image file path\n';
+      feedback += '• "alt" provides alternative text for accessibility\n';
+      feedback += '• "Sunset Logo" is descriptive alt text for screen readers';
+      res.className = 'result correct';
+    } else {
+      feedback += 'Explanation:\n';
+      feedback += '• Use <img> tag to display images in HTML\n';
+      feedback += '• The "src" attribute specifies the image source file\n';
+      feedback += '• The "alt" attribute provides alternative text for accessibility\n';
+      feedback += '• Alt text should be descriptive, not just the filename';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function getDropdownLabel(dropdownId) {
+    const labels = {
+      dropdown1: 'HTML Element',
+      dropdown2: 'Source Attribute',
+      dropdown3: 'Alt Attribute', 
+      dropdown4: 'Alt Text Value'
+    };
+    return labels[dropdownId];
+  }
+
+  function resetQuestion4() {
+    question4Answers = {
+      dropdown1: null,
+      dropdown2: null,
+      dropdown3: null,
+      dropdown4: null
+    };
+    
+    document.querySelectorAll('#question4 .dropdown-select').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+    
+    document.getElementById('result4').className = 'result';
+  }
+
+  // Question 5 functions
+  let selectedSemanticTag = null;
+
+  function selectSemanticTag(el) {
+    if (el.classList.contains('used')) return;
+    document.querySelectorAll('.semantic-tag').forEach(t => t.classList.remove('selected'));
+    if (selectedSemanticTag === el) { 
+      selectedSemanticTag = null; 
+      return; 
+    }
+    selectedSemanticTag = el;
+    el.classList.add('selected');
+  }
+
+  function matchSemanticPurpose(el) {
+    const purpose = el.dataset.purpose;
+    const purposeTag = el.querySelector('.purpose-tag');
+    
+    if (!selectedSemanticTag) {
+      // Clear existing match if clicked
+      if (question5Answers[purpose]) {
+        const tagValue = question5Answers[purpose];
+        question5Answers[purpose] = null;
+        purposeTag.textContent = '';
+        purposeTag.style.display = 'none';
+        el.classList.remove('filled', 'correct-semantic', 'wrong-semantic');
+        
+        // Re-enable the tag
+        document.querySelectorAll('.semantic-tag').forEach(t => {
+          if (t.dataset.tag === tagValue) {
+            t.classList.remove('used');
+          }
+        });
+        
+        document.getElementById('result5').className = 'result';
+      }
+      return;
+    }
+
+    // Clear previous match for this purpose
+    if (question5Answers[purpose]) {
+      const oldTag = question5Answers[purpose];
+      document.querySelectorAll('.semantic-tag').forEach(t => {
+        if (t.dataset.tag === oldTag) {
+          t.classList.remove('used');
+        }
+      });
+    }
+
+    // Set new match
+    question5Answers[purpose] = selectedSemanticTag.dataset.tag;
+    purposeTag.textContent = selectedSemanticTag.dataset.tag;
+    purposeTag.style.display = 'inline-block';
+    el.classList.add('filled');
+    el.classList.remove('correct-semantic', 'wrong-semantic');
+    selectedSemanticTag.classList.add('used');
+    selectedSemanticTag.classList.remove('selected');
+    selectedSemanticTag = null;
+    
+    document.getElementById('result5').className = 'result';
+  }
+
+  function checkQuestion5() {
+    const res = document.getElementById('result5');
+    
+    // Correct answers
+    const correctAnswers = {
+      'Displays a blog entry.': 'article',
+      'Displays comments about the blog entry.': 'aside',
+      'Displays hyperlinks to related information on an external site.': 'nav'
+    };
+
+    let correctCount = 0;
+    let totalAnswered = 0;
+    let feedback = 'Results:\n';
+
+    // Check each answer and provide visual feedback
+    Object.keys(correctAnswers).forEach(purpose => {
+      const userAnswer = question5Answers[purpose];
+      const correctAnswer = correctAnswers[purpose];
+      const purposeEl = document.querySelector(`[data-purpose="${purpose}"]`);
+      
+      purposeEl.classList.remove('correct-semantic', 'wrong-semantic');
+      
+      if (userAnswer) {
+        totalAnswered++;
+        if (userAnswer === correctAnswer) {
+          correctCount++;
+          purposeEl.classList.add('correct-semantic');
+          feedback += `"${purpose}" ✓ Correct (${userAnswer})\n`;
+        } else {
+          purposeEl.classList.add('wrong-semantic');
+          feedback += `"${purpose}" ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+        }
+      } else {
+        feedback += `"${purpose}" Not answered - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    if (totalAnswered === 0) {
+      res.textContent = 'Please match at least one tag before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    feedback += `\nScore: ${correctCount}/${Object.keys(correctAnswers).length} correct\n\n`;
+    
+    if (correctCount === Object.keys(correctAnswers).length) {
+      feedback = `✓ Perfect! All ${correctCount} semantic tags are correctly matched!\n\n`;
+      feedback += 'Explanation:\n';
+      feedback += '• <article> represents standalone content like blog posts\n';
+      feedback += '• <aside> contains supplementary content like comments or sidebars\n';
+      feedback += '• <nav> contains navigation links to other pages or sections';
+      res.className = 'result correct';
+    } else {
+      feedback += 'Explanation:\n';
+      feedback += '• <article>: Use for main content like blog posts, news articles\n';
+      feedback += '• <aside>: Use for supplementary content like comments, sidebars\n';
+      feedback += '• <nav>: Use for navigation links and menus\n';
+      feedback += 'These semantic tags help search engines understand your content structure.';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function resetQuestion5() {
+    question5Answers = {
+      'Displays a blog entry.': null,
+      'Displays comments about the blog entry.': null,
+      'Displays hyperlinks to related information on an external site.': null
+    };
+    selectedSemanticTag = null;
+    
+    document.querySelectorAll('.semantic-tag').forEach(t => {
+      t.classList.remove('used', 'selected');
+    });
+    
+    document.querySelectorAll('.purpose-item').forEach(p => {
+      p.classList.remove('filled', 'correct-semantic', 'wrong-semantic');
+      const tag = p.querySelector('.purpose-tag');
+      tag.textContent = '';
+      tag.style.display = 'none';
+    });
+    
+    document.getElementById('result5').className = 'result';
+  }
+
+  // Question 6 functions
+  function updateTag(tagId, value) {
+    question6Answers[tagId] = value;
+    document.getElementById('result6').className = 'result';
+    
+    // Clear previous styling
+    document.getElementById(tagId).classList.remove('correct', 'wrong');
+  }
+
+  function checkQuestion6() {
+    const res = document.getElementById('result6');
+    
+    // Check if all dropdowns are filled
+    const allFilled = Object.values(question6Answers).every(val => val !== null && val !== '');
+    if (!allFilled) {
+      res.textContent = 'Please complete all dropdown selections before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct answers
+    const correctAnswers = {
+      tag1: '<tr></tr>',
+      tag2: '<th></th>',
+      tag3: '<td></td>'
+    };
+
+    let correctCount = 0;
+    let feedback = 'Results:\n';
+
+    // Check each dropdown and provide visual feedback
+    Object.keys(correctAnswers).forEach(tagId => {
+      const userAnswer = question6Answers[tagId];
+      const correctAnswer = correctAnswers[tagId];
+      const dropdown = document.getElementById(tagId);
+      
+      dropdown.classList.remove('correct', 'wrong');
+      
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+        dropdown.classList.add('correct');
+        feedback += `${getTagLabel(tagId)}: ✓ Correct (${userAnswer})\n`;
+      } else {
+        dropdown.classList.add('wrong');
+        feedback += `${getTagLabel(tagId)}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    feedback += `\nScore: ${correctCount}/3 correct\n\n`;
+
+    if (correctCount === 3) {
+      feedback = '✓ Perfect! You\'ve correctly identified all HTML table tags:\n\n';
+      feedback += 'Table Structure:\n';
+      feedback += '• <tr> creates table rows (TAG1)\n';
+      feedback += '• <th> creates table header cells (TAG2)\n';
+      feedback += '• <td> creates table data cells (TAG3)\n\n';
+      feedback += 'This creates a proper semantic table structure with headers and data cells.';
+      res.className = 'result correct';
+    } else {
+      feedback += 'HTML Table Structure:\n';
+      feedback += '• <tr> (table row) - Contains a row of cells\n';
+      feedback += '• <th> (table header) - Header cells, typically bold and centered\n';
+      feedback += '• <td> (table data) - Regular data cells\n';
+      feedback += '• <table> wraps the entire table structure\n\n';
+      feedback += 'Remember: Headers use <th>, data uses <td>, both go inside <tr> rows.';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function getTagLabel(tagId) {
+    const labels = {
+      tag1: 'TAG1 (Table Rows)',
+      tag2: 'TAG2 (Header Cells)',
+      tag3: 'TAG3 (Data Cells)'
+    };
+    return labels[tagId];
+  }
+
+  function resetQuestion6() {
+    question6Answers = {
+      tag1: null,
+      tag2: null,
+      tag3: null
+    };
+    
+    document.querySelectorAll('#question6 .tag-dropdown').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+    
+    document.getElementById('result6').className = 'result';
+  }
+
+  // Question 7 functions
+  function updateAttr(attrId, value) {
+    question7Answers[attrId] = value;
+    document.getElementById('result7').className = 'result';
+    
+    // Clear previous styling
+    document.getElementById(attrId).classList.remove('correct', 'wrong');
+  }
+
+  function checkQuestion7() {
+    const res = document.getElementById('result7');
+    
+    // Check if all dropdowns are filled
+    const allFilled = Object.values(question7Answers).every(val => val !== null && val !== '');
+    if (!allFilled) {
+      res.textContent = 'Please complete all dropdown selections before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct answers
+    const correctAnswers = {
+      attr1: 'img',
+      attr2: 'src',
+      attr3: 'alt',
+      attr4: 'height',
+      attr5: 'width'
+    };
+
+    let correctCount = 0;
+    let feedback = 'Results:\n';
+
+    // Check each dropdown and provide visual feedback
+    Object.keys(correctAnswers).forEach(attrId => {
+      const userAnswer = question7Answers[attrId];
+      const correctAnswer = correctAnswers[attrId];
+      const dropdown = document.getElementById(attrId);
+      
+      dropdown.classList.remove('correct', 'wrong');
+      
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+        dropdown.classList.add('correct');
+        feedback += `${getAttrLabel(attrId)}: ✓ Correct (${userAnswer})\n`;
+      } else {
+        dropdown.classList.add('wrong');
+        feedback += `${getAttrLabel(attrId)}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    feedback += `\nScore: ${correctCount}/5 correct\n\n`;
+
+    if (correctCount === 5) {
+      feedback = '✓ Perfect! You\'ve correctly completed the img tag:\n\n';
+      feedback += 'Image Tag Attributes:\n';
+      feedback += '• <img> - HTML element for displaying images\n';
+      feedback += '• src - specifies the image file path\n';
+      feedback += '• alt - provides alternative text for accessibility\n';
+      feedback += '• height - sets the image height in pixels\n';
+      feedback += '• width - sets the image width in pixels\n\n';
+      feedback += 'This creates a properly sized, accessible image with fallback text.';
+      res.className = 'result correct';
+    } else {
+      feedback += 'Image Tag Attributes:\n';
+      feedback += '• <img> - the HTML element for images\n';
+      feedback += '• src - the source/path of the image file\n';
+      feedback += '• alt - alternative text shown if image fails to load\n';
+      feedback += '• height - image height (in pixels)\n';
+      feedback += '• width - image width (in pixels)\n\n';
+      feedback += 'Remember: Always include alt text for accessibility and fallback display.';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function getAttrLabel(attrId) {
+    const labels = {
+      attr1: 'HTML Element',
+      attr2: 'Source Attribute',
+      attr3: 'Alt Attribute',
+      attr4: 'Height Attribute',
+      attr5: 'Width Attribute'
+    };
+    return labels[attrId];
+  }
+
+  function resetQuestion7() {
+    question7Answers = {
+      attr1: null,
+      attr2: null,
+      attr3: null,
+      attr4: null,
+      attr5: null
+    };
+    
+    document.querySelectorAll('#question7 .dropdown-select').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+    
+    document.getElementById('result7').className = 'result';
+  }
+
+  // Question 8 functions
+  function selectSegment(el) {
+    if (el.classList.contains('used')) return;
+    
+    document.querySelectorAll('.segment-item').forEach(s => s.classList.remove('selected'));
+    if (selectedSegment === el) {
+      selectedSegment = null;
+      return;
+    }
+    
+    selectedSegment = el;
+    el.classList.add('selected');
+  }
+
+  function removeFromOrder(slot) {
+    const position = slot.dataset.position;
+    const content = slot.querySelector('.slot-content');
+    
+    if (question8Order[position - 1]) {
+      const segment = question8Order[position - 1];
+      question8Order[position - 1] = null;
+      
+      // Re-enable the segment
+      document.querySelectorAll('.segment-item').forEach(s => {
+        if (s.dataset.segment === segment) {
+          s.classList.remove('used');
+        }
+      });
+      
+      content.textContent = 'Click a segment to add';
+      slot.classList.remove('filled');
+      document.getElementById('result8').className = 'result';
+    }
+  }
+
+  // Override slot click to add segment
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.order-slot') && selectedSegment) {
+      const slot = e.target.closest('.order-slot');
+      const position = slot.dataset.position;
+      const content = slot.querySelector('.slot-content');
+      
+      // Remove previous segment if exists
+      if (question8Order[position - 1]) {
+        document.querySelectorAll('.segment-item').forEach(s => {
+          if (s.dataset.segment === question8Order[position - 1]) {
+            s.classList.remove('used');
+          }
+        });
+      }
+      
+      // Add new segment
+      question8Order[position - 1] = selectedSegment.dataset.segment;
+      content.textContent = selectedSegment.dataset.segment;
+      slot.classList.add('filled');
+      selectedSegment.classList.add('used');
+      selectedSegment.classList.remove('selected');
+      selectedSegment = null;
+      
+      document.getElementById('result8').className = 'result';
+    }
+  });
+
+  function checkQuestion8() {
+    const res = document.getElementById('result8');
+    
+    // Check if all slots are filled
+    const allFilled = question8Order.every(item => item !== null && item !== undefined);
+    if (!allFilled) {
+      res.textContent = 'Please fill all four positions before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Valid orders for HTML head section
+    // Correct order: <head>, <meta charset>, <title>, </head>
+    const validOrders = [
+      ['<head>', '<meta charset="utf-8">', '<title>About Winter Sports Corporation</title>', '</head>']
+    ];
+
+    const userOrder = question8Order.map(item => item.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"'));
+    const isCorrect = validOrders.some(order => 
+      JSON.stringify(order) === JSON.stringify(userOrder)
+    );
+
+    // Clear previous styling
+    document.querySelectorAll('.order-slot').forEach(slot => {
+      slot.classList.remove('correct-order', 'wrong-order');
+    });
+
+    if (isCorrect) {
+      document.querySelectorAll('.order-slot').forEach(slot => {
+        slot.classList.add('correct-order');
+      });
+      res.textContent = '✓ Correct! You\'ve properly ordered the HTML head section:\n\n';
+      res.textContent += 'HTML Head Structure:\n';
+      res.textContent += '1. <head> - Opens the head section\n';
+      res.textContent += '2. <meta charset="utf-8"> - Specifies character encoding\n';
+      res.textContent += '3. <title>About Winter Sports Corporation</title> - Sets the page title\n';
+      res.textContent += '4. </head> - Closes the head section\n\n';
+      res.textContent += 'The head section contains metadata and configuration for the page.';
+      res.className = 'result correct';
+    } else {
+      document.querySelectorAll('.order-slot').forEach(slot => {
+        slot.classList.add('wrong-order');
+      });
+      res.textContent = '✗ Incorrect order. The proper HTML head section should be:\n\n';
+      res.textContent += 'Correct Structure:\n';
+      res.textContent += '1. <head> - Opening head tag\n';
+      res.textContent += '2. <meta charset="utf-8"> - Character encoding (should be early)\n';
+      res.textContent += '3. <title>About Winter Sports Corporation</title> - Page title\n';
+      res.textContent += '4. </head> - Closing head tag\n\n';
+      res.textContent += 'Note: The head section must start with <head> and end with </head>.';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion8() {
+    question8Order = [];
+    selectedSegment = null;
+    
+    document.querySelectorAll('.segment-item').forEach(s => {
+      s.classList.remove('used', 'selected');
+    });
+    
+    document.querySelectorAll('.order-slot').forEach(slot => {
+      slot.classList.remove('filled', 'correct-order', 'wrong-order');
+      slot.querySelector('.slot-content').textContent = 'Click a segment to add';
+    });
+    
+    document.getElementById('result8').className = 'result';
+  }
+
+  // Question 9 functions
+  function updateMedia(mediaId, value) {
+    question9Answers[mediaId] = value;
+    document.getElementById('result9').className = 'result';
+    
+    // Clear previous styling
+    document.getElementById(mediaId).classList.remove('correct', 'wrong');
+  }
+
+  function checkQuestion9() {
+    const res = document.getElementById('result9');
+    
+    // Check if all dropdowns are filled (only 3 dropdowns)
+    const requiredAnswers = {
+      media1: question9Answers.media1,
+      media2: question9Answers.media2,
+      media3: question9Answers.media3
+    };
+    
+    const allFilled = Object.values(requiredAnswers).every(val => val !== null && val !== '');
+    if (!allFilled) {
+      res.textContent = 'Please complete all dropdown selections before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct answers for media queries
+    const correctAnswers = {
+      media1: 'and (min-width: 481px)',
+      media2: 'and (max-width: 768px)',
+      media3: 'and (min-width: 769px)'
+    };
+
+    let correctCount = 0;
+    let feedback = 'Results:\n';
+
+    // Check each dropdown and provide visual feedback
+    Object.keys(correctAnswers).forEach(mediaId => {
+      const userAnswer = question9Answers[mediaId];
+      const correctAnswer = correctAnswers[mediaId];
+      const dropdown = document.getElementById(mediaId);
+      
+      dropdown.classList.remove('correct', 'wrong');
+      
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+        dropdown.classList.add('correct');
+        feedback += `${getMediaLabel(mediaId)}: ✓ Correct (${userAnswer})\n`;
+      } else {
+        dropdown.classList.add('wrong');
+        feedback += `${getMediaLabel(mediaId)}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    feedback += `\nScore: ${correctCount}/3 correct\n\n`;
+
+    if (correctCount === 3) {
+      feedback = '✓ Perfect! You\'ve correctly completed the CSS media queries:\n\n';
+      feedback += 'Responsive Design Breakpoints:\n';
+      feedback += '• Mobile (default): No media query needed, base styles\n';
+      feedback += '• Tablet: @media only screen and (min-width: 481px) and (max-width: 768px)\n';
+      feedback += '  - Applies to screens 481px to 768px wide\n';
+      feedback += '• Desktop: @media only screen and (min-width: 769px)\n';
+      feedback += '  - Applies to screens 769px and wider\n\n';
+      feedback += 'This creates a mobile-first responsive design.';
+      res.className = 'result correct';
+    } else {
+      feedback += 'CSS Media Query Breakpoints:\n';
+      feedback += '• Mobile phones: Base styles (no media query)\n';
+      feedback += '• Tablets: min-width: 481px AND max-width: 768px\n';
+      feedback += '  - Targets screens between 481px and 768px\n';
+      feedback += '• Desktop: min-width: 769px\n';
+      feedback += '  - Targets screens 769px and larger\n\n';
+      feedback += 'Remember: Use min-width for mobile-first approach, combine conditions with "and".';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function getMediaLabel(mediaId) {
+    const labels = {
+      media1: 'Tablet Query (First Condition)',
+      media2: 'Tablet Query (Second Condition)',
+      media3: 'Desktop Query'
+    };
+    return labels[mediaId];
+  }
+
+  function resetQuestion9() {
+    question9Answers = {
+      media1: null,
+      media2: null,
+      media3: null
+    };
+    
+    document.querySelectorAll('#question9 .dropdown-select').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+    
+    document.getElementById('result9').className = 'result';
+  }
+
+  // Question 10 functions
+  function selectChoice10(choice) {
+    question10Answer = choice;
+    document.querySelectorAll('#question10 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question10 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result10').className = 'result';
+  }
+
+  function checkQuestion10() {
+    const res = document.getElementById('result10');
+    
+    if (!question10Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question10 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'A';
+    const selectedOption = document.querySelector(`#question10 [data-choice="${question10Answer}"]`);
+    const correctOption = document.querySelector(`#question10 [data-choice="${correctAnswer}"]`);
+
+    if (question10Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! position: fixed; positions an element relative to the viewport.\n\n';
+      res.textContent += 'CSS Position Values:\n';
+      res.textContent += '• fixed - Positioned relative to the viewport (stays in place when scrolling)\n';
+      res.textContent += '• static - Default positioning (normal document flow)\n';
+      res.textContent += '• absolute - Positioned relative to nearest positioned ancestor\n';
+      res.textContent += '• relative - Positioned relative to its normal position\n\n';
+      res.textContent += 'Fixed positioning is commonly used for sticky headers, navigation bars, and floating action buttons.';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question10Answer) {
+        case 'B':
+          explanation += 'position: static; is the default positioning and does not position relative to the viewport.';
+          break;
+        case 'C':
+          explanation += 'position: absolute; positions an element relative to its nearest positioned ancestor, not the viewport.';
+          break;
+        case 'D':
+          explanation += 'position: relative; positions an element relative to its normal position in the document flow, not the viewport.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is A. position: fixed; positions an element relative to the viewport, meaning it stays in the same place even when the page is scrolled.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion10() {
+    question10Answer = null;
+    document.querySelectorAll('#question10 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result10').className = 'result';
+  }
+
+  // Question 11 functions
+  function selectSegment11(el) {
+    if (el.classList.contains('used')) return;
+    
+    document.querySelectorAll('#segments11 .segment-item').forEach(s => s.classList.remove('selected'));
+    if (selectedSegment11 === el) {
+      selectedSegment11 = null;
+      return;
+    }
+    
+    selectedSegment11 = el;
+    el.classList.add('selected');
+  }
+
+  function removeFromOrder11(slot) {
+    const position = slot.dataset.position;
+    const content = slot.querySelector('.slot-content');
+    
+    if (question11Order[position - 1]) {
+      const segment = question11Order[position - 1];
+      question11Order[position - 1] = null;
+      
+      // Re-enable the segment
+      document.querySelectorAll('#segments11 .segment-item').forEach(s => {
+        if (s.dataset.segment === segment) {
+          s.classList.remove('used');
+        }
+      });
+      
+      content.textContent = 'Click a segment to add';
+      slot.classList.remove('filled');
+      document.getElementById('result11').className = 'result';
+    }
+  }
+
+  // Add click handler for question 11 slots
+  document.addEventListener('click', function(e) {
+    const slot = e.target.closest('#answerArea11 .order-slot');
+    if (slot && selectedSegment11) {
+      const position = slot.dataset.position;
+      const content = slot.querySelector('.slot-content');
+      
+      // Remove previous segment if exists
+      if (question11Order[position - 1]) {
+        document.querySelectorAll('#segments11 .segment-item').forEach(s => {
+          if (s.dataset.segment === question11Order[position - 1]) {
+            s.classList.remove('used');
+          }
+        });
+      }
+      
+      // Add new segment
+      question11Order[position - 1] = selectedSegment11.dataset.segment;
+      content.textContent = selectedSegment11.dataset.segment;
+      slot.classList.add('filled');
+      selectedSegment11.classList.add('used');
+      selectedSegment11.classList.remove('selected');
+      selectedSegment11 = null;
+      
+      document.getElementById('result11').className = 'result';
+    }
+  });
+
+  function checkQuestion11() {
+    const res = document.getElementById('result11');
+    
+    // Check if all slots are filled
+    const allFilled = question11Order.every(item => item !== null && item !== undefined);
+    if (!allFilled) {
+      res.textContent = 'Please fill all six positions before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct order for HTML document structure
+    const correctOrder = [
+      '<!DOCTYPE html>',
+      '<html>',
+      '<head><title>CompanyPro</title>',
+      '</head>',
+      '<body><h1>Welcome to CompanyPro</h1><p>Our new store on 1 Main Street is now open.</p></body>',
+      '</html>'
+    ];
+
+    const userOrder = question11Order.map(item => item.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"'));
+    
+    // Check if user order matches correct order
+    const isCorrect = JSON.stringify(userOrder) === JSON.stringify(correctOrder);
+
+    // Clear previous styling
+    document.querySelectorAll('#answerArea11 .order-slot').forEach(slot => {
+      slot.classList.remove('correct-order', 'wrong-order');
+    });
+
+    if (isCorrect) {
+      document.querySelectorAll('#answerArea11 .order-slot').forEach(slot => {
+        slot.classList.add('correct-order');
+      });
+      res.textContent = '✓ Correct! You\'ve properly structured an HTML document:\n\n';
+      res.textContent += 'HTML Document Structure:\n';
+      res.textContent += '1. <!DOCTYPE html> - Declares the document type\n';
+      res.textContent += '2. <html> - Root element of the HTML page\n';
+      res.textContent += '3. <head> with <title> - Head section containing page title\n';
+      res.textContent += '4. </head> - Closes the head section\n';
+      res.textContent += '5. <body>...</body> - Body section with visible content\n';
+      res.textContent += '6. </html> - Closes the HTML document\n\n';
+      res.textContent += 'This is the standard structure for all HTML5 documents.';
+      res.className = 'result correct';
+    } else {
+      document.querySelectorAll('#answerArea11 .order-slot').forEach(slot => {
+        slot.classList.add('wrong-order');
+      });
+      res.textContent = '✗ Incorrect order. The proper HTML document structure should be:\n\n';
+      res.textContent += 'Correct Structure:\n';
+      res.textContent += '1. <!DOCTYPE html> - Document type declaration\n';
+      res.textContent += '2. <html> - Opening HTML tag\n';
+      res.textContent += '3. <head> with <title>CompanyPro</title> inside\n';
+      res.textContent += '4. </head> - Closing head tag\n';
+      res.textContent += '5. <body>...</body> - Body section with content\n';
+      res.textContent += '6. </html> - Closing HTML tag\n\n';
+      res.textContent += 'Remember: DOCTYPE, html, head (with title inside), close head, body, close html.';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion11() {
+    question11Order = [];
+    selectedSegment11 = null;
+    
+    document.querySelectorAll('#segments11 .segment-item').forEach(s => {
+      s.classList.remove('used', 'selected');
+    });
+    
+    document.querySelectorAll('#answerArea11 .order-slot').forEach(slot => {
+      slot.classList.remove('filled', 'correct-order', 'wrong-order');
+      slot.querySelector('.slot-content').textContent = 'Click a segment to add';
+    });
+    
+    document.getElementById('result11').className = 'result';
+  }
+
+  // Question 12 functions
+  function selectChoice12(choice) {
+    question12Answer = choice;
+    document.querySelectorAll('#question12 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question12 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result12').className = 'result';
+  }
+
+  function checkQuestion12() {
+    const res = document.getElementById('result12');
+    
+    if (!question12Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question12 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'D';
+    const selectedOption = document.querySelector(`#question12 [data-choice="${question12Answer}"]`);
+    const correctOption = document.querySelector(`#question12 [data-choice="${correctAnswer}"]`);
+
+    if (question12Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! The </nav> tag should be above the </header> tag.\n\n';
+      res.textContent += 'HTML Nesting Rules:\n';
+      res.textContent += 'In the code, <nav> is opened inside <header>, but </nav> appears after </header>.\n';
+      res.textContent += 'This violates proper HTML nesting - tags must be closed in reverse order of opening.\n\n';
+      res.textContent += 'Correct structure:\n';
+      res.textContent += '<header>\n';
+      res.textContent += '  <nav>\n';
+      res.textContent += '    ...\n';
+      res.textContent += '  </nav>  ← Close nav first\n';
+      res.textContent += '</header>  ← Then close header\n\n';
+      res.textContent += 'Tags must be properly nested like parentheses in math.';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question12Answer) {
+        case 'A':
+          explanation += 'The <header> tag is not limited to one child - it can contain multiple elements.';
+          break;
+        case 'B':
+          explanation += 'The <nav> tag CAN be inside the <header> tag - this is actually a common pattern.';
+          break;
+        case 'C':
+          explanation += 'The <p> tag CAN be inside the <header> tag - headers can contain various content.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is D. The problem is that <nav> is opened inside <header>, but </nav> is closed AFTER </header>. This violates proper HTML nesting rules. The closing tag </nav> should come before </header>.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion12() {
+    question12Answer = null;
+    document.querySelectorAll('#question12 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result12').className = 'result';
+  }
+
+  // Question 13 functions
+  function updateQ13(qId, value) {
+    question13Answers[qId] = value;
+    document.getElementById('result13').className = 'result';
+    
+    // Clear previous styling
+    const dropdownMap = { q1: 'q13_1', q2: 'q13_2', q3: 'q13_3' };
+    document.getElementById(dropdownMap[qId]).classList.remove('correct', 'wrong');
+  }
+
+  function checkQuestion13() {
+    const res = document.getElementById('result13');
+    
+    // Check if all dropdowns are filled
+    const allFilled = Object.values(question13Answers).every(val => val !== null && val !== '');
+    if (!allFilled) {
+      res.textContent = 'Please complete all dropdown selections before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct answers based on CSS specificity and cascade
+    const correctAnswers = {
+      q1: 'red',      // Line 02: id="style1" applies #style1 {color: red; font-size: 30px;}
+      q2: '30 pixels', // Line 02: id="style1" applies font-size: 30px
+      q3: 'purple'    // Line 03: no id/class, inherits from body style="color:purple;"
+    };
+
+    let correctCount = 0;
+    let feedback = 'Results:\n';
+
+    const dropdownMap = { q1: 'q13_1', q2: 'q13_2', q3: 'q13_3' };
+
+    // Check each dropdown and provide visual feedback
+    Object.keys(correctAnswers).forEach(qId => {
+      const userAnswer = question13Answers[qId];
+      const correctAnswer = correctAnswers[qId];
+      const dropdown = document.getElementById(dropdownMap[qId]);
+      
+      dropdown.classList.remove('correct', 'wrong');
+      
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+        dropdown.classList.add('correct');
+        feedback += `${getQ13Label(qId)}: ✓ Correct (${userAnswer})\n`;
+      } else {
+        dropdown.classList.add('wrong');
+        feedback += `${getQ13Label(qId)}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    feedback += `\nScore: ${correctCount}/3 correct\n\n`;
+
+    if (correctCount === 3) {
+      feedback = '✓ Perfect! You understand CSS specificity and cascade:\n\n';
+      feedback += 'Line 02 Analysis:\n';
+      feedback += '• Has id="style1" which applies #style1 styles\n';
+      feedback += '• Color: red (from #style1)\n';
+      feedback += '• Font-size: 30px (from #style1)\n\n';
+      feedback += 'Line 03 Analysis:\n';
+      feedback += '• No id, class, or inline styles\n';
+      feedback += '• Inherits color: purple from <body> inline style\n';
+      feedback += '• Inherits font-size: 18px from <body> inline style\n\n';
+      feedback += 'CSS Specificity: Inline styles > ID selectors > Class selectors > Element selectors';
+      res.className = 'result correct';
+    } else {
+      feedback += 'CSS Specificity Rules:\n';
+      feedback += '• Inline styles (style="...") have highest priority\n';
+      feedback += '• ID selectors (#style1) override class and element selectors\n';
+      feedback += '• Elements without styles inherit from parent elements\n\n';
+      feedback += 'Line 02: id="style1" applies #style1 {color: red; font-size: 30px;}\n';
+      feedback += 'Line 03: No styles, inherits from <body style="color:purple; font-size: 18px;">';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function getQ13Label(qId) {
+    const labels = {
+      q1: 'Line 02 Color',
+      q2: 'Line 02 Font Size',
+      q3: 'Line 03 Color'
+    };
+    return labels[qId];
+  }
+
+  function resetQuestion13() {
+    question13Answers = {
+      q1: null,
+      q2: null,
+      q3: null
+    };
+    
+    document.querySelectorAll('#question13 .tag-dropdown').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+    
+    document.getElementById('result13').className = 'result';
+  }
+
+  // Question 14 functions
+  function updateQ14(qId, value) {
+    question14Answers[qId] = value;
+    document.getElementById('result14').className = 'result';
+    
+    // Clear previous styling
+    const dropdownMap = { q1: 'q14_1', q2: 'q14_2', q3: 'q14_3', q4: 'q14_4' };
+    document.getElementById(dropdownMap[qId]).classList.remove('correct', 'wrong');
+  }
+
+  function checkQuestion14() {
+    const res = document.getElementById('result14');
+    
+    // Check if all dropdowns are filled
+    const allFilled = Object.values(question14Answers).every(val => val !== null && val !== '');
+    if (!allFilled) {
+      res.textContent = 'Please complete all selections before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Correct answers based on CSS cascade and specificity
+    const correctAnswers = {
+      q1: 'False',  // <p> with no inline style uses <style> p {color: black;}, not external grey
+      q2: 'True',   // <p style="color:blue;"> inline style overrides everything
+      q3: 'True',   // <h1> with no inline style uses <style> h1 {color: maroon;}
+      q4: 'False'   // <h2> with no inline style uses <style> h2 {color: blue;}, not external purple
+    };
+
+    let correctCount = 0;
+    let feedback = 'Results:\n';
+
+    const dropdownMap = { q1: 'q14_1', q2: 'q14_2', q3: 'q14_3', q4: 'q14_4' };
+
+    // Check each dropdown and provide visual feedback
+    Object.keys(correctAnswers).forEach(qId => {
+      const userAnswer = question14Answers[qId];
+      const correctAnswer = correctAnswers[qId];
+      const dropdown = document.getElementById(dropdownMap[qId]);
+      
+      dropdown.classList.remove('correct', 'wrong');
+      
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+        dropdown.classList.add('correct');
+        feedback += `${getQ14Label(qId)}: ✓ Correct (${userAnswer})\n`;
+      } else {
+        dropdown.classList.add('wrong');
+        feedback += `${getQ14Label(qId)}: ✗ Wrong (${userAnswer}) - should be "${correctAnswer}"\n`;
+      }
+    });
+
+    feedback += `\nScore: ${correctCount}/4 correct\n\n`;
+
+    if (correctCount === 4) {
+      feedback = '✓ Perfect! You understand CSS cascade and specificity:\n\n';
+      feedback += 'CSS Priority Order (highest to lowest):\n';
+      feedback += '1. Inline styles (style="...") - Highest priority\n';
+      feedback += '2. Internal <style> block - Medium priority\n';
+      feedback += '3. External stylesheet - Lowest priority\n\n';
+      feedback += 'Analysis:\n';
+      feedback += '• "Certificates..." (p): black (from <style>, not grey from external)\n';
+      feedback += '• "Coming soon!" (p): blue (inline style overrides all)\n';
+      feedback += '• "Awards" (h1): maroon (from <style>, not blue from external)\n';
+      feedback += '• "Rock Climbing 101" (h2): blue (from <style>, not purple from external)';
+      res.className = 'result correct';
+    } else {
+      feedback += 'CSS Cascade Rules:\n';
+      feedback += 'When multiple stylesheets define the same selector:\n';
+      feedback += '1. Inline styles (style="...") always win\n';
+      feedback += '2. Internal <style> block overrides external stylesheet\n';
+      feedback += '3. External stylesheet has lowest priority\n\n';
+      feedback += 'In this case, the <style> block comes AFTER the external link,\n';
+      feedback += 'so it overrides the external stylesheet for all elements without inline styles.';
+      res.className = 'result wrong';
+    }
+
+    res.textContent = feedback;
+  }
+
+  function getQ14Label(qId) {
+    const labels = {
+      q1: '"Certificates..." grey',
+      q2: '"Coming soon!" blue',
+      q3: '"Awards" maroon',
+      q4: '"Rock Climbing 101" purple'
+    };
+    return labels[qId];
+  }
+
+  function resetQuestion14() {
+    question14Answers = {
+      q1: null,
+      q2: null,
+      q3: null,
+      q4: null
+    };
+    
+    document.querySelectorAll('#question14 .tag-dropdown').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+    
+    document.getElementById('result14').className = 'result';
+  }
+
+  // Question 15 functions
+  function selectChoice15(choice) {
+    question15Answer = choice;
+    document.querySelectorAll('#question15 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question15 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result15').className = 'result';
+  }
+
+  function checkQuestion15() {
+    const res = document.getElementById('result15');
+    
+    if (!question15Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question15 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'A';
+    const selectedOption = document.querySelector(`#question15 [data-choice="${question15Answer}"]`);
+    const correctOption = document.querySelector(`#question15 [data-choice="${correctAnswer}"]`);
+
+    if (question15Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! .main is the class selector that applies to all elements with class="main".\n\n';
+      res.textContent += 'CSS Selector Types:\n';
+      res.textContent += '• .main - Class selector (applies to all elements with class="main")\n';
+      res.textContent += '• #main - ID selector (applies to one element with id="main")\n';
+      res.textContent += '• a[name="main"] - Attribute selector (applies to <a> with name="main")\n';
+      res.textContent += '• a#main - Element + ID selector (applies to <a> with id="main")\n\n';
+      res.textContent += 'Class selectors are perfect for styling multiple elements with shared characteristics.';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question15Answer) {
+        case 'B':
+          explanation += '#main is an ID selector. IDs should be unique - only one element per page can have a specific ID.';
+          break;
+        case 'C':
+          explanation += 'a[name="main"] is an attribute selector that only targets <a> elements with a name attribute equal to "main", not class.';
+          break;
+        case 'D':
+          explanation += 'a#main combines element and ID selectors, targeting only one <a> element with id="main", not multiple elements.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is A. .main is a class selector that applies to all elements with class="main". Classes can be reused on multiple elements, making them perfect for this scenario.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion15() {
+    question15Answer = null;
+    document.querySelectorAll('#question15 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result15').className = 'result';
+  }
+
+  // Question 16 functions
+  function selectChoice16(choice) {
+    question16Answer = choice;
+    document.querySelectorAll('#question16 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question16 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result16').className = 'result';
+  }
+
+  function checkQuestion16() {
+    const res = document.getElementById('result16');
+    
+    if (!question16Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question16 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'D';
+    const selectedOption = document.querySelector(`#question16 [data-choice="${question16Answer}"]`);
+    const correctOption = document.querySelector(`#question16 [data-choice="${correctAnswer}"]`);
+
+    if (question16Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! The text "First paragraph" will display red and underlined.\n\n';
+      res.textContent += 'CSS Specificity Analysis:\n';
+      res.textContent += '• Internal <style>: p { color: purple; }\n';
+      res.textContent += '• Inline style: style="color:red; text-decoration:underline;"\n\n';
+      res.textContent += 'Result:\n';
+      res.textContent += '• Color: red (inline style overrides internal style)\n';
+      res.textContent += '• Text-decoration: underline (from inline style, no conflict)\n\n';
+      res.textContent += 'Inline styles have the highest specificity and override internal/external styles.';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question16Answer) {
+        case 'A':
+          explanation += 'The inline style overrides the internal style, so the color will be red, not purple. Also, text-decoration:underline is applied.';
+          break;
+        case 'B':
+          explanation += 'While the text will be underlined, the color will be red (from inline style), not purple (from internal style).';
+          break;
+        case 'C':
+          explanation += 'The color will be red (correct), but the inline style also includes text-decoration:underline, so it will be underlined.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is D. Inline styles have the highest priority in CSS. The inline style="color:red; text-decoration:underline;" overrides the internal p { color: purple; } style. Therefore, the text displays red and underlined.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion16() {
+    question16Answer = null;
+    document.querySelectorAll('#question16 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result16').className = 'result';
+  }
+</script>
+</body>
+</html>
