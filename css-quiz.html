@@ -1012,6 +1012,8 @@
     <button class="question-btn" onclick="showQuestion(20)">Question 20</button>
     <button class="question-btn" onclick="showQuestion(21)">Question 21</button>
     <button class="question-btn" onclick="showQuestion(22)">Question 22</button>
+    <button class="question-btn" onclick="showQuestion(23)">Question 23</button>
+    <button class="question-btn" onclick="showQuestion(24)">Question 24</button>
   </div>
 
   <div id="question1" class="question active">
@@ -2902,6 +2904,81 @@
     </div>
 
     <div class="result" id="result22"></div>
+  </div>
+
+  <div id="question23" class="question">
+    <h1>What is the correct syntax to change the font color of a visited link to magenta?</h1>
+    
+    <p class="sub">Select the correct answer.</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice23('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong>
+          <div class="code-block" style="margin: 8px 0; padding: 12px;">
+            <div class="line"><span class="kw">a:visited</span> <span class="punct">{</span></div>
+            <div class="line indent"><span class="kw">color</span> <span class="punct">=</span> <span class="val">magenta</span><span class="punct">;</span></div>
+            <div class="line"><span class="punct">}</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice23('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong>
+          <div class="code-block" style="margin: 8px 0; padding: 12px;">
+            <div class="line"><span class="kw">a#link</span> <span class="punct">{</span></div>
+            <div class="line indent"><span class="kw">color</span> <span class="punct">=</span> <span class="val">magenta</span><span class="punct">;</span></div>
+            <div class="line"><span class="punct">}</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice23('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong>
+          <div class="code-block" style="margin: 8px 0; padding: 12px;">
+            <div class="line"><span class="kw">a:visited</span> <span class="punct">{</span></div>
+            <div class="line indent"><span class="kw">color</span><span class="punct">:</span> <span class="val">magenta</span><span class="punct">;</span></div>
+            <div class="line"><span class="punct">}</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice23('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong>
+          <div class="code-block" style="margin: 8px 0; padding: 12px;">
+            <div class="line"><span class="kw">a.link</span> <span class="punct">{</span></div>
+            <div class="line indent"><span class="kw">color</span><span class="punct">:</span> <span class="val">magenta</span><span class="punct">;</span></div>
+            <div class="line"><span class="punct">}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion23()">Check answer</button>
+      <button class="btn" onclick="resetQuestion23()">Reset</button>
+    </div>
+
+    <div class="result" id="result23"></div>
+  </div>
+
+  <div id="question24" class="question">
+    <h1>Question 24</h1>
+    <p class="sub">Placeholder for question 24</p>
+    
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion24()">Check answer</button>
+      <button class="btn" onclick="resetQuestion24()">Reset</button>
+    </div>
+
+    <div class="result" id="result24"></div>
   </div>
 
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
@@ -5193,6 +5270,94 @@
       select.classList.remove('correct', 'wrong');
     });
     document.getElementById('result22').className = 'result';
+  }
+
+  // Question 23 functions
+  let question23Answer = null;
+
+  function selectChoice23(choice) {
+    question23Answer = choice;
+    document.querySelectorAll('#question23 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question23 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result23').className = 'result';
+  }
+
+  function checkQuestion23() {
+    const res = document.getElementById('result23');
+    
+    if (!question23Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question23 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'C';
+    const selectedOption = document.querySelector(`#question23 [data-choice="${question23Answer}"]`);
+    const correctOption = document.querySelector(`#question23 [data-choice="${correctAnswer}"]`);
+
+    if (question23Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! The syntax a:visited { color: magenta; } is correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• a:visited - Pseudo-class selector for visited links\n';
+      res.textContent += '• color: magenta; - CSS property with colon separator (not equals sign)\n\n';
+      res.textContent += 'Why other options are wrong:\n';
+      res.textContent += '• A: Uses "=" instead of ":" (incorrect CSS syntax)\n';
+      res.textContent += '• B: Uses "a#link" which targets an element with id="link", not visited links\n';
+      res.textContent += '• D: Uses "a.link" which targets a class, not the :visited pseudo-class\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• CSS properties use colons (:) not equals signs (=)\n';
+      res.textContent += '• :visited is a pseudo-class for styling visited links\n';
+      res.textContent += '• ID selectors use # and class selectors use .';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question23Answer) {
+        case 'A':
+          explanation += 'Option A uses "=" instead of ":" which is incorrect CSS syntax. CSS properties require a colon separator.';
+          break;
+        case 'B':
+          explanation += 'Option B uses "a#link" which targets an element with id="link", not visited links. The :visited pseudo-class is needed.';
+          break;
+        case 'D':
+          explanation += 'Option D uses "a.link" which targets elements with class="link", not visited links. The :visited pseudo-class is needed.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is C: a:visited { color: magenta; }\n';
+      explanation += 'Remember: CSS uses colons (:) for property declarations and pseudo-classes.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion23() {
+    question23Answer = null;
+    document.querySelectorAll('#question23 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result23').className = 'result';
+  }
+
+  // Question 24 functions (placeholder)
+  function checkQuestion24() {
+    const res = document.getElementById('result24');
+    res.textContent = 'Question 24 coming soon...';
+    res.className = 'result';
+  }
+
+  function resetQuestion24() {
+    document.getElementById('result24').className = 'result';
   }
 </script>
 </body>
