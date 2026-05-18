@@ -1014,6 +1014,7 @@
     <button class="question-btn" onclick="showQuestion(22)">Question 22</button>
     <button class="question-btn" onclick="showQuestion(23)">Question 23</button>
     <button class="question-btn" onclick="showQuestion(24)">Question 24</button>
+    <button class="question-btn" onclick="showQuestion(25)">Question 25</button>
   </div>
 
   <div id="question1" class="question active">
@@ -3017,6 +3018,52 @@
     </div>
 
     <div class="result" id="result24"></div>
+  </div>
+
+  <div id="question25" class="question">
+    <h1>For each markup segment, select <strong>True</strong> if the HTML element belongs in the head block, or <strong>False</strong> if it does not.</h1>
+    
+    <p class="sub"><strong>Note:</strong> You will receive partial credit for each correct selection.</p>
+
+    <p class="section-label">Answer Area</p>
+    <div class="answer-area">
+      <div class="tag-question">
+        <span style="flex: 1; font-family: var(--mono); font-size: 13px;">&lt;style&gt; h1 {color:red;} &lt;/style&gt;</span>
+        <button class="btn" style="min-width: 80px; background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.3); color: var(--green);" onclick="selectTrueFalse25(1, 'true')" id="q25-1-true">True</button>
+        <button class="btn" style="min-width: 80px;" onclick="selectTrueFalse25(1, 'false')" id="q25-1-false">False</button>
+      </div>
+      
+      <div class="tag-question">
+        <span style="flex: 1; font-family: var(--mono); font-size: 13px;">&lt;title&gt;Contact Information&lt;/title&gt;</span>
+        <button class="btn" style="min-width: 80px; background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.3); color: var(--green);" onclick="selectTrueFalse25(2, 'true')" id="q25-2-true">True</button>
+        <button class="btn" style="min-width: 80px;" onclick="selectTrueFalse25(2, 'false')" id="q25-2-false">False</button>
+      </div>
+      
+      <div class="tag-question">
+        <span style="flex: 1; font-family: var(--mono); font-size: 13px;">&lt;link rel="stylesheet" href="default.css" /&gt;</span>
+        <button class="btn" style="min-width: 80px; background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.3); color: var(--green);" onclick="selectTrueFalse25(3, 'true')" id="q25-3-true">True</button>
+        <button class="btn" style="min-width: 80px;" onclick="selectTrueFalse25(3, 'false')" id="q25-3-false">False</button>
+      </div>
+      
+      <div class="tag-question">
+        <span style="flex: 1; font-family: var(--mono); font-size: 13px;">&lt;h1&gt;Welcome&lt;/h1&gt;</span>
+        <button class="btn" style="min-width: 80px;" onclick="selectTrueFalse25(4, 'true')" id="q25-4-true">True</button>
+        <button class="btn" style="min-width: 80px; background: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.3); color: var(--red);" onclick="selectTrueFalse25(4, 'false')" id="q25-4-false">False</button>
+      </div>
+      
+      <div class="tag-question">
+        <span style="flex: 1; font-family: var(--mono); font-size: 13px;">&lt;!DOCTYPE html&gt;</span>
+        <button class="btn" style="min-width: 80px; background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.3); color: var(--green);" onclick="selectTrueFalse25(5, 'true')" id="q25-5-true">True</button>
+        <button class="btn" style="min-width: 80px;" onclick="selectTrueFalse25(5, 'false')" id="q25-5-false">False</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion25()">Check answer</button>
+      <button class="btn" onclick="resetQuestion25()">Reset</button>
+    </div>
+
+    <div class="result" id="result25"></div>
   </div>
 
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
@@ -5522,6 +5569,146 @@
     });
     
     document.getElementById('result24').className = 'result';
+  }
+
+  // Question 25 functions
+  let question25Answers = {
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null
+  };
+
+  function selectTrueFalse25(itemNum, answer) {
+    question25Answers[itemNum] = answer;
+    
+    // Update button styling
+    const trueBtn = document.getElementById(`q25-${itemNum}-true`);
+    const falseBtn = document.getElementById(`q25-${itemNum}-false`);
+    
+    trueBtn.classList.remove('selected');
+    falseBtn.classList.remove('selected');
+    
+    if (answer === 'true') {
+      trueBtn.classList.add('selected');
+      trueBtn.style.background = 'rgba(124, 106, 247, 0.2)';
+      trueBtn.style.borderColor = 'rgba(124, 106, 247, 0.3)';
+      trueBtn.style.color = 'var(--accent-light)';
+      falseBtn.style.background = '';
+      falseBtn.style.borderColor = '';
+      falseBtn.style.color = '';
+    } else {
+      falseBtn.classList.add('selected');
+      falseBtn.style.background = 'rgba(124, 106, 247, 0.2)';
+      falseBtn.style.borderColor = 'rgba(124, 106, 247, 0.3)';
+      falseBtn.style.color = 'var(--accent-light)';
+      trueBtn.style.background = '';
+      trueBtn.style.borderColor = '';
+      trueBtn.style.color = '';
+    }
+    
+    document.getElementById('result25').className = 'result';
+  }
+
+  function checkQuestion25() {
+    const res = document.getElementById('result25');
+    
+    // Check if all items are answered
+    if (!question25Answers[1] || !question25Answers[2] || !question25Answers[3] || !question25Answers[4] || !question25Answers[5]) {
+      res.textContent = 'Please answer all items before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+    
+    const correctAnswers = {
+      1: 'true',   // <style> belongs in head
+      2: 'true',   // <title> belongs in head
+      3: 'true',   // <link> belongs in head
+      4: 'false',  // <h1> does NOT belong in head
+      5: 'true'    // <!DOCTYPE> belongs in head (or before head)
+    };
+
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each answer
+    for (let i = 1; i <= 5; i++) {
+      const trueBtn = document.getElementById(`q25-${i}-true`);
+      const falseBtn = document.getElementById(`q25-${i}-false`);
+      
+      trueBtn.classList.remove('correct', 'wrong');
+      falseBtn.classList.remove('correct', 'wrong');
+      
+      if (question25Answers[i] === correctAnswers[i]) {
+        if (question25Answers[i] === 'true') {
+          trueBtn.classList.add('correct');
+        } else {
+          falseBtn.classList.add('correct');
+        }
+        correctCount++;
+      } else {
+        if (question25Answers[i] === 'true') {
+          trueBtn.classList.add('wrong');
+        } else {
+          falseBtn.classList.add('wrong');
+        }
+        allCorrect = false;
+      }
+    }
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All answers are correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• <style> - TRUE: Internal stylesheets belong in the head\n';
+      res.textContent += '• <title> - TRUE: Page title must be in the head\n';
+      res.textContent += '• <link> - TRUE: External stylesheets are linked in the head\n';
+      res.textContent += '• <h1> - FALSE: Headings belong in the body, not the head\n';
+      res.textContent += '• <!DOCTYPE> - TRUE: DOCTYPE declaration goes before the head\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• The <head> contains metadata and resources for the page\n';
+      res.textContent += '• Content elements like headings go in the <body>\n';
+      res.textContent += '• Stylesheets, scripts, and meta tags belong in the <head>';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 5 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
+      res.textContent += '1. <style> h1 {color:red;} </style> - TRUE (belongs in head)\n';
+      res.textContent += '2. <title>Contact Information</title> - TRUE (belongs in head)\n';
+      res.textContent += '3. <link rel="stylesheet" href="default.css" /> - TRUE (belongs in head)\n';
+      res.textContent += '4. <h1>Welcome</h1> - FALSE (belongs in body, not head)\n';
+      res.textContent += '5. <!DOCTYPE html> - TRUE (goes before head)\n\n';
+      res.textContent += 'Remember: The head contains metadata and resources; content goes in the body.';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion25() {
+    question25Answers = {
+      1: null,
+      2: null,
+      3: null,
+      4: null,
+      5: null
+    };
+    
+    // Reset all buttons
+    for (let i = 1; i <= 5; i++) {
+      const trueBtn = document.getElementById(`q25-${i}-true`);
+      const falseBtn = document.getElementById(`q25-${i}-false`);
+      
+      trueBtn.classList.remove('selected', 'correct', 'wrong');
+      falseBtn.classList.remove('selected', 'correct', 'wrong');
+      
+      trueBtn.style.background = '';
+      trueBtn.style.borderColor = '';
+      trueBtn.style.color = '';
+      falseBtn.style.background = '';
+      falseBtn.style.borderColor = '';
+      falseBtn.style.color = '';
+    }
+    
+    document.getElementById('result25').className = 'result';
   }
 </script>
 </body>
