@@ -9311,11 +9311,11 @@
       return;
     }
 
-    // Correct answers: 1=False, 2=True, 3=False, 4=True
+    // Correct answers: 1=False, 2=False, 3=True, 4=True
     const correctAnswers = {
       1: 'false',  // A relative link does NOT require protocol and server path
-      2: 'true',   // You CAN use a relative link to reference image files on a different server
-      3: 'false',  // You CANNOT link to a document in a subdirectory with just subdirectory name and filename
+      2: 'false',  // You CANNOT use a relative link to reference image files on a different server
+      3: 'true',   // You CAN link to a document in a subdirectory with just subdirectory name and filename
       4: 'true'    // That IS an example of an absolute link
     };
 
@@ -9334,26 +9334,26 @@
     if (allCorrect) {
       res.textContent = '✓ Correct! All statements are answered correctly.\n\n';
       res.textContent += 'Explanation:\n';
-      res.textContent += '1. FALSE - A relative link does NOT require a protocol and server path. It\'s relative to the current page.\n';
-      res.textContent += '2. TRUE - You CAN use a relative link to reference image files on a different server.\n';
-      res.textContent += '3. FALSE - You cannot link to a document in a subdirectory with just the subdirectory name and filename.\n';
-      res.textContent += '4. TRUE - "https://www.companypro.com/products.html" is a complete absolute link with protocol and full path.\n\n';
+      res.textContent += '1. FALSE - A relative link does NOT require a protocol and server path. Relative links do not use https:// or a server path.\n';
+      res.textContent += '2. FALSE - Relative links only work within the same website/server. You cannot use them to reference files on a different server.\n';
+      res.textContent += '3. TRUE - You CAN link to a document in a subdirectory by specifying only the subdirectory name and filename. Example: images/photo.jpg\n';
+      res.textContent += '4. TRUE - "https://www.companypro.com/products.html" is a complete absolute link with protocol and full domain.\n\n';
       res.textContent += 'Key concepts:\n';
-      res.textContent += '• Relative links: Reference files relative to current page location\n';
-      res.textContent += '• Absolute links: Include full protocol and domain\n';
-      res.textContent += '• Relative links can reference files on different servers\n';
-      res.textContent += '• Absolute links work across different servers';
+      res.textContent += '• Relative links: Reference files relative to current page location, no protocol needed\n';
+      res.textContent += '• Absolute links: Include full protocol (https://) and domain\n';
+      res.textContent += '• Relative links only work on the same server\n';
+      res.textContent += '• Use subdirectory/filename format for relative links to subdirectories';
       res.className = 'result correct';
     } else {
       res.textContent = `✗ You got ${correctCount} out of 4 correct.\n\n`;
       res.textContent += 'Correct answers:\n';
       res.textContent += '1. FALSE - Relative links do NOT require protocol and server path\n';
-      res.textContent += '2. TRUE - You CAN use relative links to reference image files on different servers\n';
-      res.textContent += '3. FALSE - You cannot link to subdirectories with just subdirectory name and filename\n';
+      res.textContent += '2. FALSE - Relative links only work within the same website/server\n';
+      res.textContent += '3. TRUE - You can link to subdirectories with subdirectory name and filename (e.g., images/photo.jpg)\n';
       res.textContent += '4. TRUE - That is a correct example of an absolute link\n\n';
       res.textContent += 'Remember:\n';
-      res.textContent += '• Relative links are relative to the current page\n';
-      res.textContent += '• Absolute links include the full URL with protocol';
+      res.textContent += '• Relative links: No protocol, same server only\n';
+      res.textContent += '• Absolute links: Full URL with protocol and domain';
       res.className = 'result wrong';
     }
 
