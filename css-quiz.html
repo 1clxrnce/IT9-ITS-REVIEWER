@@ -5628,7 +5628,7 @@
       2: 'true',   // <title> belongs in head
       3: 'true',   // <link> belongs in head
       4: 'false',  // <h1> does NOT belong in head
-      5: 'true'    // <!DOCTYPE> belongs in head (or before head)
+      5: 'false'   // <!DOCTYPE> does NOT belong in head (goes before html)
     };
 
     let allCorrect = true;
@@ -5681,7 +5681,7 @@
       res.textContent += '• <title> - TRUE: Page title must be in the head\n';
       res.textContent += '• <link> - TRUE: External stylesheets are linked in the head\n';
       res.textContent += '• <h1> - FALSE: Headings belong in the body, not the head\n';
-      res.textContent += '• <!DOCTYPE> - TRUE: DOCTYPE declaration goes before the head\n\n';
+      res.textContent += '• <!DOCTYPE> - FALSE: DOCTYPE declaration goes before the html tag, not in the head\n\n';
       res.textContent += 'Key concepts:\n';
       res.textContent += '• The <head> contains metadata and resources for the page\n';
       res.textContent += '• Content elements like headings go in the <body>\n';
@@ -5694,7 +5694,7 @@
       res.textContent += '2. <title>Contact Information</title> - TRUE (belongs in head)\n';
       res.textContent += '3. <link rel="stylesheet" href="default.css" /> - TRUE (belongs in head)\n';
       res.textContent += '4. <h1>Welcome</h1> - FALSE (belongs in body, not head)\n';
-      res.textContent += '5. <!DOCTYPE html> - TRUE (goes before head)\n\n';
+      res.textContent += '5. <!DOCTYPE html> - FALSE (goes before html tag, not in head)\n\n';
       res.textContent += 'Remember: The head contains metadata and resources; content goes in the body.';
       res.className = 'result wrong';
     }
