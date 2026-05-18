@@ -4984,6 +4984,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(4, correctCount === 4);
     res.textContent = feedback;
   }
 
@@ -5136,6 +5137,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(5, correctCount === Object.keys(correctAnswers).length);
     res.textContent = feedback;
   }
 
@@ -5229,6 +5231,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(6, correctCount === 3);
     res.textContent = feedback;
   }
 
@@ -5329,6 +5332,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(7, correctCount === 5);
     res.textContent = feedback;
   }
 
@@ -5475,6 +5479,8 @@
       res.textContent += 'Note: The head section must start with <head> and end with </head>.';
       res.className = 'result wrong';
     }
+
+    recordScore(8, isCorrect);
   }
 
   function resetQuestion8() {
@@ -5570,6 +5576,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(9, correctCount === 3);
     res.textContent = feedback;
   }
 
@@ -5653,6 +5660,7 @@
       }
       explanation += '\n\nThe correct answer is A. position: fixed; positions an element relative to the viewport, meaning it stays in the same place even when the page is scrolled.';
       
+      recordScore(10, question10Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -5789,6 +5797,8 @@
       res.textContent += 'Remember: DOCTYPE, html, head (with title inside), close head, body, close html.';
       res.className = 'result wrong';
     }
+
+    recordScore(11, isCorrect);
   }
 
   function resetQuestion11() {
@@ -5867,6 +5877,7 @@
       }
       explanation += '\n\nThe correct answer is D. The problem is that <nav> is opened inside <header>, but </nav> is closed AFTER </header>. This violates proper HTML nesting rules. The closing tag </nav> should come before </header>.';
       
+      recordScore(12, question12Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -5955,6 +5966,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(13, correctCount === Object.keys(correctAnswers).length);
     res.textContent = feedback;
   }
 
@@ -6059,6 +6071,7 @@
       res.className = 'result wrong';
     }
 
+    recordScore(14, correctCount === Object.keys(correctAnswers).length);
     res.textContent = feedback;
   }
 
@@ -6144,6 +6157,7 @@
       }
       explanation += '\n\nThe correct answer is A. .main is a class selector that applies to all elements with class="main". Classes can be reused on multiple elements, making them perfect for this scenario.';
       
+      recordScore(15, question15Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -6214,6 +6228,7 @@
       }
       explanation += '\n\nThe correct answer is D. Inline styles have the highest priority in CSS. The inline style="color:red; text-decoration:underline;" overrides the internal p { color: purple; } style. Therefore, the text displays red and underlined.';
       
+      recordScore(16, question16Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -6287,6 +6302,7 @@
       }
       explanation += '\n\nThe correct answer is B. Use background: url(flower.jpg); with background-size: cover; to scale the image to fill the entire background while maintaining aspect ratio.';
       
+      recordScore(17, question17Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -6360,6 +6376,7 @@
       }
       explanation += '\n\nThe correct answer is C. Since there are no external stylesheets, internal styles, or inline styles defined in this HTML, the browser will use its default styles to render the page.';
       
+      recordScore(18, question18Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -6448,6 +6465,8 @@
       res.textContent += '\nThe complete markup creates a clickable image that opens clients.html in a new window.';
       res.className = 'result wrong';
     }
+
+    recordScore(19, allCorrect);
   }
 
   function resetQuestion19() {
@@ -6547,6 +6566,8 @@
       res.textContent += '\nRemember: Use <ol> for ordered lists where sequence matters, and opening/closing tags must match.';
       res.className = 'result wrong';
     }
+
+    recordScore(20, allCorrect);
   }
 
   function resetQuestion20() {
@@ -6682,6 +6703,8 @@
       res.textContent += 'The "controls" attribute is essential for play, pause, and seek functionality.';
       res.className = 'result wrong';
     }
+
+    recordScore(21, correctCount === Object.keys(correctAnswers).length);
   }
 
   function resetQuestion21() {
@@ -6802,6 +6825,8 @@
       res.textContent += '\nComplete markup: <img src="companyLogo.jpg" alt="The Jazz Club" height="50" width="100" />';
       res.className = 'result wrong';
     }
+
+    recordScore(22, allCorrect);
   }
 
   function resetQuestion22() {
@@ -6881,6 +6906,7 @@
       explanation += '\n\nThe correct answer is C: a:visited { color: magenta; }\n';
       explanation += 'Remember: CSS uses colons (:) for property declarations and pseudo-classes.';
       
+      recordScore(23, question23Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -7003,6 +7029,8 @@
       res.textContent += 'Remember: Each position value has a specific behavior for element positioning.';
       res.className = 'result wrong';
     }
+
+    recordScore(24, allCorrect);
   }
 
   function resetQuestion24() {
@@ -7158,6 +7186,8 @@
       res.textContent += 'Remember: The head contains metadata and resources; content goes in the body.';
       res.className = 'result wrong';
     }
+
+    recordScore(25, allCorrect);
   }
 
   function resetQuestion25() {
@@ -7248,6 +7278,8 @@
       res.textContent += 'Remember: Check for inline styles first, then ID selectors, then inherited styles.';
       res.className = 'result wrong';
     }
+
+    recordScore(26, allCorrect);
   }
 
   function resetQuestion26() {
@@ -7318,6 +7350,8 @@
       res.textContent += 'Remember: line-height controls line spacing, letter-spacing controls character spacing.';
       res.className = 'result wrong';
     }
+
+    recordScore(27, allCorrect);
   }
 
   function resetQuestion27() {
@@ -7395,6 +7429,8 @@
       res.textContent += 'Complete markup: <img src="html5.gif" alt="HTML5 Icon" style="width:128px;" />';
       res.className = 'result wrong';
     }
+
+    recordScore(28, allCorrect);
   }
 
   function resetQuestion28() {
@@ -7475,6 +7511,8 @@
       res.textContent += 'Remember: Use <source> tags for multiple formats and <track> for captions.';
       res.className = 'result wrong';
     }
+
+    recordScore(29, allCorrect);
   }
 
   function resetQuestion29() {
@@ -7612,6 +7650,8 @@
       res.textContent += 'Remember: DOCTYPE first, then html, head with title, body with content.';
       res.className = 'result wrong';
     }
+
+    recordScore(30, allCorrect);
   }
 
   function resetQuestion30() {
@@ -7690,6 +7730,7 @@
       explanation += '\n\nThe correct answer is C: <p>This is HTML5<strong><em>text formatting</em></strong></p>\n';
       explanation += 'Remember: Close tags in reverse order of opening (LIFO principle).';
       
+      recordScore(31, question31Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -7823,6 +7864,8 @@
       res.textContent += 'Remember: Use LVHA order (Link, Visited, Hover, Active) for proper CSS specificity.';
       res.className = 'result wrong';
     }
+
+    recordScore(32, allCorrect);
   }
 
   function resetQuestion32() {
@@ -7967,6 +8010,8 @@
       res.textContent += 'Remember: <base> sets the base URL, <link> links to resources, <script> loads JavaScript, and <noscript> shows fallback content.';
       res.className = 'result wrong';
     }
+
+    recordScore(33, allCorrect);
   }
 
   function resetQuestion33() {
@@ -8055,6 +8100,7 @@
       explanation += '\n\nThe correct answer is D: <input type="number" min="1" max="100">\n';
       explanation += 'Remember: Use type="number" with min and max attributes for numeric validation.';
       
+      recordScore(34, question34Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -8190,6 +8236,8 @@
       res.textContent += 'Remember: DOCTYPE, html, head with title, close head, body with content, close html.';
       res.className = 'result wrong';
     }
+
+    recordScore(35, allCorrect);
   }
 
   function resetQuestion35() {
@@ -8275,6 +8323,8 @@
       res.textContent += 'Remember: Use <div> for containers, <h1> for headings, and <p> for paragraphs.';
       res.className = 'result wrong';
     }
+
+    recordScore(36, allCorrect);
   }
 
   function resetQuestion36() {
@@ -8355,6 +8405,7 @@
       explanation += '\n\nThe correct answer is A: .main\n';
       explanation += 'Remember: Use class selectors (.) for multiple elements, ID selectors (#) for single elements.';
       
+      recordScore(37, question37Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -8430,6 +8481,7 @@
       explanation += '\n\nThe correct answer is D: static\n';
       explanation += 'Remember: static is the default position value for all elements.';
       
+      recordScore(38, question38Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -8517,6 +8569,8 @@
       res.textContent += 'Remember: Use <picture> with <source> elements for responsive images.';
       res.className = 'result wrong';
     }
+
+    recordScore(39, allCorrect);
   }
 
   function resetQuestion39() {
@@ -8597,6 +8651,7 @@
       explanation += '\n\nThe correct answer is A: placeholder\n';
       explanation += 'Remember: placeholder displays hint text inside the input field.';
       
+      recordScore(40, question40Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -8672,6 +8727,8 @@
       res.textContent += 'Remember: alt is for accessibility, title is for tooltips, and relative paths work when files are in the same folder.';
       res.className = 'result wrong';
     }
+
+    recordScore(41, allCorrect);
   }
 
   function resetQuestion41() {
@@ -8759,6 +8816,7 @@
       explanation += '\n\nThe correct answer is D: The body element is in the wrong location\n';
       explanation += 'Remember: In HTML, <head> must come before <body>. The correct order is: <html> → <head> → <body>';
       
+      recordScore(42, question42Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -8843,6 +8901,8 @@
       res.textContent += '• description - For search engine description';
       res.className = 'result wrong';
     }
+
+    recordScore(43, allCorrect);
   }
 
   function resetQuestion43() {
@@ -8925,6 +8985,7 @@
       explanation += '\n\nThe correct answer is B: display: block; margin-left: auto; margin-right: auto;\n';
       explanation += 'Remember: To center a block element, use margin-left: auto and margin-right: auto.';
       
+      recordScore(44, question44Answer === correctAnswer);
       res.textContent = explanation;
       res.className = 'result wrong';
     }
@@ -9050,6 +9111,8 @@
       res.textContent += 'Remember: HTML comments use <!-- and --> syntax.';
       res.className = 'result wrong';
     }
+
+    recordScore(45, allCorrect);
   }
 
   function resetQuestion45() {
@@ -9124,6 +9187,8 @@
       res.textContent += '• border-radius must include a unit (px, em, %)';
       res.className = 'result wrong';
     }
+
+    recordScore(46, allCorrect);
   }
 
   function resetQuestion46() {
@@ -9203,6 +9268,8 @@
       res.textContent += '• Absolute links include the full URL with protocol';
       res.className = 'result wrong';
     }
+
+    recordScore(47, allCorrect);
   }
 
   function resetQuestion47() {
@@ -9287,6 +9354,8 @@
       res.textContent += '• description shows in search results';
       res.className = 'result wrong';
     }
+
+    recordScore(48, allCorrect);
   }
 
   function resetQuestion48() {
@@ -9361,6 +9430,8 @@
       res.textContent += 'Remember: All three statements are FALSE.';
       res.className = 'result wrong';
     }
+
+    recordScore(49, allCorrect);
   }
 
   function resetQuestion49() {
