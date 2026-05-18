@@ -2612,44 +2612,56 @@
   </div>
 
   <div id="question19" class="question">
-    <h1>You need to style a paragraph element with specific text properties.</h1>
+    <h1>You are creating an image link to the clients.html page. When the visitor clicks on the clients.gif graphic, the clients.html page must display in a new window. The graphic must provide text for screen readers and display text while the page is loading.</h1>
     
-    <div class="scenario">
-      <div class="scenario-title">Requirements:</div>
-      • Text color should be red<br>
-      • Text should have 90% transparency<br>
-      • Font size should be 45 pixels
-    </div>
-    
-    <p class="sub">Which CSS rule correctly applies all three properties?</p>
+    <p class="sub">Complete the markup by selecting the correct option from each drop-down list.</p>
 
-    <div class="multiple-choice">
-      <div class="choice-option" data-choice="A" onclick="selectChoice19('A')">
-        <div class="choice-radio"></div>
-        <div class="choice-text">
-          <strong>A.</strong> <code>p{color: red; opacity: 0.9; font-size: 45px; }</code>
-        </div>
+    <p class="section-label">Answer Area</p>
+    <div class="dropdown-exercise">
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="q19-dropdown1">
+          <option value="">Select...</option>
+          <option value="a">a</option>
+          <option value="link">link</option>
+          <option value="href">href</option>
+          <option value="img">img</option>
+        </select>
+        <span class="html-attr">href=</span><span class="html-value">"clients.html"</span>
+        <span class="html-attr">target=</span><span class="html-value">"</span>
+        <select class="dropdown-select" id="q19-dropdown2">
+          <option value="">Select...</option>
+          <option value="_blank">_blank</option>
+          <option value="_new">_new</option>
+          <option value="_window">_window</option>
+          <option value="new">new</option>
+        </select>
+        <span class="html-value">"</span>
+        <span class="html-tag">&gt;</span>
       </div>
-      
-      <div class="choice-option" data-choice="B" onclick="selectChoice19('B')">
-        <div class="choice-radio"></div>
-        <div class="choice-text">
-          <strong>B.</strong> <code>p{color: red; transparency: 90%; font-size: 45px; }</code>
-        </div>
+      <div class="dropdown-line" style="margin-left: 20px;">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="q19-dropdown3">
+          <option value="">Select...</option>
+          <option value="img">img</option>
+          <option value="image">image</option>
+          <option value="src">src</option>
+          <option value="graphic">graphic</option>
+        </select>
+        <span class="html-attr">src=</span><span class="html-value">"clients.gif"</span>
+        <span class="html-attr">alt=</span><span class="html-value">"Clients image"</span>
+        <span class="html-tag">/&gt;</span>
       </div>
-      
-      <div class="choice-option" data-choice="C" onclick="selectChoice19('C')">
-        <div class="choice-radio"></div>
-        <div class="choice-text">
-          <strong>C.</strong> <code>p{color: red; opacity: 0.1; font-size: 45px; }</code>
-        </div>
-      </div>
-      
-      <div class="choice-option" data-choice="D" onclick="selectChoice19('D')">
-        <div class="choice-radio"></div>
-        <div class="choice-text">
-          <strong>D.</strong> <code>p{color: red; alpha: 0.1; font-size: 45; }</code>
-        </div>
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;/</span>
+        <select class="dropdown-select" id="q19-dropdown4">
+          <option value="">Select...</option>
+          <option value="a">a</option>
+          <option value="link">link</option>
+          <option value="img">img</option>
+          <option value="href">href</option>
+        </select>
+        <span class="html-tag">&gt;</span>
       </div>
     </div>
 
@@ -4509,74 +4521,90 @@
   }
 
   // Question 19 functions
-  function selectChoice19(choice) {
-    question19Answer = choice;
-    document.querySelectorAll('#question19 .choice-option').forEach(opt => {
-      opt.classList.remove('selected');
-    });
-    document.querySelector(`#question19 [data-choice="${choice}"]`).classList.add('selected');
-    document.getElementById('result19').className = 'result';
-  }
-
   function checkQuestion19() {
     const res = document.getElementById('result19');
     
-    if (!question19Answer) {
-      res.textContent = 'Please select an answer before checking.';
+    const dropdown1 = document.getElementById('q19-dropdown1').value;
+    const dropdown2 = document.getElementById('q19-dropdown2').value;
+    const dropdown3 = document.getElementById('q19-dropdown3').value;
+    const dropdown4 = document.getElementById('q19-dropdown4').value;
+
+    if (!dropdown1 || !dropdown2 || !dropdown3 || !dropdown4) {
+      res.textContent = 'Please complete all dropdowns before checking.';
       res.className = 'result wrong';
       return;
     }
 
     // Clear previous styling
-    document.querySelectorAll('#question19 .choice-option').forEach(opt => {
-      opt.classList.remove('correct', 'wrong');
+    document.querySelectorAll('#question19 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
     });
 
-    const correctAnswer = 'C';
-    const selectedOption = document.querySelector(`#question19 [data-choice="${question19Answer}"]`);
-    const correctOption = document.querySelector(`#question19 [data-choice="${correctAnswer}"]`);
+    const correctAnswers = {
+      'q19-dropdown1': 'a',
+      'q19-dropdown2': '_blank',
+      'q19-dropdown3': 'img',
+      'q19-dropdown4': 'a'
+    };
 
-    if (question19Answer === correctAnswer) {
-      selectedOption.classList.add('correct');
-      res.textContent = '✓ Correct! The CSS rule p{color: red; opacity: 0.1; font-size: 45px; } is correct.\n\n';
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each dropdown
+    Object.keys(correctAnswers).forEach(id => {
+      const select = document.getElementById(id);
+      if (select.value === correctAnswers[id]) {
+        select.classList.add('correct');
+        correctCount++;
+      } else {
+        select.classList.add('wrong');
+        allCorrect = false;
+      }
+    });
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All selections are correct.\n\n';
       res.textContent += 'Explanation:\n';
-      res.textContent += '• color: red; - Sets the text color to red\n';
-      res.textContent += '• opacity: 0.1; - Creates 90% transparency (10% opacity = 90% transparent)\n';
-      res.textContent += '• font-size: 45px; - Sets the font size to 45 pixels\n\n';
-      res.textContent += 'Key concept: Opacity works inversely to transparency:\n';
-      res.textContent += '• opacity: 1.0 = 0% transparent (fully opaque)\n';
-      res.textContent += '• opacity: 0.5 = 50% transparent\n';
-      res.textContent += '• opacity: 0.1 = 90% transparent\n';
-      res.textContent += '• opacity: 0.0 = 100% transparent (invisible)';
+      res.textContent += '• <a> - The anchor tag creates a hyperlink\n';
+      res.textContent += '• target="_blank" - Opens the link in a new window/tab\n';
+      res.textContent += '• <img> - The image tag displays the graphic\n';
+      res.textContent += '• </a> - Closes the anchor tag\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• The <img> tag is nested inside the <a> tag to make the image clickable\n';
+      res.textContent += '• target="_blank" is the standard value for opening links in new windows\n';
+      res.textContent += '• The alt attribute on <img> provides text for screen readers and displays while loading\n';
+      res.textContent += '• This creates an accessible, clickable image link';
       res.className = 'result correct';
     } else {
-      selectedOption.classList.add('wrong');
-      correctOption.classList.add('correct');
+      res.textContent = `✗ You got ${correctCount} out of 4 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
       
-      let explanation = '✗ Incorrect. ';
-      switch (question19Answer) {
-        case 'A':
-          explanation += 'opacity: 0.9 means 10% transparency, not 90% transparency. For 90% transparency, you need opacity: 0.1 (which means 10% opaque).';
-          break;
-        case 'B':
-          explanation += 'There is no "transparency" property in CSS. The correct property is "opacity", and it uses decimal values (0.0 to 1.0), not percentages.';
-          break;
-        case 'D':
-          explanation += 'There is no "alpha" property in CSS for transparency. The correct property is "opacity". Also, font-size requires a unit like "px", not just a number.';
-          break;
+      if (dropdown1 !== 'a') {
+        res.textContent += '• First dropdown: <a> - The anchor tag is used to create hyperlinks\n';
       }
-      explanation += '\n\nThe correct answer is C: p{color: red; opacity: 0.1; font-size: 45px; }\n';
-      explanation += 'Remember: opacity: 0.1 = 90% transparent (only 10% opaque).';
+      if (dropdown2 !== '_blank') {
+        res.textContent += '• Second dropdown: _blank - This is the standard target value to open links in a new window\n';
+      }
+      if (dropdown3 !== 'img') {
+        res.textContent += '• Third dropdown: <img> - The image tag is used to display graphics\n';
+      }
+      if (dropdown4 !== 'a') {
+        res.textContent += '• Fourth dropdown: a - Must close the anchor tag that was opened\n';
+      }
       
-      res.textContent = explanation;
+      res.textContent += '\nThe complete markup creates a clickable image that opens clients.html in a new window.';
       res.className = 'result wrong';
     }
   }
 
   function resetQuestion19() {
-    question19Answer = null;
-    document.querySelectorAll('#question19 .choice-option').forEach(opt => {
-      opt.classList.remove('selected', 'correct', 'wrong');
+    document.getElementById('q19-dropdown1').value = '';
+    document.getElementById('q19-dropdown2').value = '';
+    document.getElementById('q19-dropdown3').value = '';
+    document.getElementById('q19-dropdown4').value = '';
+    
+    document.querySelectorAll('#question19 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
     });
     document.getElementById('result19').className = 'result';
   }
