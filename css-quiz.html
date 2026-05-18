@@ -1006,6 +1006,9 @@
     <button class="question-btn" onclick="showQuestion(14)">Question 14</button>
     <button class="question-btn" onclick="showQuestion(15)">Question 15</button>
     <button class="question-btn" onclick="showQuestion(16)">Question 16</button>
+    <button class="question-btn" onclick="showQuestion(17)">Question 17</button>
+    <button class="question-btn" onclick="showQuestion(18)">Question 18</button>
+    <button class="question-btn" onclick="showQuestion(19)">Question 19</button>
   </div>
 
   <div id="question1" class="question active">
@@ -2437,6 +2440,227 @@
     <div class="result" id="result16"></div>
   </div>
 
+  <div id="question17" class="question">
+    <h1>Which code segment correctly sets the background to an image that is sized to fill the entire background?</h1>
+    
+    <p class="sub">Select the correct answer.</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice17('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong>
+          <pre style="margin: 8px 0; font-family: var(--mono); font-size: 12px; line-height: 1.6;">
+#div1 {
+  background: url(flower.jpg);
+  background-size: auto;
+}</pre>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice17('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong>
+          <pre style="margin: 8px 0; font-family: var(--mono); font-size: 12px; line-height: 1.6;">
+#div1 {
+  background: url(flower.jpg);
+  background-size: cover;
+}</pre>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice17('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong>
+          <pre style="margin: 8px 0; font-family: var(--mono); font-size: 12px; line-height: 1.6;">
+#div1 {
+  background: img(flower.jpg);
+  background-size: 200px;
+}</pre>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice17('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong>
+          <pre style="margin: 8px 0; font-family: var(--mono); font-size: 12px; line-height: 1.6;">
+#div1 {
+  background: img(flower.jpg);
+  background-size: contain;
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion17()">Check answer</button>
+      <button class="btn" onclick="resetQuestion17()">Reset</button>
+    </div>
+
+    <div class="result" id="result17"></div>
+  </div>
+
+  <div id="question18" class="question">
+    <h1>You are designing a website for Sunset Web.</h1>
+    
+    <p class="sub">You write the following markup. Line numbers are included for reference only.</p>
+
+    <div class="code-block">
+      <div class="code-line">
+        <span class="line-number">01</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;!DOCTYPE html&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">02</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;html&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">03</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;head&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">04</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;title&gt;</span><span class="html-text">Sunset Web</span><span class="html-tag">&lt;/title&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">05</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/head&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">06</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;body&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">07</span>
+        <div class="code-content">
+          <span style="margin-left: 40px;"></span>
+          <span class="html-tag">&lt;p&gt;</span><span class="html-text">Welcome to Sunset Web.</span><span class="html-tag">&lt;/p&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">08</span>
+        <div class="code-content">
+          <span style="margin-left: 20px;"></span>
+          <span class="html-tag">&lt;/body&gt;</span>
+        </div>
+      </div>
+      <div class="code-line">
+        <span class="line-number">09</span>
+        <div class="code-content">
+          <span class="html-tag">&lt;/html&gt;</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub">Which style will be used to render the code?</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice18('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> An external style will be used.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice18('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> An inline style will be used.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice18('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> The browser default style will be used.
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice18('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> An internal style will be used.
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion18()">Check answer</button>
+      <button class="btn" onclick="resetQuestion18()">Reset</button>
+    </div>
+
+    <div class="result" id="result18"></div>
+  </div>
+
+  <div id="question19" class="question">
+    <h1>You need to style a paragraph element with specific text properties.</h1>
+    
+    <div class="scenario">
+      <div class="scenario-title">Requirements:</div>
+      • Text color should be red<br>
+      • Text should have 90% transparency<br>
+      • Font size should be 45 pixels
+    </div>
+    
+    <p class="sub">Which CSS rule correctly applies all three properties?</p>
+
+    <div class="multiple-choice">
+      <div class="choice-option" data-choice="A" onclick="selectChoice19('A')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>A.</strong> <code>p{color: red; opacity: 0.9; font-size: 45px; }</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="B" onclick="selectChoice19('B')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>B.</strong> <code>p{color: red; transparency: 90%; font-size: 45px; }</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="C" onclick="selectChoice19('C')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>C.</strong> <code>p{color: red; opacity: 0.1; font-size: 45px; }</code>
+        </div>
+      </div>
+      
+      <div class="choice-option" data-choice="D" onclick="selectChoice19('D')">
+        <div class="choice-radio"></div>
+        <div class="choice-text">
+          <strong>D.</strong> <code>p{color: red; alpha: 0.1; font-size: 45; }</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion19()">Check answer</button>
+      <button class="btn" onclick="resetQuestion19()">Reset</button>
+    </div>
+
+    <div class="result" id="result19"></div>
+  </div>
+
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
 </div>
 
@@ -2456,6 +2680,9 @@
   let question12Answer = null;
   let question15Answer = null;
   let question16Answer = null;
+  let question17Answer = null;
+  let question18Answer = null;
+  let question19Answer = null;
   let question4Answers = {
     dropdown1: null,
     dropdown2: null,
@@ -4133,6 +4360,225 @@
       opt.classList.remove('selected', 'correct', 'wrong');
     });
     document.getElementById('result16').className = 'result';
+  }
+
+  // Question 17 functions
+  function selectChoice17(choice) {
+    question17Answer = choice;
+    document.querySelectorAll('#question17 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question17 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result17').className = 'result';
+  }
+
+  function checkQuestion17() {
+    const res = document.getElementById('result17');
+    
+    if (!question17Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question17 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'B';
+    const selectedOption = document.querySelector(`#question17 [data-choice="${question17Answer}"]`);
+    const correctOption = document.querySelector(`#question17 [data-choice="${correctAnswer}"]`);
+
+    if (question17Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! background: url(flower.jpg); background-size: cover; fills the entire background.\n\n';
+      res.textContent += 'CSS Background Properties:\n';
+      res.textContent += '• background: url(image.jpg) - Sets background image (correct syntax)\n';
+      res.textContent += '• background-size: cover - Scales image to cover entire container\n';
+      res.textContent += '  - Image fills the entire background\n';
+      res.textContent += '  - Maintains aspect ratio\n';
+      res.textContent += '  - May crop parts of the image\n\n';
+      res.textContent += 'Other background-size values:\n';
+      res.textContent += '• auto - Original size (default)\n';
+      res.textContent += '• contain - Fits entire image, may leave empty space\n';
+      res.textContent += '• 200px - Fixed size';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question17Answer) {
+        case 'A':
+          explanation += 'background-size: auto uses the original image size, which may not fill the entire background.';
+          break;
+        case 'C':
+          explanation += 'The syntax is wrong: use url() not img(). Also, 200px is a fixed size, not responsive.';
+          break;
+        case 'D':
+          explanation += 'The syntax is wrong: use url() not img(). Also, contain fits the entire image but may leave empty space.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is B. Use background: url(flower.jpg); with background-size: cover; to scale the image to fill the entire background while maintaining aspect ratio.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion17() {
+    question17Answer = null;
+    document.querySelectorAll('#question17 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result17').className = 'result';
+  }
+
+  // Question 18 functions
+  function selectChoice18(choice) {
+    question18Answer = choice;
+    document.querySelectorAll('#question18 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question18 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result18').className = 'result';
+  }
+
+  function checkQuestion18() {
+    const res = document.getElementById('result18');
+    
+    if (!question18Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question18 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'C';
+    const selectedOption = document.querySelector(`#question18 [data-choice="${question18Answer}"]`);
+    const correctOption = document.querySelector(`#question18 [data-choice="${correctAnswer}"]`);
+
+    if (question18Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! The browser default style will be used.\n\n';
+      res.textContent += 'Analysis of the HTML:\n';
+      res.textContent += '• No <link> tag for external stylesheet\n';
+      res.textContent += '• No <style> block for internal styles\n';
+      res.textContent += '• No style="" attributes for inline styles\n\n';
+      res.textContent += 'When no CSS is specified, browsers apply their default styles:\n';
+      res.textContent += '• Default fonts (usually Times New Roman or similar)\n';
+      res.textContent += '• Default margins and padding\n';
+      res.textContent += '• Default colors (black text on white background)\n';
+      res.textContent += '• Default element sizing\n\n';
+      res.textContent += 'This is why different browsers may display unstyled pages slightly differently.';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question18Answer) {
+        case 'A':
+          explanation += 'There is no <link> tag in the <head> section to reference an external stylesheet.';
+          break;
+        case 'B':
+          explanation += 'There are no style="" attributes on any HTML elements, so no inline styles are present.';
+          break;
+        case 'D':
+          explanation += 'There is no <style> block in the <head> section, so no internal styles are defined.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is C. Since there are no external stylesheets, internal styles, or inline styles defined in this HTML, the browser will use its default styles to render the page.';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion18() {
+    question18Answer = null;
+    document.querySelectorAll('#question18 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result18').className = 'result';
+  }
+
+  // Question 19 functions
+  function selectChoice19(choice) {
+    question19Answer = choice;
+    document.querySelectorAll('#question19 .choice-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    document.querySelector(`#question19 [data-choice="${choice}"]`).classList.add('selected');
+    document.getElementById('result19').className = 'result';
+  }
+
+  function checkQuestion19() {
+    const res = document.getElementById('result19');
+    
+    if (!question19Answer) {
+      res.textContent = 'Please select an answer before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question19 .choice-option').forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswer = 'C';
+    const selectedOption = document.querySelector(`#question19 [data-choice="${question19Answer}"]`);
+    const correctOption = document.querySelector(`#question19 [data-choice="${correctAnswer}"]`);
+
+    if (question19Answer === correctAnswer) {
+      selectedOption.classList.add('correct');
+      res.textContent = '✓ Correct! The CSS rule p{color: red; opacity: 0.1; font-size: 45px; } is correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• color: red; - Sets the text color to red\n';
+      res.textContent += '• opacity: 0.1; - Creates 90% transparency (10% opacity = 90% transparent)\n';
+      res.textContent += '• font-size: 45px; - Sets the font size to 45 pixels\n\n';
+      res.textContent += 'Key concept: Opacity works inversely to transparency:\n';
+      res.textContent += '• opacity: 1.0 = 0% transparent (fully opaque)\n';
+      res.textContent += '• opacity: 0.5 = 50% transparent\n';
+      res.textContent += '• opacity: 0.1 = 90% transparent\n';
+      res.textContent += '• opacity: 0.0 = 100% transparent (invisible)';
+      res.className = 'result correct';
+    } else {
+      selectedOption.classList.add('wrong');
+      correctOption.classList.add('correct');
+      
+      let explanation = '✗ Incorrect. ';
+      switch (question19Answer) {
+        case 'A':
+          explanation += 'opacity: 0.9 means 10% transparency, not 90% transparency. For 90% transparency, you need opacity: 0.1 (which means 10% opaque).';
+          break;
+        case 'B':
+          explanation += 'There is no "transparency" property in CSS. The correct property is "opacity", and it uses decimal values (0.0 to 1.0), not percentages.';
+          break;
+        case 'D':
+          explanation += 'There is no "alpha" property in CSS for transparency. The correct property is "opacity". Also, font-size requires a unit like "px", not just a number.';
+          break;
+      }
+      explanation += '\n\nThe correct answer is C: p{color: red; opacity: 0.1; font-size: 45px; }\n';
+      explanation += 'Remember: opacity: 0.1 = 90% transparent (only 10% opaque).';
+      
+      res.textContent = explanation;
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion19() {
+    question19Answer = null;
+    document.querySelectorAll('#question19 .choice-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'wrong');
+    });
+    document.getElementById('result19').className = 'result';
   }
 </script>
 </body>
