@@ -8050,9 +8050,9 @@
     const res = document.getElementById('result33');
     
     const correctAnswers = {
-      '1': 'base',      // href="style.css" → <base>
+      '1': 'link',      // href="style.css" → <link>
       '2': 'script',    // src="js/form.js" → <script>
-      '3': 'link',      // CompanyPro → <link>
+      '3': 'title',     // CompanyPro → <title>
       '4': 'noscript'   // Your browser does not support JavaScript! → <noscript>
     };
 
@@ -8079,26 +8079,24 @@
     if (allCorrect) {
       res.textContent = '✓ Correct! All head elements are matched correctly.\n\n';
       res.textContent += 'Explanation:\n';
-      res.textContent += '• <base href="style.css"> - Sets the base URL for relative links\n';
+      res.textContent += '• <link href="style.css"> - Links to external stylesheets\n';
       res.textContent += '• <script src="js/form.js"> - Loads external JavaScript file\n';
-      res.textContent += '• <link>CompanyPro</link> - Links to resources\n';
+      res.textContent += '• <title>CompanyPro</title> - Sets the page title\n';
       res.textContent += '• <noscript>Your browser does not support JavaScript!</noscript> - Displays message if JavaScript is disabled\n\n';
       res.textContent += 'Key concepts:\n';
-      res.textContent += '• <base> specifies the base URL for relative links\n';
+      res.textContent += '• <link> links to external resources like stylesheets\n';
       res.textContent += '• <script> loads JavaScript files\n';
-      res.textContent += '• <link> links to external resources\n';
-      res.textContent += '• <noscript> provides fallback content when JavaScript is disabled\n';
-      res.textContent += '• <meta> provides metadata about the page\n';
-      res.textContent += '• <title> sets the page title';
+      res.textContent += '• <title> sets the page title shown in browser tab\n';
+      res.textContent += '• <noscript> provides fallback content when JavaScript is disabled';
       res.className = 'result correct';
     } else {
       res.textContent = `✗ You got ${correctCount} out of 4 correct.\n\n`;
       res.textContent += 'Correct answers:\n';
-      res.textContent += '• href="style.css" → <base>\n';
+      res.textContent += '• href="style.css" → <link>\n';
       res.textContent += '• src="js/form.js" → <script>\n';
-      res.textContent += '• CompanyPro → <link>\n';
+      res.textContent += '• CompanyPro → <title>\n';
       res.textContent += '• Your browser does not support JavaScript! → <noscript>\n\n';
-      res.textContent += 'Remember: <base> sets the base URL, <link> links to resources, <script> loads JavaScript, and <noscript> shows fallback content.';
+      res.textContent += 'Remember: <link> for stylesheets, <script> for JavaScript, <title> for page title, and <noscript> for fallback content.';
       res.className = 'result wrong';
     }
 
