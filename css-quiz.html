@@ -2810,7 +2810,7 @@
         <div class="answer-order">
           <div class="order-slot" id="q21-slot1" onclick="fillSlot21(1)">
             <span class="slot-number">1</span>
-            <span class="slot-content" id="q21-slot1-content">&lt; <span style="display: inline-block; min-width: 150px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed var(--accent); border-radius: 4px;"></span> &gt;</span>
+            <span class="slot-content" id="q21-slot1-content">&lt; <span style="display: inline-block; min-width: 150px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed rgba(124, 106, 247, 0.5); border-radius: 4px; vertical-align: middle;"></span> &gt;</span>
           </div>
           <div class="order-slot" id="q21-slot2" onclick="fillSlot21(2)">
             <span class="slot-number">2</span>
@@ -2822,7 +2822,7 @@
           </div>
           <div class="order-slot" id="q21-slot4" onclick="fillSlot21(4)">
             <span class="slot-number">4</span>
-            <span class="slot-content" id="q21-slot4-content">&lt;/ <span style="display: inline-block; min-width: 100px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed var(--accent); border-radius: 4px;"></span> &gt;</span>
+            <span class="slot-content" id="q21-slot4-content">&lt;/ <span style="display: inline-block; min-width: 100px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed rgba(124, 106, 247, 0.5); border-radius: 4px; vertical-align: middle;"></span> &gt;</span>
           </div>
         </div>
         <p style="font-size: 11px; color: var(--text-dim); margin-top: 12px; font-style: italic;">Target area for the fourth markup segment.</p>
@@ -5005,7 +5005,7 @@
     };
     
     // Reset slot contents to empty
-    document.getElementById('q21-slot1-content').innerHTML = '&lt; <span style="display: inline-block; min-width: 150px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed var(--accent); border-radius: 4px;"></span> &gt;';
+    document.getElementById('q21-slot1-content').innerHTML = '&lt; <span style="display: inline-block; min-width: 150px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed rgba(124, 106, 247, 0.5); border-radius: 4px; vertical-align: middle;"></span> &gt;';
     
     const slot2Content = document.getElementById('q21-slot2-content');
     slot2Content.textContent = '';
@@ -5019,7 +5019,7 @@
     slot3Content.style.display = 'block';
     slot3Content.style.minHeight = '40px';
     
-    document.getElementById('q21-slot4-content').innerHTML = '&lt;/ <span style="display: inline-block; min-width: 100px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed var(--accent); border-radius: 4px;"></span> &gt;';
+    document.getElementById('q21-slot4-content').innerHTML = '&lt;/ <span style="display: inline-block; min-width: 100px; height: 20px; background: rgba(124, 106, 247, 0.2); border: 1px dashed rgba(124, 106, 247, 0.5); border-radius: 4px; vertical-align: middle;"></span> &gt;';
     
     document.querySelectorAll('#question21 .segment-item').forEach(seg => {
       seg.classList.remove('selected', 'used');
