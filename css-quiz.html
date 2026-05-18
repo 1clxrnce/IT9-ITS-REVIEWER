@@ -1009,6 +1009,7 @@
     <button class="question-btn" onclick="showQuestion(17)">Question 17</button>
     <button class="question-btn" onclick="showQuestion(18)">Question 18</button>
     <button class="question-btn" onclick="showQuestion(19)">Question 19</button>
+    <button class="question-btn" onclick="showQuestion(20)">Question 20</button>
   </div>
 
   <div id="question1" class="question active">
@@ -2675,6 +2676,111 @@
     </div>
 
     <div class="result" id="result19"></div>
+  </div>
+
+  <div id="question20" class="question">
+    <h1>You are designing a web page that tests a user's ability to remember a list of ordered items in a particular category. The page must contain a heading that displays the category and a list of items in that category. An example is shown in the exhibit (Select the <strong>Exhibit</strong> tab.)</h1>
+    
+    <p class="sub">Complete the markup by selecting the correct option from each drop-down list.</p>
+    
+    <p class="sub"><strong>Note:</strong> You will receive partial credit for each correct selection.</p>
+
+    <p class="section-label">Answer Area</p>
+    <div class="dropdown-exercise">
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="q20-dropdown1" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="h1">h1</option>
+          <option value="h2">h2</option>
+          <option value="h3">h3</option>
+          <option value="header">header</option>
+          <option value="title">title</option>
+        </select>
+        <span class="html-tag">&gt;</span><span class="html-text">Fruit</span><span class="html-tag">&lt;/</span>
+        <select class="dropdown-select" id="q20-dropdown2" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="h1">h1</option>
+          <option value="h2">h2</option>
+          <option value="h3">h3</option>
+          <option value="header">header</option>
+          <option value="title">title</option>
+        </select>
+        <span class="html-tag">&gt;</span>
+      </div>
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="q20-dropdown3" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="ol">ol</option>
+          <option value="ul">ul</option>
+          <option value="list">list</option>
+          <option value="dl">dl</option>
+        </select>
+        <span class="html-tag">&gt;</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <span class="html-tag">&lt;li&gt;</span><span class="html-text">Apple</span><span class="html-tag">&lt;/li&gt;</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <span class="html-tag">&lt;li&gt;</span><span class="html-text">Pear</span><span class="html-tag">&lt;/li&gt;</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <span class="html-tag">&lt;li&gt;</span><span class="html-text">Orange</span><span class="html-tag">&lt;/li&gt;</span>
+      </div>
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;/</span>
+        <select class="dropdown-select" id="q20-dropdown4" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="ol">ol</option>
+          <option value="ul">ul</option>
+          <option value="list">list</option>
+          <option value="dl">dl</option>
+        </select>
+        <span class="html-tag">&gt;</span>
+      </div>
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;br&gt;</span>
+      </div>
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;</span>
+        <select class="dropdown-select" id="q20-dropdown5" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="p">p</option>
+          <option value="div">div</option>
+          <option value="span">span</option>
+          <option value="text">text</option>
+        </select>
+        <span class="html-tag">&gt;</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <span class="html-text">This page will test your ability to remember the order of the preceding items.&lt;br&gt;</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <span class="html-text">Glance at the list for 3 seconds.&lt;br&gt;</span>
+      </div>
+      <div class="dropdown-line" style="margin-left: 40px;">
+        <span class="html-text">Then close your eyes and recite the items in the order listed.</span>
+      </div>
+      <div class="dropdown-line">
+        <span class="html-tag">&lt;/</span>
+        <select class="dropdown-select" id="q20-dropdown6" style="min-width: 150px;">
+          <option value="">Select...</option>
+          <option value="p">p</option>
+          <option value="div">div</option>
+          <option value="span">span</option>
+          <option value="text">text</option>
+        </select>
+        <span class="html-tag">&gt;</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkQuestion20()">Check answer</button>
+      <button class="btn" onclick="resetQuestion20()">Reset</button>
+    </div>
+
+    <div class="result" id="result20"></div>
   </div>
 
   <p class="hint">tip: <span>click a filled blank or matched item</span> to remove it</p>
@@ -4611,6 +4717,107 @@
       select.classList.remove('correct', 'wrong');
     });
     document.getElementById('result19').className = 'result';
+  }
+
+  // Question 20 functions
+  function checkQuestion20() {
+    const res = document.getElementById('result20');
+    
+    const dropdown1 = document.getElementById('q20-dropdown1').value;
+    const dropdown2 = document.getElementById('q20-dropdown2').value;
+    const dropdown3 = document.getElementById('q20-dropdown3').value;
+    const dropdown4 = document.getElementById('q20-dropdown4').value;
+    const dropdown5 = document.getElementById('q20-dropdown5').value;
+    const dropdown6 = document.getElementById('q20-dropdown6').value;
+
+    if (!dropdown1 || !dropdown2 || !dropdown3 || !dropdown4 || !dropdown5 || !dropdown6) {
+      res.textContent = 'Please complete all dropdowns before checking.';
+      res.className = 'result wrong';
+      return;
+    }
+
+    // Clear previous styling
+    document.querySelectorAll('#question20 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
+    });
+
+    const correctAnswers = {
+      'q20-dropdown1': 'h1',
+      'q20-dropdown2': 'h1',
+      'q20-dropdown3': 'ol',
+      'q20-dropdown4': 'ol',
+      'q20-dropdown5': 'p',
+      'q20-dropdown6': 'p'
+    };
+
+    let allCorrect = true;
+    let correctCount = 0;
+
+    // Check each dropdown
+    Object.keys(correctAnswers).forEach(id => {
+      const select = document.getElementById(id);
+      if (select.value === correctAnswers[id]) {
+        select.classList.add('correct');
+        correctCount++;
+      } else {
+        select.classList.add('wrong');
+        allCorrect = false;
+      }
+    });
+
+    if (allCorrect) {
+      res.textContent = '✓ Correct! All selections are correct.\n\n';
+      res.textContent += 'Explanation:\n';
+      res.textContent += '• <h1> - The main heading tag for the page title "Fruit"\n';
+      res.textContent += '• <ol> - Ordered list tag for displaying numbered items (Apple, Pear, Orange)\n';
+      res.textContent += '• <p> - Paragraph tag for the instructional text\n\n';
+      res.textContent += 'Key concepts:\n';
+      res.textContent += '• Use <h1> for the main page heading\n';
+      res.textContent += '• Use <ol> (ordered list) when the order of items matters\n';
+      res.textContent += '• Use <ul> (unordered list) when order doesn\'t matter\n';
+      res.textContent += '• Use <p> for paragraphs of text\n';
+      res.textContent += '• Opening and closing tags must match (e.g., <h1> with </h1>)';
+      res.className = 'result correct';
+    } else {
+      res.textContent = `✗ You got ${correctCount} out of 6 correct.\n\n`;
+      res.textContent += 'Correct answers:\n';
+      
+      if (dropdown1 !== 'h1') {
+        res.textContent += '• First dropdown: <h1> - Main heading for the page\n';
+      }
+      if (dropdown2 !== 'h1') {
+        res.textContent += '• Second dropdown: </h1> - Must match the opening tag\n';
+      }
+      if (dropdown3 !== 'ol') {
+        res.textContent += '• Third dropdown: <ol> - Ordered list because the order of items matters\n';
+      }
+      if (dropdown4 !== 'ol') {
+        res.textContent += '• Fourth dropdown: </ol> - Must match the opening tag\n';
+      }
+      if (dropdown5 !== 'p') {
+        res.textContent += '• Fifth dropdown: <p> - Paragraph tag for text content\n';
+      }
+      if (dropdown6 !== 'p') {
+        res.textContent += '• Sixth dropdown: </p> - Must match the opening tag\n';
+      }
+      
+      res.textContent += '\nRemember: Use <ol> for ordered lists where sequence matters, and opening/closing tags must match.';
+      res.className = 'result wrong';
+    }
+  }
+
+  function resetQuestion20() {
+    document.getElementById('q20-dropdown1').value = '';
+    document.getElementById('q20-dropdown2').value = '';
+    document.getElementById('q20-dropdown3').value = '';
+    document.getElementById('q20-dropdown4').value = '';
+    document.getElementById('q20-dropdown5').value = '';
+    document.getElementById('q20-dropdown6').value = '';
+    
+    document.querySelectorAll('#question20 .dropdown-select').forEach(select => {
+      select.classList.remove('correct', 'wrong');
+    });
+    document.getElementById('result20').className = 'result';
   }
 </script>
 </body>
