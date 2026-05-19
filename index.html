@@ -9633,13 +9633,20 @@
           nextBtn.className = 'btn btn-next';
           nextBtn.textContent = i === 49 ? 'Finish Quiz →' : 'Next Question →';
           nextBtn.disabled = true;
-          nextBtn.onclick = function() {
-            if (i === 49) {
-              showQuizResults();
-            } else {
-              nextQuestion();
-            }
-          };
+          nextBtn.type = 'button';
+          
+          // Use closure to capture the correct question number
+          (function(questionNum) {
+            nextBtn.onclick = function(e) {
+              e.preventDefault();
+              if (questionNum === 49) {
+                showQuizResults();
+              } else {
+                nextQuestion();
+              }
+            };
+          })(i);
+          
           actionsDiv.appendChild(nextBtn);
         }
       }
