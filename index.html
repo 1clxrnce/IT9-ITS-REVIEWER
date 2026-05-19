@@ -1017,7 +1017,8 @@
     padding: 1.5rem;
     width: 320px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    z-index: 10;
+    pointer-events: none;
   }
 
   .music-sidebar h3 {
@@ -1065,6 +1066,7 @@
     width: 100%;
     border-radius: 8px;
     border: 1px solid var(--border);
+    pointer-events: auto;
   }
 
   @media (max-width: 1200px) {
@@ -4534,11 +4536,6 @@
     dropdown3: null,
     dropdown4: null
   };
-  let question5Answers = {
-    'Displays a blog entry.': null,
-    'Displays comments about the blog entry.': null,
-    'Displays hyperlinks to related information on an external site.': null
-  };
   let question6Answers = {
     tag1: null,
     tag2: null,
@@ -5237,55 +5234,6 @@
     
     document.querySelectorAll('#question5 .example-item').forEach(item => {
       item.classList.remove('matched', 'correct-match', 'wrong-match');
-    });
-    
-    document.getElementById('result5').className = 'result';
-  }
-    if (totalAnswered === 0) {
-      res.textContent = 'Please match at least one tag before checking.';
-      res.className = 'result wrong';
-      return;
-    }
-
-    feedback += `\nScore: ${correctCount}/${Object.keys(correctAnswers).length} correct\n\n`;
-    
-    if (correctCount === Object.keys(correctAnswers).length) {
-      feedback = `✓ Perfect! All ${correctCount} semantic tags are correctly matched!\n\n`;
-      feedback += 'Explanation:\n';
-      feedback += '• <article> represents standalone content like blog posts\n';
-      feedback += '• <aside> contains supplementary content like comments or sidebars\n';
-      feedback += '• <nav> contains navigation links to other pages or sections';
-      res.className = 'result correct';
-    } else {
-      feedback += 'Explanation:\n';
-      feedback += '• <article>: Use for main content like blog posts, news articles\n';
-      feedback += '• <aside>: Use for supplementary content like comments, sidebars\n';
-      feedback += '• <nav>: Use for navigation links and menus\n';
-      feedback += 'These semantic tags help search engines understand your content structure.';
-      res.className = 'result wrong';
-    }
-
-    recordScore(5, correctCount === Object.keys(correctAnswers).length);
-    res.textContent = feedback;
-  }
-
-  function resetQuestion5() {
-    question5Answers = {
-      'Displays a blog entry.': null,
-      'Displays comments about the blog entry.': null,
-      'Displays hyperlinks to related information on an external site.': null
-    };
-    selectedSemanticTag = null;
-    
-    document.querySelectorAll('.semantic-tag').forEach(t => {
-      t.classList.remove('used', 'selected');
-    });
-    
-    document.querySelectorAll('.purpose-item').forEach(p => {
-      p.classList.remove('filled', 'correct-semantic', 'wrong-semantic');
-      const tag = p.querySelector('.purpose-tag');
-      tag.textContent = '';
-      tag.style.display = 'none';
     });
     
     document.getElementById('result5').className = 'result';
