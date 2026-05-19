@@ -1037,6 +1037,41 @@
     min-width: 200px;
   }
 
+  .music-control-btn {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 600;
+    pointer-events: auto;
+    z-index: 1001;
+    position: relative;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .music-control-btn:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+    color: #111;
+  }
+
+  .music-control-btn.muted {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
+  .music-control-btn.muted:hover {
+    background: #ff9999;
+    border-color: #ff9999;
+  }
+
   .music-toggle-btn {
     background: var(--accent);
     border: 1px solid var(--accent);
@@ -1072,11 +1107,14 @@
 <body>
 <div class="music-player-bar">
   <h3>🎵 Now Playing</h3>
-  <audio id="music-player" controls autoplay>
-    <source src="https://www.youtube.com/watch?v=Vd4E1wBRhdA" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-  <button id="music-toggle" class="music-toggle-btn" onclick="toggleMusic()" title="Toggle music">🔊</button>
+  <div style="display: flex; align-items: center; gap: 1rem; flex: 1; max-width: 500px;">
+    <button id="music-prev" class="music-control-btn" onclick="previousSong()" title="Previous song">⏮</button>
+    <button id="music-play-pause" class="music-control-btn" onclick="togglePlayPause()" title="Play/Pause">⏸</button>
+    <button id="music-next" class="music-control-btn" onclick="nextSong()" title="Next song">⏭</button>
+    <audio id="music-player" style="flex: 1; height: 30px;"></audio>
+    <button id="music-mute" class="music-control-btn" onclick="toggleMute()" title="Mute">🔊</button>
+  </div>
+  <div id="current-song-name" style="font-size: 12px; color: var(--text-muted); margin-left: 1rem; min-width: 150px; text-align: right;">Song 1 of 2</div>
 </div>
 
 <div class="card">
@@ -9532,36 +9570,111 @@
 
 
 
-  let musicMuted = false;
+  // Music Player
+  const playlist = [
+    { name: 'Malcolm Todd - I Saw Your Face', url: 'https://www.youtube.com/watch?v=Vd4E1wBRhdA' },
+    { name: 'Dua Lipa - Levitating', url: 'https://www.youtube.com/watch?v=_hgu16lRfbQ' }
+  ];
+  
+  let currentSongIndex = 0;
+  let isMuted = false;
+  let isPlaying = false;
 
-  function toggleMusic() {
+  function initMusicPlayer() {
     const player = document.getElementById('music-player');
-    const btn = document.getElementById('music-toggle');
+    if (!player) return;
     
-    if (!player || !btn) {
-      console.error('Music player or button not found');
-      return;
-    }
+    // Set up event listeners
+    player.addEventListener('ended', nextSong);
+    player.addEventListener('play', () => {
+      isPlaying = true;
+      updatePlayPauseButton();
+    });
+    player.addEventListener('pause', () => {
+      isPlaying = false;
+      updatePlayPauseButton();
+    });
     
-    musicMuted = !musicMuted;
-    console.log('Toggle clicked, musicMuted:', musicMuted);
+    loadSong(0);
+  }
+
+  function loadSong(index) {
+    const player = document.getElementById('music-player');
+    const songName = document.getElementById('current-song-name');
     
-    if (musicMuted) {
-      // Pause the audio
+    if (index < 0) currentSongIndex = playlist.length - 1;
+    if (index >= playlist.length) currentSongIndex = 0;
+    
+    const song = playlist[currentSongIndex];
+    
+    // For YouTube URLs, we need to extract the video ID and use a proxy or embed
+    // Since direct YouTube audio streaming is limited, we'll show the song info
+    songName.textContent = `${song.name} (${currentSongIndex + 1} of ${playlist.length})`;
+    
+    // Try to load from YouTube (this may not work due to CORS)
+    // For a production app, you'd want to use a proper audio API or proxy
+    player.src = song.url;
+    
+    console.log('Loaded song:', song.name);
+  }
+
+  function nextSong() {
+    currentSongIndex++;
+    if (currentSongIndex >= playlist.length) currentSongIndex = 0;
+    loadSong(currentSongIndex);
+    const player = document.getElementById('music-player');
+    if (isPlaying) player.play();
+  }
+
+  function previousSong() {
+    currentSongIndex--;
+    if (currentSongIndex < 0) currentSongIndex = playlist.length - 1;
+    loadSong(currentSongIndex);
+    const player = document.getElementById('music-player');
+    if (isPlaying) player.play();
+  }
+
+  function togglePlayPause() {
+    const player = document.getElementById('music-player');
+    if (isPlaying) {
       player.pause();
-      btn.textContent = '🔇';
-      btn.classList.add('muted');
-      btn.title = 'Unmute music';
-      console.log('Music paused');
     } else {
-      // Play the audio
       player.play();
-      btn.textContent = '🔊';
-      btn.classList.remove('muted');
-      btn.title = 'Mute music';
-      console.log('Music playing');
     }
   }
+
+  function toggleMute() {
+    const player = document.getElementById('music-player');
+    const btn = document.getElementById('music-mute');
+    
+    isMuted = !isMuted;
+    
+    if (isMuted) {
+      player.volume = 0;
+      btn.textContent = '🔇';
+      btn.classList.add('muted');
+      btn.title = 'Unmute';
+    } else {
+      player.volume = 1;
+      btn.textContent = '🔊';
+      btn.classList.remove('muted');
+      btn.title = 'Mute';
+    }
+  }
+
+  function updatePlayPauseButton() {
+    const btn = document.getElementById('music-play-pause');
+    if (isPlaying) {
+      btn.textContent = '⏸';
+      btn.title = 'Pause';
+    } else {
+      btn.textContent = '▶';
+      btn.title = 'Play';
+    }
+  }
+
+  // Initialize music player when page loads
+  document.addEventListener('DOMContentLoaded', initMusicPlayer);
 
 </script>
 </body>
