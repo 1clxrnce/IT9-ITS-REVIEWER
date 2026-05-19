@@ -33,10 +33,11 @@
     font-family: var(--sans);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    gap: 2rem;
+    justify-content: flex-start;
+    padding: 0;
+    gap: 0;
   }
 
   body::before {
@@ -57,6 +58,8 @@
     max-width: 640px;
     width: 100%;
     position: relative;
+    margin: 2rem;
+    margin-top: 1rem;
   }
 
   .card::before {
@@ -1006,29 +1009,32 @@
     color: #111;
   }
 
-  .music-sidebar {
-    position: fixed;
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
+  .music-player-bar {
+    width: 100%;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.5rem;
-    width: 320px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    pointer-events: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
-  .music-sidebar h3 {
+  .music-player-bar h3 {
+    margin: 0;
     font-size: 14px;
-    font-weight: 600;
     color: var(--accent-light);
-    margin-bottom: 1rem;
-    text-align: center;
     font-family: var(--mono);
     letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  #music-player {
+    flex: 1;
+    max-width: 400px;
+    height: 40px;
+    min-width: 200px;
   }
 
   .music-toggle-btn {
@@ -1061,37 +1067,18 @@
     background: #ff9999;
     border-color: #ff9999;
   }
-
-  .music-sidebar iframe {
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    pointer-events: auto;
-  }
-
-  @media (max-width: 1200px) {
-    .music-sidebar {
-      position: static;
-      transform: none;
-      width: 100%;
-      margin-top: 2rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    body {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .music-sidebar {
-      width: 100%;
-      margin-top: 1rem;
-    }
-  }
 </style>
 </head>
 <body>
+<div class="music-player-bar">
+  <h3>🎵 Now Playing</h3>
+  <audio id="music-player" controls autoplay>
+    <source src="https://www.youtube.com/watch?v=Vd4E1wBRhdA" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <button id="music-toggle" class="music-toggle-btn" onclick="toggleMusic()" title="Toggle music">🔊</button>
+</div>
+
 <div class="card">
   <div class="badge">HTML CSS Quiz by Caleb James</div>
   
@@ -4497,13 +4484,6 @@
 
 </div>
 
-<div class="music-sidebar">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-    <h3 style="margin: 0;">🎵 Now Playing</h3>
-    <button id="music-toggle" class="music-toggle-btn" onclick="toggleMusic()" title="Toggle music">🔊</button>
-  </div>
-  <iframe id="music-player" width="100%" height="315" src="https://www.youtube.com/embed/Vd4E1wBRhdA?autoplay=1" title="Malcolm Todd - I Saw Your Face (Official Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
 
 <script>
   let selected = null;
@@ -9567,23 +9547,19 @@
     console.log('Toggle clicked, musicMuted:', musicMuted);
     
     if (musicMuted) {
-      // Hide the player
-      player.style.visibility = 'hidden';
-      player.style.height = '0';
-      player.style.margin = '0';
+      // Pause the audio
+      player.pause();
       btn.textContent = '🔇';
       btn.classList.add('muted');
       btn.title = 'Unmute music';
-      console.log('Music hidden');
+      console.log('Music paused');
     } else {
-      // Show the player
-      player.style.visibility = 'visible';
-      player.style.height = '315px';
-      player.style.margin = '';
+      // Play the audio
+      player.play();
       btn.textContent = '🔊';
       btn.classList.remove('muted');
       btn.title = 'Mute music';
-      console.log('Music shown');
+      console.log('Music playing');
     }
   }
 
