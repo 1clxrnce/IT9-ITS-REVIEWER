@@ -9482,9 +9482,9 @@
       return;
     }
 
-    // Correct answers: 1=False, 2=False, 3=False
+    // Correct answers: 1=True, 2=False, 3=False
     const correctAnswers = {
-      1: 'false',  // Media queries are NOT used to create breakpoints
+      1: 'true',   // Media queries ARE used to create breakpoints
       2: 'false',  // Viewport settings are NOT added to the <style> element
       3: 'false'   // Grid layouts are NOT created by setting width to pixels
     };
@@ -9504,22 +9504,28 @@
     if (allCorrect) {
       res.textContent = '✓ Correct! All statements are answered correctly.\n\n';
       res.textContent += 'Explanation:\n';
-      res.textContent += '1. FALSE - Media queries are NOT used to create breakpoints.\n';
+      res.textContent += '1. TRUE - Media queries are used to create breakpoints.\n';
+      res.textContent += '   Why: Media queries allow you to apply different CSS styles based on the device\'s screen size (like max-width or min-width). The specific screen sizes where the layout changes are called breakpoints.\n\n';
       res.textContent += '2. FALSE - Viewport settings are NOT added to the <style> element.\n';
-      res.textContent += '3. FALSE - Grid layouts are NOT created by setting the width property to pixels.\n\n';
+      res.textContent += '   Why: Viewport settings are actually configured using a <meta> tag inside the HTML <head> element, not within a <style> block. (Example: <meta name="viewport" content="width=device-width, initial-scale=1.0">)\n\n';
+      res.textContent += '3. FALSE - Grid layouts are NOT created by setting the width property to pixels.\n';
+      res.textContent += '   Why: Setting fixed pixel widths (px) actually creates a rigid, non-responsive layout. True grid layouts are created using CSS Grid (display: grid;) or Flexbox, often utilizing flexible units like percentages (%), fractions (fr), or viewport units (vw) so the elements can shrink and grow dynamically.\n\n';
       res.textContent += 'Key concepts:\n';
-      res.textContent += '• Media queries have a different purpose\n';
-      res.textContent += '• Viewport settings are configured elsewhere\n';
-      res.textContent += '• Grid layouts use different CSS properties\n';
-      res.textContent += '• Responsive design uses different techniques';
+      res.textContent += '• Media queries enable responsive design by applying styles at specific breakpoints\n';
+      res.textContent += '• Viewport settings use <meta> tags in the <head>, not <style> elements\n';
+      res.textContent += '• Grid and Flexbox layouts use flexible units for true responsiveness\n';
+      res.textContent += '• Responsive design requires flexible units, not fixed pixel widths';
       res.className = 'result correct';
     } else {
       res.textContent = `✗ You got ${correctCount} out of 3 correct.\n\n`;
       res.textContent += 'Correct answers:\n';
-      res.textContent += '1. FALSE - Media queries are NOT used to create breakpoints\n';
-      res.textContent += '2. FALSE - Viewport settings are NOT in <style>\n';
-      res.textContent += '3. FALSE - Grid layouts are NOT created with width pixels\n\n';
-      res.textContent += 'Remember: All three statements are FALSE.';
+      res.textContent += '1. TRUE - Media queries ARE used to create breakpoints\n';
+      res.textContent += '   Media queries allow you to apply different CSS styles based on the device\'s screen size (like max-width or min-width). The specific screen sizes where the layout changes are called breakpoints.\n\n';
+      res.textContent += '2. FALSE - Viewport settings are NOT added to the <style> element\n';
+      res.textContent += '   Viewport settings are configured using a <meta> tag inside the HTML <head> element, not within a <style> block.\n\n';
+      res.textContent += '3. FALSE - Grid layouts are NOT created by setting width to pixels\n';
+      res.textContent += '   Setting fixed pixel widths creates a rigid layout. True grid layouts use CSS Grid or Flexbox with flexible units like %, fr, or vw.\n\n';
+      res.textContent += 'Remember: Media queries = TRUE, Viewport in <meta> = FALSE, Flexible units for grids = FALSE for pixels.';
       res.className = 'result wrong';
     }
 
