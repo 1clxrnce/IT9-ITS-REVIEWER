@@ -1106,17 +1106,14 @@
 </head>
 <body>
 <div class="music-player-bar">
-  <h3>🎵 Now Playing</h3>
+  <h3>🎵 Lofi Music</h3>
   <div style="display: flex; align-items: center; gap: 1rem; flex: 1; max-width: 500px;">
-    <button id="music-prev" class="music-control-btn" onclick="previousSong()" title="Previous song">⏮</button>
     <button id="music-play-pause" class="music-control-btn" onclick="togglePlayPause()" title="Play/Pause">⏸</button>
-    <button id="music-next" class="music-control-btn" onclick="nextSong()" title="Next song">⏭</button>
     <div id="music-player-container" style="flex: 1; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border-radius: 6px; border: 1px solid var(--border);">
       <span id="music-status" style="font-size: 12px; color: var(--text-muted);">Ready to play</span>
     </div>
     <button id="music-mute" class="music-control-btn" onclick="toggleMute()" title="Mute">🔊</button>
   </div>
-  <div id="current-song-name" style="font-size: 12px; color: var(--text-muted); margin-left: 1rem; min-width: 150px; text-align: right;">Song 1 of 2</div>
 </div>
 
 <div class="card">
@@ -9580,11 +9577,9 @@
 
   // Music Player
   const playlist = [
-    { name: 'Ben Ben - Lifetime', url: 'https://www.youtube.com/watch?v=_hgu16lRfbQ', videoId: '_hgu16lRfbQ' },
-    { name: 'Olivie Dean - I\'ve Seen It All', url: 'https://www.youtube.com/watch?v=_hgu16lRfbQ', videoId: '_hgu16lRfbQ' }
+    { name: 'Lofi Music', url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk', videoId: 'jfKfPfyJRdk' }
   ];
   
-  let currentSongIndex = 0;
   let isMuted = false;
   let isPlaying = false;
   let youtubePlayer = null;
@@ -9617,7 +9612,8 @@
         'autoplay': 0,
         'controls': 0,
         'modestbranding': 1,
-        'rel': 0
+        'rel': 0,
+        'loop': 1
       }
     });
   }
@@ -9634,38 +9630,7 @@
     } else if (event.data === YT.PlayerState.PAUSED) {
       isPlaying = false;
       updatePlayPauseButton();
-    } else if (event.data === YT.PlayerState.ENDED) {
-      nextSong();
     }
-  }
-
-  function loadSong(index) {
-    const songName = document.getElementById('current-song-name');
-    
-    if (index < 0) currentSongIndex = playlist.length - 1;
-    if (index >= playlist.length) currentSongIndex = 0;
-    
-    const song = playlist[currentSongIndex];
-    songName.textContent = `${song.name} (${currentSongIndex + 1} of ${playlist.length})`;
-    
-    if (youtubePlayer && youtubePlayer.loadVideoById) {
-      youtubePlayer.loadVideoById(song.videoId);
-      console.log('Loaded song:', song.name);
-    }
-  }
-
-  function nextSong() {
-    currentSongIndex++;
-    if (currentSongIndex >= playlist.length) currentSongIndex = 0;
-    loadSong(currentSongIndex);
-    if (isPlaying && youtubePlayer) youtubePlayer.playVideo();
-  }
-
-  function previousSong() {
-    currentSongIndex--;
-    if (currentSongIndex < 0) currentSongIndex = playlist.length - 1;
-    loadSong(currentSongIndex);
-    if (isPlaying && youtubePlayer) youtubePlayer.playVideo();
   }
 
   function togglePlayPause() {
