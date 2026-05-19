@@ -1003,10 +1003,18 @@
     margin-left: auto;
   }
 
-  .btn-next:hover {
+  .btn-next:hover:not(:disabled) {
     background: var(--accent-light);
     border-color: var(--accent-light);
     color: #111;
+  }
+
+  .btn-next:disabled {
+    background: var(--text-dim);
+    border-color: var(--text-dim);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 
   .music-player-bar {
@@ -4681,6 +4689,7 @@
     }
     
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function resetAll() {
@@ -4741,6 +4750,20 @@
     document.getElementById('current-question-num').textContent = currentIndex + 1;
   }
 
+  function enableNextButton() {
+    const nextBtn = document.querySelector(`#question${currentQuestion} .btn-next`);
+    if (nextBtn) {
+      nextBtn.disabled = false;
+    }
+  }
+
+  function disableNextButton() {
+    const nextBtn = document.querySelector(`#question${currentQuestion} .btn-next`);
+    if (nextBtn) {
+      nextBtn.disabled = true;
+    }
+  }
+
   function checkIfQuizComplete() {
     if (questionsAnswered === 49) {
       showQuizResults();
@@ -4788,6 +4811,7 @@
     document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
     document.getElementById(`question${num}`).classList.add('active');
     updateScoreDisplay();
+    disableNextButton();
   }
 
   function nextQuestion() {
@@ -4922,6 +4946,7 @@
       res.textContent = feedback;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion2() {
@@ -5006,6 +5031,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion3() {
@@ -5085,6 +5111,7 @@
 
     recordScore(4, correctCount === 4);
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function getDropdownLabel(dropdownId) {
@@ -5233,6 +5260,7 @@
     }
 
     recordScore(5, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion5() {
@@ -5326,6 +5354,7 @@
 
     recordScore(6, correctCount === 3);
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function getTagLabel(tagId) {
@@ -5427,6 +5456,7 @@
 
     recordScore(7, correctCount === 5);
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function getAttrLabel(attrId) {
@@ -5574,6 +5604,7 @@
     }
 
     recordScore(8, isCorrect);
+    enableNextButton();
   }
 
   function resetQuestion8() {
@@ -5671,6 +5702,7 @@
 
     recordScore(9, correctCount === 3);
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function getMediaLabel(mediaId) {
@@ -5757,6 +5789,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion10() {
@@ -5892,6 +5925,7 @@
     }
 
     recordScore(11, isCorrect);
+    enableNextButton();
   }
 
   function resetQuestion11() {
@@ -5974,6 +6008,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion12() {
@@ -6061,6 +6096,7 @@
 
     recordScore(13, correctCount === Object.keys(correctAnswers).length);
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function getQ13Label(qId) {
@@ -6166,6 +6202,7 @@
 
     recordScore(14, correctCount === Object.keys(correctAnswers).length);
     res.textContent = feedback;
+    enableNextButton();
   }
 
   function getQ14Label(qId) {
@@ -6254,6 +6291,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion15() {
@@ -6325,6 +6363,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion16() {
@@ -6399,6 +6438,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion17() {
@@ -6473,6 +6513,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion18() {
@@ -6560,6 +6601,7 @@
     }
 
     recordScore(19, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion19() {
@@ -6661,6 +6703,7 @@
     }
 
     recordScore(20, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion20() {
@@ -6798,6 +6841,7 @@
     }
 
     recordScore(21, correctCount === Object.keys(correctAnswers).length);
+    enableNextButton();
   }
 
   function resetQuestion21() {
@@ -6920,6 +6964,7 @@
     }
 
     recordScore(22, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion22() {
@@ -7003,6 +7048,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion23() {
@@ -7124,6 +7170,7 @@
     }
 
     recordScore(24, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion24() {
@@ -7281,6 +7328,7 @@
     }
 
     recordScore(25, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion25() {
@@ -7373,6 +7421,7 @@
     }
 
     recordScore(26, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion26() {
@@ -7445,6 +7494,7 @@
     }
 
     recordScore(27, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion27() {
@@ -7524,6 +7574,7 @@
     }
 
     recordScore(28, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion28() {
@@ -7606,6 +7657,7 @@
     }
 
     recordScore(29, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion29() {
@@ -7745,6 +7797,7 @@
     }
 
     recordScore(30, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion30() {
@@ -7827,6 +7880,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion31() {
@@ -7959,6 +8013,7 @@
     }
 
     recordScore(32, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion32() {
@@ -8103,6 +8158,7 @@
     }
 
     recordScore(33, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion33() {
@@ -8195,6 +8251,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion34() {
@@ -8329,6 +8386,7 @@
     }
 
     recordScore(35, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion35() {
@@ -8416,6 +8474,7 @@
     }
 
     recordScore(36, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion36() {
@@ -8500,6 +8559,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion37() {
@@ -8576,6 +8636,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion38() {
@@ -8662,6 +8723,7 @@
     }
 
     recordScore(39, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion39() {
@@ -8746,6 +8808,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion40() {
@@ -8820,6 +8883,7 @@
     }
 
     recordScore(41, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion41() {
@@ -8911,6 +8975,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion42() {
@@ -8994,6 +9059,7 @@
     }
 
     recordScore(43, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion43() {
@@ -9080,6 +9146,7 @@
       res.textContent = explanation;
       res.className = 'result wrong';
     }
+    enableNextButton();
   }
 
   function resetQuestion44() {
@@ -9204,6 +9271,7 @@
     }
 
     recordScore(45, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion45() {
@@ -9280,6 +9348,7 @@
     }
 
     recordScore(46, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion46() {
@@ -9361,6 +9430,7 @@
     }
 
     recordScore(47, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion47() {
@@ -9447,6 +9517,7 @@
     }
 
     recordScore(48, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion48() {
@@ -9529,6 +9600,7 @@
     }
 
     recordScore(49, allCorrect);
+    enableNextButton();
   }
 
   function resetQuestion49() {
@@ -9557,6 +9629,7 @@
           const nextBtn = document.createElement('button');
           nextBtn.className = 'btn btn-next';
           nextBtn.textContent = i === 49 ? 'Finish Quiz →' : 'Next Question →';
+          nextBtn.disabled = true;
           nextBtn.onclick = function() {
             if (i === 49) {
               showQuizResults();
