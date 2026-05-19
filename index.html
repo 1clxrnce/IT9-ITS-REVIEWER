@@ -876,7 +876,7 @@
   .ordering-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 3rem;
     margin-bottom: 1.5rem;
   }
 
@@ -886,28 +886,27 @@
     text-transform: uppercase;
     color: var(--text-dim);
     font-family: var(--mono);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
   }
 
   .markup-segments, .answer-order {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .segment-item {
     font-family: var(--mono);
-    font-size: 12px;
-    padding: 12px 14px;
+    font-size: 13px;
+    padding: 14px 16px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: var(--surface2);
     color: var(--text);
-    cursor: move;
+    cursor: pointer;
     transition: all 0.15s ease;
     user-select: none;
     word-break: break-word;
-    -webkit-user-drag: element;
   }
 
   .segment-item:hover {
@@ -936,12 +935,12 @@
   .order-slot {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
+    gap: 12px;
+    padding: 14px 16px;
     border-radius: 8px;
-    border: 2px dashed var(--border);
+    border: 1px solid var(--border);
     background: var(--surface2);
-    min-height: 50px;
+    min-height: 60px;
     transition: all 0.15s ease;
   }
 
@@ -967,13 +966,14 @@
   }
 
   .slot-number {
-    font-size: 11px;
-    color: var(--text-dim);
-    background: var(--surface);
+    font-size: 13px;
+    color: var(--text-muted);
+    background: transparent;
     border-radius: 4px;
-    padding: 2px 6px;
+    padding: 0;
     font-weight: 600;
     flex-shrink: 0;
+    min-width: 30px;
   }
 
   .slot-content {
